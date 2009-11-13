@@ -1,0 +1,23 @@
+  <configure
+      xmlns="http://namespaces.zope.org/zope"
+      xmlns:five="http://namespaces.zope.org/five">
+
+    <adapter
+      for="Products.Archetypes.interfaces._base.IBaseObject"
+      provides="ftw.publisher.core.interfaces.IDataCollector"
+      factory="ftw.publisher.core.adapters.field_data.FieldData"
+      name="field_data_adapter" />
+
+    <adapter
+      for="Products.Archetypes.interfaces._base.IBaseObject"
+      provides="ftw.publisher.core.interfaces.IDataCollector"
+      factory="ftw.publisher.core.adapters.properties_data.PropertiesData"
+      name="properties_data_adapter" />
+
+    <adapter
+      for="Products.Archetypes.interfaces._base.IBaseObject"
+      provides="ftw.publisher.core.interfaces.IDataCollector"
+      factory="ftw.publisher.core.adapters.portlet_data.PortletsData"
+      name="portlet_data_adapter" />
+
+</configure>
