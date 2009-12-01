@@ -100,10 +100,12 @@ class FieldData(object):
         fields = self.object.schema.fields()
         if HAS_AT_SCHEMAEXTENDER and queryAdapter(self.object, ISchemaExtender):
             fields += ISchemaExtender(self.object).getFields()
-            
+        
         for field in fields:
             fieldname = field.getName()
             # do not update "id" field
             if fieldname in fielddata.keys() and fieldname not in ['id']:
                 field_value = fielddata[fieldname]
-                field.getMutator(self.object)(field_value)
+                #check for mode
+                if field.mode != 'r':
+                    field.getMutator(self.object)(field_value)
