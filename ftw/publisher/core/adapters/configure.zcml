@@ -20,4 +20,16 @@
       factory="ftw.publisher.core.adapters.portlet_data.PortletsData"
       name="portlet_data_adapter" />
 
+	<adapter
+      for="Products.Archetypes.interfaces._base.IBaseObject"
+      provides="ftw.publisher.core.interfaces.IDataCollector"
+      factory="ftw.publisher.core.adapters.interface_data.InterfaceData"
+      name="interface_data_adapter" />
+
+    <!-- special adapter for topics criterias --> 
+    <adapter
+      for="Products.ATContentTypes.interface.topic.IATTopic"
+      provides="ftw.publisher.core.interfaces.IDataCollector"
+      factory="ftw.publisher.core.adapters.topic_criterias.TopicCriteraData"
+      name="topic_critera_adapter" />
 </configure>
