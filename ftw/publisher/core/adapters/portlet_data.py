@@ -77,7 +77,7 @@ class PortletsData(object):
             portlets = getMultiAdapter((self.object, column,), IPortletAssignmentMapping, context=self.object)
             
             #portlets order - dicts are unsorted
-            data[manager_name]['order'] = portlets._order
+            data[manager_name]['order'] = ','.join(portlets._order)
             
             for portlet_id in portlets.keys():
                 portlet_assignment = portlets[portlet_id]
@@ -120,7 +120,9 @@ class PortletsData(object):
             
             #set order
             import pdb; pdb.set_trace( )
-            portlets._order = portletsdata[manager_name]['order']
+            order = portletsdata[manager_name]['order']
+            if order:
+                portlets._order = order.split(',')
             
             #set blackliststatus
             blacklist = getMultiAdapter((self.object, column), ILocalPortletAssignmentManager)
