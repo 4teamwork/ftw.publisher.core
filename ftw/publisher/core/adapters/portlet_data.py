@@ -42,7 +42,10 @@ class PortletsData(object):
                     .
                     .
                     {'blackliststatus':
-                    {category:True}
+                    {category:True},
+                    
+                    {'order':
+                    ['portlet 1', 'portlet 2']}
                     }
             }
         """
@@ -72,9 +75,12 @@ class PortletsData(object):
             blacklistdata[CONTEXT_CATEGORY] = blacklist.getBlacklistStatus(CONTEXT_CATEGORY)
 
             portlets = getMultiAdapter((self.object, column,), IPortletAssignmentMapping, context=self.object)
+            
+            #portlets order - dicts are unsorted
+            data[manage_name]['order'] = portlets._order
+            
             for portlet_id in portlets.keys():
                 portlet_assignment = portlets[portlet_id]
-                
                 #continue if portlet is blacklisted
                 if portlet_assignment.__module__ in blacklisted_portlets:
                     continue
