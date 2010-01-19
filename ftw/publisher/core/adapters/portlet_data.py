@@ -133,6 +133,7 @@ class PortletsData(object):
             blacklist.setBlacklistStatus(CONTEXT_CATEGORY,blacklistdata[CONTEXT_CATEGORY])
             #bit clean up 
             del portletsdata[manager_name]['blackliststatus']
+            del portletsdata[manager_name]['order']
 
             for portlet_id in portletsdata[manager_name].keys():
                 portletfielddata = portletsdata[manager_name][portlet_id]
