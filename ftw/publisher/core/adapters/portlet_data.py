@@ -77,7 +77,7 @@ class PortletsData(object):
             portlets = getMultiAdapter((self.object, column,), IPortletAssignmentMapping, context=self.object)
             
             #portlets order - dicts are unsorted
-            data[manage_name]['order'] = portlets._order
+            data[manager_name]['order'] = portlets._order
             
             for portlet_id in portlets.keys():
                 portlet_assignment = portlets[portlet_id]
@@ -118,6 +118,10 @@ class PortletsData(object):
             #get all current assigned portlets
             portlets = getMultiAdapter((self.object, column,), IPortletAssignmentMapping, context=self.object)
             
+            #set order
+            import pdb; pdb.set_trace( )
+            portlets._order = portletsdata[manager_name]['order']
+            
             #set blackliststatus
             blacklist = getMultiAdapter((self.object, column), ILocalPortletAssignmentManager)
             blacklistdata = portletsdata[manager_name]['blackliststatus']
@@ -138,7 +142,7 @@ class PortletsData(object):
                     
                 if portlet_id in portlets.keys():
                     pass
-                    #portlet allready exists we just have to update the 
+                    #portlet allready exists we just have to update 
                     # XXX implement edit/update portlet function
                     # XXX for now we just remove them and readd the portlet 
                     #import pdb;pdb.set_trace()
