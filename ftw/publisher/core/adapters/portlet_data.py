@@ -119,7 +119,6 @@ class PortletsData(object):
             portlets = getMultiAdapter((self.object, column,), IPortletAssignmentMapping, context=self.object)
             
             #set order
-            import pdb; pdb.set_trace( )
             order = portletsdata[manager_name]['order']
             if order:
                 portlets._order = order.split(',')
