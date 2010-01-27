@@ -113,13 +113,13 @@ class PortletsData(object):
         for manager_name in portletsdata.keys():
             column = queryUtility(IPortletManager, name=manager_name, context=self.object)
             if column is None:
-                continue
+                Acontinue
             #ok we have a portlet manager
             #get all current assigned portlets
             portlets = getMultiAdapter((self.object, column,), IPortletAssignmentMapping, context=self.object)
             
-            #set order
-            order = portletsdata[manager_name]['order']
+            #set order and filter out not transfered portlets
+            order = [portlet_id for portlet_id in portletsdata[manager_name]['order'] if portlet_id in portletsdata[manager_name].keys()]
             if order:
                 portlets._order = order.split(',')
             
