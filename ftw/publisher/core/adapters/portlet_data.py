@@ -118,11 +118,6 @@ class PortletsData(object):
             #get all current assigned portlets
             portlets = getMultiAdapter((self.object, column,), IPortletAssignmentMapping, context=self.object)
             
-            #set order and filter out not transfered portlets
-            order = [portlet_id for portlet_id in portletsdata[manager_name]['order'] if portlet_id in portletsdata[manager_name].keys()]
-            if order:
-                portlets._order = order.split(',')
-            
             #set blackliststatus
             blacklist = getMultiAdapter((self.object, column), ILocalPortletAssignmentManager)
             blacklistdata = portletsdata[manager_name]['blackliststatus']
@@ -134,52 +129,39 @@ class PortletsData(object):
             del portletsdata[manager_name]['blackliststatus']
             del portletsdata[manager_name]['order']
 
+            #remove all currenlty assigned portlets from manager
+            for p_id in portlets.keys(): 
+                if p_id in portlets.keys():del portlets[p_id]
+
+
             for portlet_id in portletsdata[manager_name].keys():
                 portletfielddata = portletsdata[manager_name][portlet_id]
+                #get Assignment                    
+                portlet_module = modules[portletfielddata['module']]
+                #prepare data to pass as arguments
+                del portletfielddata['module']
                 
-                # XXX remove portlet assignment, because currently
-                # we cannot handle edit action on portlet
-                if portlet_id in portlets.keys():
-                    del portlets[portlet_id]
-                    
-                if portlet_id in portlets.keys():
-                    pass
-                    #portlet allready exists we just have to update 
-                    # XXX implement edit/update portlet function
-                    # XXX for now we just remove them and readd the portlet 
-                    #import pdb;pdb.set_trace()
-                                    
+                #check for dicts
+                for k,v in portletfielddata.items():
+                    if isinstance(v, dict):
+                        # so we have one, now we have to turn the 
+                        # serialized data into an object
+                        # this is generic, but currently only in use
+                        # by the image portlet
+                        klass = modules[v['module']].__dict__[v['klass_name']]
+                        imgobj = klass(v['id'],v['title'],base64.decodestring(v['data']))
+                        portletfielddata[k] = imgobj
+                
+                portlets[portlet_id] = portlet_module.Assignment(**portletfielddata)
 
-                    #portlet_assignment = portlets[portlet_id]
-                    #for field in portletfielddata.keys():
-                    #    break
-                        #XXX implement me
-                        #should be something like this
-                        #assignment.fieldname = field
-                    
-                else:
-                    #we habe to create a new one
-                    #get Assignment                    
-                    portlet_module = modules[portletfielddata['module']]
-                    #prepare data to pass as arguments
-                    del portletfielddata['module']
-                    
-                    #check for dicts
-                    for k,v in portletfielddata.items():
-                        if isinstance(v, dict):
-                            # so we have one, now we have to turn the 
-                            # serialized data into an object
-                            # this is generic, but currently only in use
-                            # by the image portlet
-                            klass = modules[v['module']].__dict__[v['klass_name']]
-                            imgobj = klass(v['id'],v['title'],base64.decodestring(v['data']))
-                            portletfielddata[k] = imgobj
-                    
-                    portlets[portlet_id] = portlet_module.Assignment(**portletfielddata)
+                # XXX boolean value fix
+                # for some reason boolean types cannpt be passed with **...
+                # use setattr
+                for k,v in portletfielddata.items():
+                    if isinstance(v, bool):
+                        setattr(portlets[portlet_id], k, v)
 
-                    # XXX boolean value fix
-                    # for some reason boolean types cannpt be passed with **...
-                    # use setattr
-                    for k,v in portletfielddata.items():
-                        if isinstance(v, bool):
-                            setattr(portlets[portlet_id], k, v)
+            #set order and filter out not transfered portlets
+            order = [portlet_id for portlet_id in portletsdata[manager_name]['order'].split(',') if portlet_id in portlets.keys()]
+            if order:
+                portlets._order = order
