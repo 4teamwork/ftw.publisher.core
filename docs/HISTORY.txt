@@ -1,8 +1,18 @@
 Changelog
 =========
 
-1.0 - Unreleased
+0.2 - Unreleased
 ----------------
+* added an afterpushEvent [mathias.leimgruber]
+* several bug fixes in field_data adapter
+* Extend publish process with adapters [mathias.leimgruber] 
+  * sync context portlets [mathias.leimgruber]
+  * sync interfaces [mathias.leimgruber]
+  * sync topic criterias [mathias.leimgruber]
+ *
 
-* Initial release
+ 0.2 - Unreleased
+ ----------------  
+* concept/structure [jonas.baumann]
+* Initial release [jonas.baumann]
 
