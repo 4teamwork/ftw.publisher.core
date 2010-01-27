@@ -120,8 +120,7 @@ class PortletsData(object):
 
             #set order and filter out not transfered portlets
             order = [portlet_id for portlet_id in portletsdata[manager_name]['order'].split(',') if portlet_id in portlets.keys()]
-            if order:
-                portlets._order = order
+            portlets._order = order
 
             #set blackliststatus
             blacklist = getMultiAdapter((self.object, column), ILocalPortletAssignmentManager)
