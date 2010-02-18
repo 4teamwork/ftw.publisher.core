@@ -24,7 +24,7 @@ setup(name='ftw.publisher.core',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          # -*- Extra requirements: -*-
+          'collective.testcaselayer',
       ],
       entry_points="""
       # -*- Entry points: -*-

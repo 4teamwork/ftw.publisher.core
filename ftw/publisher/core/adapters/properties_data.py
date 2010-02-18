@@ -5,6 +5,8 @@ from ftw.publisher.core import getLogger
 # zope imports
 from zope.interface import implements
 
+from DateTime import DateTime
+
 class PropertiesData(object):
     """returns all properties data
     """
@@ -48,6 +50,12 @@ asdf',
             # add the value
             prop['value'] = self.object.getProperty(prop['id'])
             properties.append(prop)
+            
+        # property filter for special types
+        # ex. date - we have to covert objects to strings
+        for p in properties:
+            if p['type'] == 'date':
+                p['value'] = str(p['value'])
         return properties
 
 
@@ -79,16 +87,23 @@ asdf',
         currentProperties = self.object.propertyIds()
         # update or create properites
         for prop in properties:
+            
+            # we have to check for some special prop types
+            if prop['type'] == 'date':
+                val = DateTime(prop['value'])
+            else:
+                val = prop['value']
+            
             if prop['id'] in currentProperties:
                 # update property if existing ...
                 self.object._updateProperty(
                     id = prop['id'],
-                    value = prop['value'],
+                    value = val,
                 )
             else:
                 # ... otherwise 
                 self.object.manage_addProperty(
                     id = prop['id'],
-                    value = prop['value'],
+                    value = val,
                     type = prop['type'],
                 )

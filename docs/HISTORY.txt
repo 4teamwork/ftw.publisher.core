@@ -3,6 +3,8 @@ Changelog
 
 0.2 - Unreleased
 ----------------
+* added test cases for portlet adapter and
+  properties adapter [mathias.leimgruber]
 * added an afterpushEvent [mathias.leimgruber]
 * several bug fixes in field_data adapter
 * Extend publish process with adapters [mathias.leimgruber] 
@@ -11,8 +13,8 @@ Changelog
   * sync topic criterias [mathias.leimgruber]
  *
 
- 0.2 - Unreleased
+ 0.1 - Unreleased
  ----------------  
 * concept/structure [jonas.baumann]
-* Initial release [jonas.baumann]
+* Working initial release [jonas.baumann]
 
