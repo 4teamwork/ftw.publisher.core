@@ -5,7 +5,11 @@ from DateTime import DateTime
 
 # zope imports
 from zope.component import getAdapter, getUtility, getMultiAdapter
+from zope.interface import alsoProvides, noLongerProvides, Interface
+from zope.dottedname.resolve import resolve
 
+# Five imports
+from Products.Five.utilities.interfaces import IMarkerInterfaces
 
 # portlet imports
 from plone.portlets.interfaces import IPortletAssignmentMapping
@@ -24,6 +28,16 @@ from ftw.publisher.core.interfaces import IDataCollector
 
 # Tests
 from Products.PloneTestCase.ptc import PloneTestCase 
+
+
+#Dummy Interfaces
+class IDummyIface(Interface):
+    """This is a dummy interface"""
+class IDummyIface2(Interface):
+    """This is a dummy interface"""
+class IDummyIface3(Interface):
+    """This is a dummy interface"""
+
 
 class TestPublisherAdapters(PloneTestCase): 
     
@@ -80,6 +94,11 @@ class TestPublisherAdapters(PloneTestCase):
                                                                    root='/'.join(self.folder.getPhysicalPath()), 
                                                                    )
 
+        #set dummy interfaces
+        alsoProvides(self.testdoc1, IDummyIface)
+        alsoProvides(self.testdoc1, IDummyIface2)
+        alsoProvides(self.folder2, IDummyIface2)
+        alsoProvides(self.folder2, IDummyIface3)
 
         
     def test_properties_adapter_getter(self):
@@ -224,8 +243,44 @@ class TestPublisherAdapters(PloneTestCase):
         self.assertEquals(navi.root, "/plone/Members/test_user_1_")
         
 
+    def test_interface_adapter_getter(self):
         
+        # getter
+        adapter = getAdapter(self.testdoc1, IDataCollector, name="interface_data_adapter")
+        data = adapter.getData()
         
+        adapter2 = getAdapter(self.folder2, IDataCollector, name="interface_data_adapter")
+        data2 = adapter2.getData()
+        
+        # check iface on document
+        self.assertEquals(data, ['ftw.publisher.core.tests.test_adapters.IDummyIface', 'ftw.publisher.core.tests.test_adapters.IDummyIface2'])
+        # check iface on folder
+        self.assertEquals(data2, ['ftw.publisher.core.tests.test_adapters.IDummyIface2', 'ftw.publisher.core.tests.test_adapters.IDummyIface3'])        
+        
+    def test_interface_adapter_setter(self):
+        #getter - from testdoc1
+        adapter = getAdapter(self.testdoc1, IDataCollector, name="interface_data_adapter")
+        data = adapter.getData()
+        
+        # setter - on testdoc2
+        adapter2 = getAdapter(self.testdoc2, IDataCollector, name="interface_data_adapter")
+        adapter2.setData(data, metadata=None)
+        
+        # there are two ifaces
+        self.assertEquals(IDummyIface.providedBy(self.testdoc2), True)
+        self.assertEquals(IDummyIface2.providedBy(self.testdoc2), True)
+        
+        # check if allready provided ifaces will be removed if we set new ones
+        newadapter = getAdapter(self.folder2, IDataCollector, name="interface_data_adapter")
+        newdata = newadapter.getData()
+        
+        adapter2.setData(newdata, metadata=None)
+        # IDummyIface2 should be available
+        self.assertEquals(IDummyIface2.providedBy(self.testdoc2), True)
+        # IDummIface should not be available
+        self.assertEquals(IDummyIface.providedBy(self.testdoc2), False)
+        # new IDummyIface3 should be available
+        self.assertEquals(IDummyIface3.providedBy(self.testdoc2), True)
 
 
 def test_suite():
