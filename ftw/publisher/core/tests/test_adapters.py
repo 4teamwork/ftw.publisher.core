@@ -80,7 +80,9 @@ class TestPublisherAdapters(PloneTestCase):
         # static-text-portlets on right and left column
         self.left_portlets['title1'] = static.Assignment(header='Title1',hide=False,text="some text",omit_border=False) 
         self.right_portlets['title2'] = static.Assignment(header='Title2',hide=False,text="some text",omit_border=False)
-        
+        self.right_portlets['blubb'] = static.Assignment(header='blubb',hide=False,text="some text",omit_border=False)
+        self.right_portlets['news'] = portlets.news.Assignment()
+        self.right_portlets['search'] = portlets.search.Assignment()
         # collection portlet on the right
         self.right_portlets['collection'] = collection.Assignment(header="My collection", 
                                                              target_collection='/'.join(self.topic.getPhysicalPath()), 
@@ -242,6 +244,8 @@ class TestPublisherAdapters(PloneTestCase):
         self.assertEquals(bool(navi), True)
         self.assertEquals(navi.root, "/plone/Members/test_user_1_")
         
+        #check order
+        self.assertEquals(['title2', 'collection', 'blubb', 'news', 'search'], self.right_portlets._order)
 
     def test_interface_adapter_getter(self):
         
