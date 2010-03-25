@@ -245,7 +245,7 @@ class TestPublisherAdapters(PloneTestCase):
         self.assertEquals(navi.root, "/plone/Members/test_user_1_")
         
         #check order
-        self.assertEquals(['title2', 'collection', 'blubb', 'news', 'search'], self.right_portlets._order)
+        self.assertEquals(['title2', 'blubb', 'news', 'search', 'collection'], self.right_portlets._order)
 
     def test_interface_adapter_getter(self):
         
