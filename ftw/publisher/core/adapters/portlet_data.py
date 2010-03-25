@@ -118,9 +118,8 @@ class PortletsData(object):
             #get all current assigned portlets
             portlets = getMultiAdapter((self.object, column,), IPortletAssignmentMapping, context=self.object)
 
-            #set order and filter out not transfered portlets
+            #get new order
             order = [portlet_id for portlet_id in portletsdata[manager_name]['order'].split(',') if portlet_id in portlets.keys()]
-            portlets._order = order
 
             #set blackliststatus
             blacklist = getMultiAdapter((self.object, column), ILocalPortletAssignmentManager)
@@ -163,3 +162,6 @@ class PortletsData(object):
                 for k,v in portletfielddata.items():
                     if isinstance(v, bool):
                         setattr(portlets[portlet_id], k, v)
+
+            #set new order afterwards
+            portlets._order = order
