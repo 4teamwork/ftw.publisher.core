@@ -3,6 +3,7 @@ Changelog
 
 0.2 - Unreleased
 ----------------
+* fixed binary conversion to base64 string [mathias.leimgruber, victor.baumann]
 * added test cases for portlet adapter and
   properties adapter [mathias.leimgruber]
 * added an afterpushEvent [mathias.leimgruber]

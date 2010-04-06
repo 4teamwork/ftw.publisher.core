@@ -1,4 +1,5 @@
 import base64
+import StringIO
 
 # plone imports
 from Products.Archetypes.Field import DateTimeField
@@ -82,10 +83,16 @@ class FieldData(object):
         # have to detect the type of value. Binary data must be encoded with base64
         elif isinstance(field, FileField):
             if isinstance(value, File):
+                # we have to convert our dara first into StringIO
+                # otherwise base64.encodestring sometimes cut's some data off
+                tmp = StringIO.StringIO(value.data)
+                tmp.seek(0)
                 value = {
                         'filename' : value.filename,
-                        'data' : base64.encodestring(value.data),
+                        'data' : base64.encodestring(tmp.read()),
                 }
+                
+               
         return value
 
 
