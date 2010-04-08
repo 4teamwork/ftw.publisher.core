@@ -93,6 +93,11 @@ class ObjectDeletedState(SuccessState):
     Indicates that the object was removed successfully.
     """
 
+class ObjectMovedState(SuccessState):
+    """
+    Indicates that the object was renamed/moved successfully.
+    """
+
 
 # Failed states
 
@@ -123,7 +128,7 @@ class PartialError(ErrorState):
 class UnknownActionError(ErrorState):
     """
     An UnknownActionError is raised if the action is not one of the defined
-    actions (push, delete).
+    actions (push, move or delete).
     """
 
 class UnexpectedError(ErrorState):
@@ -135,4 +140,9 @@ class UnexpectedError(ErrorState):
 class ObjectNotFoundError(ErrorState):
     """
     Indicates that the object could not be found.
+    """
+
+class ObjectMovedError(ErrorState):
+    """
+    Indicates that the object could not be renamed/moved.
     """
