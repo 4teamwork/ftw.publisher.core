@@ -247,6 +247,29 @@ class TestPublisherAdapters(PloneTestCase):
         #check order
         self.assertEquals(['title2', 'blubb', 'news', 'search', 'collection'], self.right_portlets._order)
 
+
+    def test_portlets_adapter_sync(self):
+        #getter
+        adapter = getAdapter(self.folder1, IDataCollector, name="portlet_data_adapter")
+        data = adapter.getData()
+
+        #setter - on folder2
+        adapter2 = getAdapter(self.folder2, IDataCollector, name="portlet_data_adapter")
+        adapter2.setData(data,metadata=None)
+
+        # add another portlet to folder1
+        self.left_portlets['title3'] = static.Assignment(header='Title3',hide=False,text="some text",omit_border=False) 
+
+        # now get data again
+        adapter3 = getAdapter(self.folder1, IDataCollector, name="portlet_data_adapter")
+        data2 = adapter3.getData()
+
+        #and sync
+        adapter4 = getAdapter(self.folder2, IDataCollector, name="portlet_data_adapter")
+        adapter4.setData(data2,metadata=None)
+
+
+
     def test_interface_adapter_getter(self):
         
         # getter

@@ -117,9 +117,9 @@ class PortletsData(object):
             #ok we have a portlet manager
             #get all current assigned portlets
             portlets = getMultiAdapter((self.object, column,), IPortletAssignmentMapping, context=self.object)
-
+            p_ids = [p for p in portlets._data.keys()]
             #get new order
-            order = [portlet_id for portlet_id in portletsdata[manager_name]['order'].split(',') if portlet_id in portlets.keys()]
+            order = portletsdata[manager_name]['order'] and portletsdata[manager_name]['order'].split(',') or []
 
             #set blackliststatus
             blacklist = getMultiAdapter((self.object, column), ILocalPortletAssignmentManager)
@@ -131,9 +131,9 @@ class PortletsData(object):
             #bit clean up 
             del portletsdata[manager_name]['blackliststatus']
             del portletsdata[manager_name]['order']
-
+            
             #remove all currenlty assigned portlets from manager
-            for p_id in portlets.keys():del portlets[p_id]
+            for p_id in p_ids: del portlets._data[p_id]
 
 
             for portlet_id in portletsdata[manager_name].keys():
