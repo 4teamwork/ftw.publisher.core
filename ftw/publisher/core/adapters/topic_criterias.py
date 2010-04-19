@@ -18,6 +18,10 @@ class TopicCriteraData(object):
     def __init__(self,object):
         self.object = object
         
+    @property
+    def on_root(self):
+        return False
+
 
     def getData(self):
         """returns all important data"""
