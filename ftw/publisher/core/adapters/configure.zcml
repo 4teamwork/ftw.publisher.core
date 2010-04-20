@@ -32,4 +32,20 @@
       provides="ftw.publisher.core.interfaces.IDataCollector"
       factory="ftw.publisher.core.adapters.topic_criterias.TopicCriteraData"
       name="topic_critera_adapter" />
+      
+      
+    <!-- register portlet_data and properties_data adapter also on IPloneSiteRoot -->
+    <adapter
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      provides="ftw.publisher.core.interfaces.IDataCollector"
+      factory="ftw.publisher.core.adapters.properties_data.PropertiesData"
+      name="properties_data_adapter" />
+
+    <adapter
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      provides="ftw.publisher.core.interfaces.IDataCollector"
+      factory="ftw.publisher.core.adapters.portlet_data.PortletsData"
+      name="portlet_data_adapter" />
+    
+      
 </configure>

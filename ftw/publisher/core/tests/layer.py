@@ -1,7 +1,4 @@
-from Products.PloneTestCase import ptc
 import collective.testcaselayer.ptc
-
-ptc.setupPloneSite()
 
 class IntegrationTestLayer(collective.testcaselayer.ptc.BasePTCLayer):
 

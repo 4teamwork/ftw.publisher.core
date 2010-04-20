@@ -28,10 +28,7 @@ class PortletsData(object):
     
     def __init__(self,object):
         self.object = object
-        
-    @property
-    def on_root(self):
-        return True
+
 
     def getData(self):
         """returns all important data
@@ -116,7 +113,7 @@ class PortletsData(object):
         for manager_name in portletsdata.keys():
             column = queryUtility(IPortletManager, name=manager_name, context=self.object)
             if column is None:
-                Acontinue
+                continue
             #ok we have a portlet manager
             #get all current assigned portlets
             portlets = getMultiAdapter((self.object, column,), IPortletAssignmentMapping, context=self.object)

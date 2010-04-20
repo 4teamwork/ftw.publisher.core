@@ -1,15 +1,11 @@
 # base imports
 import unittest
-import os
 from DateTime import DateTime
 
 # zope imports
 from zope.component import getAdapter, getUtility, getMultiAdapter
-from zope.interface import alsoProvides, noLongerProvides, Interface
-from zope.dottedname.resolve import resolve
+from zope.interface import alsoProvides, Interface
 
-# Five imports
-from Products.Five.utilities.interfaces import IMarkerInterfaces
 
 # portlet imports
 from plone.portlets.interfaces import IPortletAssignmentMapping

@@ -6,9 +6,6 @@ from ftw.publisher.core import getLogger
 from zope.interface import implements
 from zope.component import queryAdapter
 
-# plone imports
-from Products.CMFPlone.utils import _createObjectByType 
-
 class TopicCriteraData(object):
     """returns all properties data
     """
@@ -17,10 +14,6 @@ class TopicCriteraData(object):
     
     def __init__(self,object):
         self.object = object
-        
-    @property
-    def on_root(self):
-        return False
 
 
     def getData(self):
@@ -61,7 +54,7 @@ class TopicCriteraData(object):
         )
 
         current_criterias = [o.id for o in self.object.objectValues()]
-        request = self.object.REQUEST
+
         for criteria_id,data in topic_criteria_data.items():
             #create criteria
             if criteria_id not in current_criterias:
