@@ -72,8 +72,11 @@ asdf',
         @param type:        list
         @return:            None
         """
+        # plone root implementation
+        root_path = '/'.join(self.object.getPhysicalPath())
+        uid = hasattr(self.object, 'UID') and self.object.UID() or root_path
         self.logger.info('Updating properties (UID %s)' %
-                (self.object.UID())
+                (uid)
         )
         # we need to cleanup the properties. remove all properties
         # from the object
