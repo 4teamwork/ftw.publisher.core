@@ -1,8 +1,10 @@
 Changelog
 =========
 
+
 1.0b
 ----
+
 * added new states for renaming purposes [mathias.leimgruber]
 * fixed binary conversion to base64 string [mathias.leimgruber, victor.baumann]
 * added test cases for portlet adapter and
@@ -13,10 +15,11 @@ Changelog
   * sync context portlets [mathias.leimgruber]
   * sync interfaces [mathias.leimgruber]
   * sync topic criterias [mathias.leimgruber]
- *
 
- 0.1 - Unreleased
- ----------------  
+
+0.1
+---
+ 
 * concept/structure [jonas.baumann]
 * Working initial release [jonas.baumann]
 
