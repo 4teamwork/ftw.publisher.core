@@ -51,7 +51,8 @@ class PortletsData(object):
         """
 
         data = {}
-        plone_portlet_manager = [u'plone.leftcolumn', u'plone.rightcolumn']
+        # gets all portlet managers used on this object
+        plone_portlet_manager = self.object.__annotations__['plone.portlets.contextassignments'].keys()
         EXCLUDED_FIELDS = ['__name__', '__parent__']
         # XXX this is a static list, replace by a configlet option
         # the list contains all not serializable portlets (__module__)
