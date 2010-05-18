@@ -5,6 +5,9 @@ Changelog
 1.0b
 ----
 
+* Make portlet adapter more save
+  [18.05.2010, jbaumann]
+
 * added new states for renaming purposes [mathias.leimgruber]
 * fixed binary conversion to base64 string [mathias.leimgruber, victor.baumann]
 * added test cases for portlet adapter and
