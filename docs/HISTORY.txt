@@ -5,6 +5,9 @@ Changelog
 1.0b
 ----
 
+* Added Backreference adapter
+  [25.05.2010, jbaumann]
+
 * Make portlet adapter more save
   [18.05.2010, jbaumann]
 
