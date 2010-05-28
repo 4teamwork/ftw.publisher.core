@@ -35,7 +35,7 @@ class Backreferences(object):
             suid = src.UID()
             if suid not in data.keys():
                 data[suid] = {}
-            if getattr(ref, 'field', None):
+            if getattr(ref, 'field', None) == None:
                 continue
             if ref.field in data[suid]:
                 # we already added this field
