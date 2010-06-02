@@ -36,6 +36,9 @@ class TopicCriteraData(object):
             # this adapter must be available, otherwise we cannot go ahead
             if field_data_adapter is None:
                 continue
+            
+            # dont add subcollections
+            if isinstance(criteria, self.object.__class__):continue    
             id = criteria.id
             data = field_data_adapter.getData()
             data['meta_type'] = criteria.meta_type
