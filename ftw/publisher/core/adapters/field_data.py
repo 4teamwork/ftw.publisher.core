@@ -49,7 +49,6 @@ class FieldData(object):
         data = {}
 
         fields = self.object.schema.fields()
-        import pdb; pdb.set_trace( )
         if HAS_AT_SCHEMAEXTENDER and queryAdapter(self.object, ISchemaExtender):
             for name, extender in list(getAdapters((self.object,), ISchemaExtender)):
                 fields += extender.getFields()        
