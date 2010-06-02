@@ -56,24 +56,21 @@ class TopicCriteraData(object):
                 (self.object.UID())
         )
 
-        current_criterias = [o.id for o in self.object.objectValues()]
+        #easiest way - first delete all criterias
+        self.object.manage_delObjects([i for i in self.object.objectIds() if i != 'syndication_information'])
 
         for criteria_id,data in topic_criteria_data.items():
             #create criteria
-            if criteria_id not in current_criterias:
-                
-                #sortCriteria behave a bit special
-                if 'ATSortCriterion' not in criteria_id:
-                    criteria = self.object.addCriterion(data['field'],data['meta_type'])
-            else:
-                criteria = self.object[criteria_id]
 
-            #add sort criteria
+            #sortCriteria behave a bit special
+            if 'ATSortCriterion' not in criteria_id:
+                criteria = self.object.addCriterion(data['field'],data['meta_type'])
+
+            #add/change sort criteria
             if 'ATSortCriterion' in criteria_id:
                 self.object.setSortCriterion(data['field'], data['reversed'])
 
             # we don't have to update data for for ATSortCriterion
-            # because it was readded by setSortCriterion
             # check topic.py line 293
             if 'ATSortCriterion' not in criteria_id:
                 field_data_adapter = queryAdapter(criteria,IDataCollector,name="field_data_adapter")
