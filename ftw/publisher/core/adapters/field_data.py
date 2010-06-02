@@ -13,7 +13,7 @@ from ftw.publisher.core import getLogger
 # zope imports
 from OFS.Image import File
 from zope.interface import implements
-from zope.component import queryAdapter
+from zope.component import queryAdapter, getAdapters
 
 #make archetype.schemaextender aware
 HAS_AT_SCHEMAEXTENDER = False
@@ -49,8 +49,10 @@ class FieldData(object):
         data = {}
 
         fields = self.object.schema.fields()
+        import pdb; pdb.set_trace( )
         if HAS_AT_SCHEMAEXTENDER and queryAdapter(self.object, ISchemaExtender):
-            fields += ISchemaExtender(self.object).getFields()        
+            for name, extender in list(getAdapters((self.object,), ISchemaExtender)):
+                fields += extender.getFields()        
             
         for field in fields:
             # don't serialize AT ComputedFields
@@ -106,7 +108,8 @@ class FieldData(object):
         
         fields = self.object.schema.fields()
         if HAS_AT_SCHEMAEXTENDER and queryAdapter(self.object, ISchemaExtender):
-            fields += ISchemaExtender(self.object).getFields()
+            for name, extender in list(getAdapters((self.object,), ISchemaExtender)):
+                fields += extender.getFields()
         
         for field in fields:
             fieldname = field.getName()
