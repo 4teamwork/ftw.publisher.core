@@ -42,7 +42,9 @@ class Backreferences(object):
                 continue
             else:
                 # add the field value
-                data[suid][ref.field] = src.getField(ref.field).getRaw(src)
+                field = src.getField(ref.field)
+                if field:
+                    data[suid][ref.field] = field.getRaw(src)
         return data
 
     def setData(self, data, metadata):
