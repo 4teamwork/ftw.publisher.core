@@ -52,7 +52,10 @@ class PortletsData(object):
 
         data = {}
         # gets all portlet managers used on this object
-        if not self.object.__annotations__.has_key('plone.portlets.contextassignments'):
+        annotations = getattr(self.object, '__annotations__', None)
+        if not annotations:
+            return data
+        if not annotations.has_key('plone.portlets.contextassignments'):
             return data
         plone_portlet_manager = self.object.__annotations__['plone.portlets.contextassignments'].keys()
         EXCLUDED_FIELDS = ['__name__', '__parent__']

@@ -4,6 +4,8 @@ Changelog
 
 1.0b
 ----
+* Issue #1007 Publizieren von Content Pages mit Mitgliederblöcken schlägt fehl
+  https://extranet.4teamwork.ch/support/zug/maintlog/1007/
 
 * Added Backreference adapter
   [25.05.2010, jbaumann]
