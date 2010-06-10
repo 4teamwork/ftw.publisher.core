@@ -151,6 +151,17 @@ class PortletsData(object):
                 
                 #check for dicts
                 for k,v in portletfielddata.items():
+                    
+                    # exclude some special fields, 
+                    # the following fields must be utf-8 encoded
+                    if k in ['assignment_context_path',]:
+                        continue
+                    
+                    # during deserialization, everything is encoded as utf-8
+                    # mainly for AT and Zope properties
+                    # but portlets wants an unicode for their fields
+                    if isinstance(v, str):portletfielddata[k] = v.decode('utf-8')
+                    
                     if isinstance(v, dict):
                         # so we have one, now we have to turn the 
                         # serialized data into an object
