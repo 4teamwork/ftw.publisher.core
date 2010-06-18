@@ -2,8 +2,9 @@ Changelog
 =========
 
 
-1.0b
-----
+1.0
+---
+
 * Issue #1007 Publizieren von Content Pages mit Mitgliederblöcken schlägt fehl
   https://extranet.4teamwork.ch/support/zug/maintlog/1007/
 
