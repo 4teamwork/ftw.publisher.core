@@ -5,6 +5,10 @@ Changelog
 1.0c3
 -----
 
+* Removed encoding stuff for portlets, that now should be done be the
+  better encoding / decoding.
+  [24.06.2010, jbaumann]
+
 * Added string encoding / decoding methods which work with json
   [24.06.2010, jbaumann]
 
