@@ -24,6 +24,8 @@
 #
 __author__ = """Jonas Baumann <j.baumann@4teamwork.ch>"""
 
+from ftw.publisher.core import _
+
 
 # Superclass
 
@@ -33,10 +35,10 @@ class CommunicationState(Exception):
     The CommunicationState class inherits from Exception, because
     we want to be able to "raise" a CommunicationState-object.
 
-        >>> raise CommunicationState('test')
-        Traceback (most recent call last):
-          File "<stdin>", line 1, in <module>
-        states.CommunicationState: test
+    >>> raise CommunicationState('test')
+    Traceback (most recent call last):
+    File "<stdin>", line 1, in <module>
+    states.CommunicationState: test
     """
 
     def __init__(self, message='', *args, **kwargs):
@@ -55,9 +57,9 @@ class CommunicationState(Exception):
         Converts a CommunicationState object to a string for printing
         or for sending to a other instance.
 
-            >>> print CommunicationState('Hello World').toString()
-            CommunicationState
-            Hello World
+        >>> print CommunicationState('Hello World').toString()
+        CommunicationState
+        Hello World
 
 
         @rtype:             string
@@ -66,7 +68,9 @@ class CommunicationState(Exception):
         return '\n'.join([
                 self.__class__.__name__,
                 self.message,
-        ])
+                ])
+
+    localized_name = _(u'CommunicationState')
 
 # Succesful states
 
@@ -76,11 +80,15 @@ class SuccessState(CommunicationState):
     successful.
     """
 
+    localized_name = _(u'SuccessState')
+
 
 class ObjectCreatedState(SuccessState):
     """
     Indicates that a new object was created.
     """
+
+    localized_name = _(u'ObjectCreatedState')
 
 
 class ObjectUpdatedState(SuccessState):
@@ -88,15 +96,24 @@ class ObjectUpdatedState(SuccessState):
     Indicates that the object was updated successfully.
     """
 
+    localized_name = _(u'ObjectUpdatedState')
+
+
 class ObjectDeletedState(SuccessState):
     """
     Indicates that the object was removed successfully.
     """
 
+    localized_name = _(u'ObjectDeletedState')
+
+
 class ObjectMovedState(SuccessState):
     """
     Indicates that the object was renamed/moved successfully.
     """
+
+    localized_name = _(u'ObjectMovedState')
+
 
 
 # Failed states
@@ -107,11 +124,15 @@ class ErrorState(CommunicationState):
     not successful.
     """
 
+    localized_name = _(u'ErrorState')
+
 
 class InvalidRequestError(ErrorState):
     """
     Indicates a problem with the submitted request.
     """
+
+    localized_name = _(u'InvalidRequestError')
 
 
 class DecodeError(ErrorState):
@@ -120,10 +141,16 @@ class DecodeError(ErrorState):
     json.
     """
 
+    localized_name = _(u'DecodeError')
+
+
 class PartialError(ErrorState):
     """
     Indicates that the decoded data was not complete, there were parts missing.
     """
+
+    localized_name = _(u'PartialError')
+
 
 class UnknownActionError(ErrorState):
     """
@@ -131,18 +158,30 @@ class UnknownActionError(ErrorState):
     actions (push, move or delete).
     """
 
+    localized_name = _(u'UnknownActionError')
+
+
 class UnexpectedError(ErrorState):
     """
     Any exception which is not catched will raise a UnexpectedError containing
     the Exception information.
     """
 
+    localized_name = _(u'UnexpectedError')
+
+
 class ObjectNotFoundError(ErrorState):
     """
     Indicates that the object could not be found.
     """
 
+    localized_name = _(u'ObjectNotFoundError')
+
+
 class ObjectMovedError(ErrorState):
     """
     Indicates that the object could not be renamed/moved.
     """
+
+    localized_name = _(u'ObjectMovedError')
+

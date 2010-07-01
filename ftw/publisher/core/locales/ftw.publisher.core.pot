@@ -1,0 +1,75 @@
+# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
+# SOME DESCRIPTIVE TITLE.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2010-07-01 06:55+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: ftw.publisher.core\n"
+
+#: ftw.publisher.core/ftw/publisher/core/states.py:73
+msgid "CommunicationState"
+msgstr ""
+
+#: ftw.publisher.core/ftw/publisher/core/states.py:144
+msgid "DecodeError"
+msgstr ""
+
+#: ftw.publisher.core/ftw/publisher/core/states.py:127
+msgid "ErrorState"
+msgstr ""
+
+#: ftw.publisher.core/ftw/publisher/core/states.py:135
+msgid "InvalidRequestError"
+msgstr ""
+
+#: ftw.publisher.core/ftw/publisher/core/states.py:91
+msgid "ObjectCreatedState"
+msgstr ""
+
+#: ftw.publisher.core/ftw/publisher/core/states.py:107
+msgid "ObjectDeletedState"
+msgstr ""
+
+#: ftw.publisher.core/ftw/publisher/core/states.py:186
+msgid "ObjectMovedError"
+msgstr ""
+
+#: ftw.publisher.core/ftw/publisher/core/states.py:115
+msgid "ObjectMovedState"
+msgstr ""
+
+#: ftw.publisher.core/ftw/publisher/core/states.py:178
+msgid "ObjectNotFoundError"
+msgstr ""
+
+#: ftw.publisher.core/ftw/publisher/core/states.py:99
+msgid "ObjectUpdatedState"
+msgstr ""
+
+#: ftw.publisher.core/ftw/publisher/core/states.py:152
+msgid "PartialError"
+msgstr ""
+
+#: ftw.publisher.core/ftw/publisher/core/states.py:83
+msgid "SuccessState"
+msgstr ""
+
+#: ftw.publisher.core/ftw/publisher/core/states.py:170
+msgid "UnexpectedError"
+msgstr ""
+
+#: ftw.publisher.core/ftw/publisher/core/states.py:161
+msgid "UnknownActionError"
+msgstr ""
+

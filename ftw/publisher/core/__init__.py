@@ -1,4 +1,9 @@
 from ftw.publisher.core.utils import getPublisherLogger
+from zope.i18nmessageid import MessageFactory
+
+
+_ = MessageFactory('ftw.publisher.core')
+
 
 def getLogger():
     """
