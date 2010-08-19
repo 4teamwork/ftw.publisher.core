@@ -74,6 +74,7 @@ class CommunicationState(Exception):
 
 # Succesful states
 
+
 class SuccessState(CommunicationState):
     """
     Superclass for all states which indicate that the communication was
@@ -115,8 +116,33 @@ class ObjectMovedState(SuccessState):
     localized_name = _(u'ObjectMovedState')
 
 
+# Warning states
+
+class WarningState(CommunicationState):
+    """Superclass for all states which that something didnt work as expected
+    but its not that bad ;)
+
+    """
+
+    localized_name = _(u'WarningState')
+
+
+class ObjectNotFoundForMovingWarning(WarningState):
+    """Could not move a object because we could not find it. That's maybe
+    not a problem, since we usually move unpublished objects too.
+
+    """
+
+
+class ObjectNotFoundForDeletingWarning(WarningState):
+    """Could not delete a object becaus it couldnt be found. Maybe the object
+    wasn't published - but we wanted to delete it anyway - so it's not a
+    error.
+
+    """
 
 # Failed states
+
 
 class ErrorState(CommunicationState):
     """
@@ -161,6 +187,13 @@ class UnknownActionError(ErrorState):
     localized_name = _(u'UnknownActionError')
 
 
+class UIDPathMismatchError(ErrorState):
+    """The UID is already used for a object with another path.
+    """
+
+    localized_name = _(u'UIDPathMismatchError')
+
+
 class UnexpectedError(ErrorState):
     """
     Any exception which is not catched will raise a UnexpectedError containing
@@ -178,10 +211,15 @@ class ObjectNotFoundError(ErrorState):
     localized_name = _(u'ObjectNotFoundError')
 
 
-class ObjectMovedError(ErrorState):
+class CouldNotMoveError(ErrorState):
     """
     Indicates that the object could not be renamed/moved.
     """
 
-    localized_name = _(u'ObjectMovedError')
+    localized_name = _(u'CouldNotMoveError')
 
+
+# The exceptions are serialized, so if we remove that and still have old
+# jobs in our storage we may not be able to access them any more, so we
+# keep it..
+ObjectMovedError = CouldNotMoveError

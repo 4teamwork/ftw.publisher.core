@@ -2,8 +2,11 @@ Changelog
 =========
 
 
-1.0c5
------
+1.1
+---
+
+* Added new warning states
+  [19.08.2010, jbaumann]
 
 
 1.0c4
