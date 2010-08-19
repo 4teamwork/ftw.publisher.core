@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-07-01 06:55+0000\n"
+"POT-Creation-Date: 2010-08-19 14:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,55 +21,71 @@ msgstr ""
 msgid "CommunicationState"
 msgstr ""
 
-#: ftw.publisher.core/ftw/publisher/core/states.py:144
+#: ftw.publisher.core/ftw/publisher/core/states.py:225
+msgid "CouldNotMoveError"
+msgstr ""
+
+#: ftw.publisher.core/ftw/publisher/core/states.py:176
 msgid "DecodeError"
 msgstr ""
 
-#: ftw.publisher.core/ftw/publisher/core/states.py:127
+#: ftw.publisher.core/ftw/publisher/core/states.py:159
 msgid "ErrorState"
 msgstr ""
 
-#: ftw.publisher.core/ftw/publisher/core/states.py:135
+#: ftw.publisher.core/ftw/publisher/core/states.py:167
 msgid "InvalidRequestError"
 msgstr ""
 
-#: ftw.publisher.core/ftw/publisher/core/states.py:91
+#: ftw.publisher.core/ftw/publisher/core/states.py:92
 msgid "ObjectCreatedState"
 msgstr ""
 
-#: ftw.publisher.core/ftw/publisher/core/states.py:107
+#: ftw.publisher.core/ftw/publisher/core/states.py:108
 msgid "ObjectDeletedState"
 msgstr ""
 
-#: ftw.publisher.core/ftw/publisher/core/states.py:186
-msgid "ObjectMovedError"
-msgstr ""
-
-#: ftw.publisher.core/ftw/publisher/core/states.py:115
+#: ftw.publisher.core/ftw/publisher/core/states.py:116
 msgid "ObjectMovedState"
 msgstr ""
 
-#: ftw.publisher.core/ftw/publisher/core/states.py:178
+#: ftw.publisher.core/ftw/publisher/core/states.py:217
 msgid "ObjectNotFoundError"
 msgstr ""
 
-#: ftw.publisher.core/ftw/publisher/core/states.py:99
+#: ftw.publisher.core/ftw/publisher/core/states.py:146
+msgid "ObjectNotFoundForDeletingWarning"
+msgstr ""
+
+#: ftw.publisher.core/ftw/publisher/core/states.py:136
+msgid "ObjectNotFoundForMovingWarning"
+msgstr ""
+
+#: ftw.publisher.core/ftw/publisher/core/states.py:100
 msgid "ObjectUpdatedState"
 msgstr ""
 
-#: ftw.publisher.core/ftw/publisher/core/states.py:152
+#: ftw.publisher.core/ftw/publisher/core/states.py:184
 msgid "PartialError"
 msgstr ""
 
-#: ftw.publisher.core/ftw/publisher/core/states.py:83
+#: ftw.publisher.core/ftw/publisher/core/states.py:84
 msgid "SuccessState"
 msgstr ""
 
-#: ftw.publisher.core/ftw/publisher/core/states.py:170
+#: ftw.publisher.core/ftw/publisher/core/states.py:200
+msgid "UIDPathMismatchError"
+msgstr ""
+
+#: ftw.publisher.core/ftw/publisher/core/states.py:209
 msgid "UnexpectedError"
 msgstr ""
 
-#: ftw.publisher.core/ftw/publisher/core/states.py:161
+#: ftw.publisher.core/ftw/publisher/core/states.py:193
 msgid "UnknownActionError"
+msgstr ""
+
+#: ftw.publisher.core/ftw/publisher/core/states.py:127
+msgid "WarningState"
 msgstr ""
 

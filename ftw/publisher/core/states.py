@@ -133,6 +133,8 @@ class ObjectNotFoundForMovingWarning(WarningState):
 
     """
 
+    localized_name = _(u'ObjectNotFoundForMovingWarning')
+
 
 class ObjectNotFoundForDeletingWarning(WarningState):
     """Could not delete a object becaus it couldnt be found. Maybe the object
@@ -140,6 +142,10 @@ class ObjectNotFoundForDeletingWarning(WarningState):
     error.
 
     """
+
+    localized_name = _(u'ObjectNotFoundForDeletingWarning')
+
+
 
 # Failed states
 
