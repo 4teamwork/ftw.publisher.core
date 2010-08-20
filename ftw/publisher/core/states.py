@@ -225,6 +225,13 @@ class CouldNotMoveError(ErrorState):
     localized_name = _(u'CouldNotMoveError')
 
 
+class ConnectionLost(ErrorState):
+    """Connection was lost (e.g. BadStatusLine exception)
+    """
+
+    localized_name = _(u'ConnectionLost')
+
+
 # The exceptions are serialized, so if we remove that and still have old
 # jobs in our storage we may not be able to access them any more, so we
 # keep it..

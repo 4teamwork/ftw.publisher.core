@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-08-19 14:47+0000\n"
-"PO-Revision-Date: 2010-08-19 16:49+0200\n"
+"POT-Creation-Date: 2010-08-20 07:40+0000\n"
+"PO-Revision-Date: 2010-08-20 09:41+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -15,6 +15,10 @@ msgstr ""
 #: ftw.publisher.core/ftw/publisher/core/states.py:73
 msgid "CommunicationState"
 msgstr "Kommunikationsstatus"
+
+#: ftw.publisher.core/ftw/publisher/core/states.py:232
+msgid "ConnectionLost"
+msgstr "Verbindung abgebrochen"
 
 #: ftw.publisher.core/ftw/publisher/core/states.py:225
 msgid "CouldNotMoveError"
@@ -82,6 +86,6 @@ msgstr "Unbekannte Aktion"
 
 #: ftw.publisher.core/ftw/publisher/core/states.py:127
 msgid "WarningState"
-msgstr ""
+msgstr "Warnung"
 
 
