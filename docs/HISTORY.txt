@@ -5,6 +5,10 @@ Changelog
 1.1
 ---
 
+* Removed archetypes.schemaextender, since we can use obj.Schema() for getting
+  all the fields
+  [02.09.2010, jbaumann]
+
 * Added new warning states
   [19.08.2010, jbaumann]
 

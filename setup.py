@@ -30,7 +30,6 @@ setup(name='ftw.publisher.core',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-        'archetypes.schemaextender',
         'setuptools',
         ],
       extras_require={
