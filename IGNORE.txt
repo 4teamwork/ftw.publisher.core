@@ -3,3 +3,5 @@
 ftw.publisher.core.egg-info
 build
 dist
+*.pyc
+*.mo
