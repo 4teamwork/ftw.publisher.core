@@ -1,7 +1,0 @@
-# created by: svn propset svn:ignore -F ./IGNORE.TXT .
-
-ftw.publisher.core.egg-info
-build
-dist
-*.pyc
-*.mo
