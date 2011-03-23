@@ -11,4 +11,4 @@ def getLogger():
 
     @return logger instance
     """
-    return getPublisherLogger('ftw.publisher.receiver')
+    return getPublisherLogger('ftw.publisher.core')
