@@ -1,48 +1,45 @@
-# ftw.publisher.core imports
-from ftw.publisher.core.interfaces import IDataCollector
+from DateTime import DateTime
 from ftw.publisher.core import getLogger
-
-# zope imports
+from ftw.publisher.core.interfaces import IDataCollector
 from zope.interface import implements
 
-from DateTime import DateTime
 
 class PropertiesData(object):
     """returns all properties data
     """
+
     implements(IDataCollector)
     logger= getLogger()
-    
+
     def __init__(self,object):
         self.object = object
-        
 
     def getData(self):
         """returns all important data"""
         return self.getPropertyData()
 
-
     def getPropertyData(self):
         """
         Returns a list of dictonaries each representing a property.
         Example Return: [
-            {
-                'type' : 'string',
-                'id' : 'title',
-                'value' : 'test1',
-                'mode' : 'wd',
-            },
-            {
-                'type' : 'text',
-                'id' : 'blubb',
-                'value' : 'asdfsadf
-asdf',
-            },
+        {
+        'type' : 'string',
+        'id' : 'title',
+        'value' : 'test1',
+        'mode' : 'wd',
+        },
+        {
+        'type' : 'text',
+        'id' : 'blubb',
+        'value' : 'asdfsadf
+        asdf',
+        },
         ]
 
         @return:    list of properties
         @rtype:     list
         """
+
         properties = []
         for prop in self.object._propertyMap():
             # create a copy (we dont want to change the effective property)
@@ -50,14 +47,14 @@ asdf',
             # add the value
             prop['value'] = self.object.getProperty(prop['id'])
             properties.append(prop)
-            
+
         # property filter for special types
         # ex. date - we have to covert objects to strings
         for p in properties:
             if p['type'] == 'date':
                 p['value'] = str(p['value'])
-        return properties
 
+        return properties
 
     def setData(self, properties, metadata):
         """
@@ -68,45 +65,48 @@ asdf',
         @param object:      Plone-Object to set the properties on
         @type object:       Plone-Object
         @param properties:  list of propertes. See ftw.publisher.sender.extractor
-                            for format details.
+        for format details.
         @param type:        list
         @return:            None
         """
+
         # plone root implementation
         root_path = '/'.join(self.object.getPhysicalPath())
         uid = hasattr(self.object, 'UID') and self.object.UID() or root_path
         self.logger.info('Updating properties (UID %s)' %
-                (uid)
-        )
+                         (uid)
+                         )
+
         # we need to cleanup the properties. remove all properties
         # from the object
         propertiesToUpdateOrCreate = [p['id'] for p in properties]
         currentProperties = self.object.propertyIds()
         # delete old properties
         propertiesToDelete = [id for id in currentProperties if id not
-                                                in propertiesToUpdateOrCreate]
+                              in propertiesToUpdateOrCreate]
         self.object.manage_delProperties(propertiesToDelete)
         # get cleaned up list of properties
+
         currentProperties = self.object.propertyIds()
         # update or create properites
         for prop in properties:
-            
+
             # we have to check for some special prop types
             if prop['type'] == 'date':
                 val = DateTime(prop['value'])
             else:
                 val = prop['value']
-            
+
             if prop['id'] in currentProperties:
                 # update property if existing ...
                 self.object._updateProperty(
                     id = prop['id'],
                     value = val,
-                )
+                    )
             else:
-                # ... otherwise 
+                # ... otherwise
                 self.object.manage_addProperty(
                     id = prop['id'],
                     value = val,
                     type = prop['type'],
-                )
+                    )

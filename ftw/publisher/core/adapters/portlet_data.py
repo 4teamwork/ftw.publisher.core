@@ -1,34 +1,26 @@
+from OFS.Image import Image as OFSImage
+from ftw.publisher.core import getLogger
+from ftw.publisher.core.interfaces import IDataCollector
+from plone.portlets.constants import CONTENT_TYPE_CATEGORY, CONTEXT_CATEGORY
+from plone.portlets.constants import USER_CATEGORY, GROUP_CATEGORY
+from plone.portlets.interfaces import ILocalPortletAssignmentManager
+from plone.portlets.interfaces import IPortletAssignmentMapping
+from plone.portlets.interfaces import IPortletManager
+from sys import modules
+from zope.component import queryUtility, getMultiAdapter
+from zope.interface import implements
 import base64
 
-# publisher.core imports
-from ftw.publisher.core.interfaces import IDataCollector
-from ftw.publisher.core import getLogger
-
-# zope imports
-from zope.interface import implements
-from zope.component import queryUtility, getMultiAdapter
-
-# plone.portlets imports
-from plone.portlets.interfaces import IPortletManager
-from plone.portlets.interfaces import IPortletAssignmentMapping
-from plone.portlets.interfaces import ILocalPortletAssignmentManager
-from plone.portlets.constants import USER_CATEGORY, GROUP_CATEGORY, \
-    CONTENT_TYPE_CATEGORY, CONTEXT_CATEGORY
-# sys imports
-from sys import modules
-
-# OFS imports
-from OFS.Image import Image as OFSImage
 
 class PortletsData(object):
     """for plone's defautl portlet data, left and right area
     """
+
     implements(IDataCollector)
     logger= getLogger()
 
     def __init__(self,object):
         self.object = object
-
 
     def getData(self):
         """returns all important data
@@ -57,6 +49,7 @@ class PortletsData(object):
             return data
         if not annotations.has_key('plone.portlets.contextassignments'):
             return data
+
         plone_portlet_manager = self.object.__annotations__['plone.portlets.contextassignments'].keys()
         EXCLUDED_FIELDS = ['__name__', '__parent__']
         # XXX this is a static list, replace by a configlet option

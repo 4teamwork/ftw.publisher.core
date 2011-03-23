@@ -1,34 +1,31 @@
-# ftw.publisher.core imports
-from ftw.publisher.core.interfaces import IDataCollector
 from ftw.publisher.core import getLogger
-
-# zope imports
-from zope.interface import implements
+from ftw.publisher.core.interfaces import IDataCollector
 from zope.component import queryAdapter
+from zope.interface import implements
+
 
 class TopicCriteraData(object):
     """returns all properties data
     """
+
     implements(IDataCollector)
     logger= getLogger()
-    
+
     def __init__(self,object):
         self.object = object
-
 
     def getData(self):
         """returns all important data"""
         return self.getTopicCriterias()
 
-
     def getTopicCriterias(self):
         """
-        extract data from topic criterions, like regular field adapter. 
+        extract data from topic criterions, like regular field adapter.
         but in a special way, because the topic criteras are no accessible
         by the catalog
-        
+
         data = {'criteria_type':{field_data_adapter result}}
-        
+
         """
         criterias = {}
         for criteria in self.object.objectValues():
@@ -36,20 +33,19 @@ class TopicCriteraData(object):
             # this adapter must be available, otherwise we cannot go ahead
             if field_data_adapter is None:
                 continue
-            
+
             # dont add subcollections
-            if isinstance(criteria, self.object.__class__):continue    
+            if isinstance(criteria, self.object.__class__):continue
             id = criteria.id
             data = field_data_adapter.getData()
             data['meta_type'] = criteria.meta_type
             criterias[id] = data
-        
-        return criterias
 
+        return criterias
 
     def setData(self, topic_criteria_data, metadata):
         """
-        creates criterias fro a topic from 
+        creates criterias fro a topic from
         {'criteria_type':{field_data_adapter result}}
         """
         self.logger.info('Updating criterias for topic (UID %s)' %
@@ -75,4 +71,3 @@ class TopicCriteraData(object):
             if 'ATSortCriterion' not in criteria_id:
                 field_data_adapter = queryAdapter(criteria,IDataCollector,name="field_data_adapter")
                 field_data_adapter.setData(data,metadata)
-

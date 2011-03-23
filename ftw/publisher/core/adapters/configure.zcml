@@ -1,57 +1,55 @@
 <configure
-    xmlns="http://namespaces.zope.org/zope"
-    xmlns:five="http://namespaces.zope.org/five">
+      xmlns="http://namespaces.zope.org/zope"
+      xmlns:five="http://namespaces.zope.org/five">
 
-  <adapter
-      for="Products.Archetypes.interfaces._base.IBaseObject"
-      provides="ftw.publisher.core.interfaces.IDataCollector"
-      factory="ftw.publisher.core.adapters.field_data.FieldData"
-      name="field_data_adapter" />
+    <adapter
+          for="Products.Archetypes.interfaces._base.IBaseObject"
+          provides="ftw.publisher.core.interfaces.IDataCollector"
+          factory="ftw.publisher.core.adapters.field_data.FieldData"
+          name="field_data_adapter" />
 
-  <adapter
-      for="Products.Archetypes.interfaces._base.IBaseObject"
-      provides="ftw.publisher.core.interfaces.IDataCollector"
-      factory="ftw.publisher.core.adapters.properties_data.PropertiesData"
-      name="properties_data_adapter" />
+    <adapter
+          for="Products.Archetypes.interfaces._base.IBaseObject"
+          provides="ftw.publisher.core.interfaces.IDataCollector"
+          factory="ftw.publisher.core.adapters.properties_data.PropertiesData"
+          name="properties_data_adapter" />
 
-  <adapter
-      for="Products.Archetypes.interfaces._base.IBaseObject"
-      provides="ftw.publisher.core.interfaces.IDataCollector"
-      factory="ftw.publisher.core.adapters.portlet_data.PortletsData"
-      name="portlet_data_adapter" />
+    <adapter
+          for="Products.Archetypes.interfaces._base.IBaseObject"
+          provides="ftw.publisher.core.interfaces.IDataCollector"
+          factory="ftw.publisher.core.adapters.portlet_data.PortletsData"
+          name="portlet_data_adapter" />
 
-  <adapter
-      for="Products.Archetypes.interfaces._base.IBaseObject"
-      provides="ftw.publisher.core.interfaces.IDataCollector"
-      factory="ftw.publisher.core.adapters.interface_data.InterfaceData"
-      name="interface_data_adapter" />
+    <adapter
+          for="Products.Archetypes.interfaces._base.IBaseObject"
+          provides="ftw.publisher.core.interfaces.IDataCollector"
+          factory="ftw.publisher.core.adapters.interface_data.InterfaceData"
+          name="interface_data_adapter" />
 
-  <adapter
-      for="Products.Archetypes.interfaces._base.IBaseObject"
-      provides="ftw.publisher.core.interfaces.IDataCollector"
-      factory="ftw.publisher.core.adapters.backreferences.Backreferences"
-      name="backreferences_adapter" />
+    <adapter
+          for="Products.Archetypes.interfaces._base.IBaseObject"
+          provides="ftw.publisher.core.interfaces.IDataCollector"
+          factory="ftw.publisher.core.adapters.backreferences.Backreferences"
+          name="backreferences_adapter" />
 
-  <!-- special adapter for topics criterias -->
-  <adapter
-      for="Products.ATContentTypes.interface.topic.IATTopic"
-      provides="ftw.publisher.core.interfaces.IDataCollector"
-      factory="ftw.publisher.core.adapters.topic_criterias.TopicCriteraData"
-      name="topic_critera_adapter" />
+    <!-- special adapter for topics criterias -->
+    <adapter
+          for="Products.ATContentTypes.interface.topic.IATTopic"
+          provides="ftw.publisher.core.interfaces.IDataCollector"
+          factory="ftw.publisher.core.adapters.topic_criterias.TopicCriteraData"
+          name="topic_critera_adapter" />
 
+    <!-- register portlet_data and properties_data adapter also on IPloneSiteRoot -->
+    <adapter
+          for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+          provides="ftw.publisher.core.interfaces.IDataCollector"
+          factory="ftw.publisher.core.adapters.properties_data.PropertiesData"
+          name="properties_data_adapter" />
 
-  <!-- register portlet_data and properties_data adapter also on IPloneSiteRoot -->
-  <adapter
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-      provides="ftw.publisher.core.interfaces.IDataCollector"
-      factory="ftw.publisher.core.adapters.properties_data.PropertiesData"
-      name="properties_data_adapter" />
-
-  <adapter
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-      provides="ftw.publisher.core.interfaces.IDataCollector"
-      factory="ftw.publisher.core.adapters.portlet_data.PortletsData"
-      name="portlet_data_adapter" />
-
+    <adapter
+          for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+          provides="ftw.publisher.core.interfaces.IDataCollector"
+          factory="ftw.publisher.core.adapters.portlet_data.PortletsData"
+          name="portlet_data_adapter" />
 
 </configure>
