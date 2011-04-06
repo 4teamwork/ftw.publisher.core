@@ -45,8 +45,7 @@ Changelog
 1.0
 ---
 
-* Issue #1007 Publizieren von Content Pages mit Mitgliederblöcken schlägt fehl
-  https://extranet.4teamwork.ch/support/zug/maintlog/1007/
+* Issue #1007 Publizieren von Content Pages mit Mitgliederbloecken schlaegt fehl
 
 * Added Backreference adapter
   [25.05.2010, jbaumann]
@@ -55,20 +54,28 @@ Changelog
   [18.05.2010, jbaumann]
 
 * added new states for renaming purposes [mathias.leimgruber]
+
 * fixed binary conversion to base64 string [mathias.leimgruber, victor.baumann]
+
 * added test cases for portlet adapter and
   properties adapter [mathias.leimgruber]
+
 * added an afterpushEvent [mathias.leimgruber]
+
 * several bug fixes in field_data adapter
-* Extend publish process with adapters [mathias.leimgruber] 
-  * sync context portlets [mathias.leimgruber]
-  * sync interfaces [mathias.leimgruber]
-  * sync topic criterias [mathias.leimgruber]
+
+* Extend publish process with adapters [mathias.leimgruber]
+
+* sync context portlets [mathias.leimgruber]
+
+* sync interfaces [mathias.leimgruber]
+
+* sync topic criterias [mathias.leimgruber]
 
 
 0.1
 ---
- 
-* concept/structure [jonas.baumann]
-* Working initial release [jonas.baumann]
 
+* concept/structure [jonas.baumann]
+
+* Working initial release [jonas.baumann]
