@@ -5,6 +5,10 @@ Changelog
 1.2
 ---
 
+* Cleanup, move to github (https://github.com/4teamwork/ftw.publisher.core) and
+  prepare for release.
+  [jbaumann]
+
 
 1.1
 ---
