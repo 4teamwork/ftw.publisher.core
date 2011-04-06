@@ -7,7 +7,6 @@ one instance to another.
 This package provides shared tools and utils used by `ftw.publisher.sender` and
 `ftw.publisher.receiver`.
 
-=====
 Links
 =====
 
@@ -22,7 +21,6 @@ Here are some additional links:
 - Wiki: https://github.com/4teamwork/ftw.publisher.sender/wiki
 
 
-=======
 Credits
 =======
 
