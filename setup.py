@@ -11,8 +11,7 @@ tests_require=[
 
 setup(name='ftw.publisher.core',
       version=version,
-      description="Publish plone contents from one instance to " + \
-          "another using ftw.publisher.",
+      description="Staging and publishing addon for Plone contents.",
       long_description=open("README.rst").read() + "\n" + \
           open(os.path.join("docs", "HISTORY.txt")).read(),
 
