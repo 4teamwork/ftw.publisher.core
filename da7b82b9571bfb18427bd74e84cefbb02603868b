@@ -1,0 +1,504 @@
+Started by user anonymous
+Checkout:workspace / /var/lib/jenkins/jobs/ftw.publisher.core/workspace - hudson.remoting.LocalChannel@1371c0c
+Using strategy: Default
+Last Built Revision: Revision da7b82b9571bfb18427bd74e84cefbb02603868b (origin/master)
+Checkout:workspace / /var/lib/jenkins/jobs/ftw.publisher.core/workspace - hudson.remoting.LocalChannel@1371c0c
+Fetching changes from the remote Git repository
+Fetching upstream changes from git@github.com:4teamwork/ftw.publisher.core.git
+Seen branch in repository origin/master
+Commencing build of Revision da7b82b9571bfb18427bd74e84cefbb02603868b (origin/master)
+Checking out Revision da7b82b9571bfb18427bd74e84cefbb02603868b (origin/master)
+[workspace] $ /bin/sh -xe /tmp/hudson2069725774693859029.sh
++ '[' '!' -L buildout.cfg ']'
++ '[' '!' -x bin/buildout ']'
++ bin/buildout
+Develop: '/var/lib/jenkins/jobs/ftw.publisher.core/workspace/.'
+warning: no previously-included files matching '._*' found anywhere in distribution
+Unused options for buildout: 'eggs'.
+Updating zope2.
+Updating fake eggs
+Updating instance.
+Updating test.
++ bin/test --xml -s ftw
+Running ftw.publisher.core.tests.layer.IntegrationTestLayer tests:
+  Set up Products.PloneTestCase.layer.ZCML/var/lib/jenkins/jobs/ftw.publisher.core/workspace/parts/zope2/lib/python/zope/configuration/xmlconfig.py:323: DeprecationWarning: zope.app.annotation has moved to zope.annotation. Import of zope.app.annotation will become unsupported in Zope 3.5
+  __import__(arguments[0])
+ in 5.751 seconds.
+  Set up Products.PloneTestCase.layer.PloneSite/var/lib/jenkins/zope/eggs/Products.PlonePAS-3.12-py2.4.egg/Products/PlonePAS/setuphandlers.py:39: DeprecationWarning: portal_groups.getGroupIds is deprecated and will be removed in Plone 4.0. Use PAS searchGroups instead
+  existing = gtool.listGroupIds()
+ in 11.459 seconds.
+  Set up collective.testcaselayer.ptc.PTCLayer in 0.094 seconds.
+  Set up ftw.publisher.core.tests.layer.IntegrationTestLayer in 0.033 seconds.
+  Ran 7 tests with 0 failures and 0 errors in 4.172 seconds.
+Tearing down left over layers:
+  Tear down ftw.publisher.core.tests.layer.IntegrationTestLayer in 0.001 seconds.
+  Tear down collective.testcaselayer.ptc.PTCLayer in 0.001 seconds.
+  Tear down Products.PloneTestCase.layer.PloneSite in 0.868 seconds.
+  Tear down Products.PloneTestCase.layer.ZCML in 0.006 seconds.
++ pylint ftw.publisher.core
++ tee pylint.txt
+ftw/publisher/core/__init__.py:1: [C0111] Missing docstring
+ftw/publisher/core/communication.py:32: [C0301] Line too long (83/80)
+ftw/publisher/core/communication.py:1: [C0111] Missing docstring
+ftw/publisher/core/communication.py:1: [W0403] Relative import 'states', should be 'ftw.publisher.core.states'
+ftw/publisher/core/utils.py:81: [C0301] Line too long (83/80)
+ftw/publisher/core/utils.py:109: [C0301] Line too long (87/80)
+ftw/publisher/core/utils.py:1: [C0111] Missing docstring
+ftw/publisher/core/utils.py:8: [W0105] String statement has no effect
+ftw/publisher/core/utils.py:13: [W0105] String statement has no effect
+ftw/publisher/core/utils.py:18: [W0105] String statement has no effect
+ftw/publisher/core/utils.py:24: [W0105] String statement has no effect
+ftw/publisher/core/utils.py:46: [W0603, getPublisherLogger] Using the global statement
+ftw/publisher/core/utils.py:73: [W0603, getPublisherErrorLogger] Using the global statement
+ftw/publisher/core/utils.py:108: [W0102, decode_for_json] Dangerous default value [] as argument
+ftw/publisher/core/utils.py:108: [R0911, decode_for_json] Too many return statements (7/6)
+ftw/publisher/core/utils.py:108: [R0912, decode_for_json] Too many branches (13/12)
+ftw/publisher/core/utils.py:185: [E1103, encode_after_json] Instance of 'unicode' has no 'items' member (but some types could not be inferred)
+ftw/publisher/core/utils.py:155: [R0911, encode_after_json] Too many return statements (7/6)
+ftw/publisher/core/states.py:1: [C0111] Missing docstring
+ftw/publisher/core/interfaces.py:1: [C0111] Missing docstring
+ftw/publisher/core/tests/test_adapters.py:43: [C0301] Line too long (105/80)
+ftw/publisher/core/tests/test_adapters.py:49: [C0301] Line too long (84/80)
+ftw/publisher/core/tests/test_adapters.py:50: [C0301] Line too long (89/80)
+ftw/publisher/core/tests/test_adapters.py:51: [C0301] Line too long (82/80)
+ftw/publisher/core/tests/test_adapters.py:53: [C0301] Line too long (97/80)
+ftw/publisher/core/tests/test_adapters.py:54: [C0301] Line too long (95/80)
+ftw/publisher/core/tests/test_adapters.py:56: [C0301] Line too long (84/80)
+ftw/publisher/core/tests/test_adapters.py:57: [C0301] Line too long (102/80)
+ftw/publisher/core/tests/test_adapters.py:58: [C0301] Line too long (103/80)
+ftw/publisher/core/tests/test_adapters.py:59: [C0301] Line too long (104/80)
+ftw/publisher/core/tests/test_adapters.py:60: [C0301] Line too long (105/80)
+ftw/publisher/core/tests/test_adapters.py:61: [C0301] Line too long (128/80)
+ftw/publisher/core/tests/test_adapters.py:62: [C0301] Line too long (129/80)
+ftw/publisher/core/tests/test_adapters.py:63: [C0301] Line too long (130/80)
+ftw/publisher/core/tests/test_adapters.py:64: [C0301] Line too long (131/80)
+ftw/publisher/core/tests/test_adapters.py:67: [C0301] Line too long (119/80)
+ftw/publisher/core/tests/test_adapters.py:68: [C0301] Line too long (120/80)
+ftw/publisher/core/tests/test_adapters.py:69: [C0301] Line too long (118/80)
+ftw/publisher/core/tests/test_adapters.py:73: [C0301] Line too long (89/80)
+ftw/publisher/core/tests/test_adapters.py:74: [C0301] Line too long (118/80)
+ftw/publisher/core/tests/test_adapters.py:81: [C0301] Line too long (97/80)
+ftw/publisher/core/tests/test_adapters.py:82: [C0301] Line too long (112/80)
+ftw/publisher/core/tests/test_adapters.py:94: [C0301] Line too long (91/80)
+ftw/publisher/core/tests/test_adapters.py:106: [C0301] Line too long (92/80)
+ftw/publisher/core/tests/test_adapters.py:109: [C0301] Line too long (92/80)
+ftw/publisher/core/tests/test_adapters.py:128: [C0301] Line too long (87/80)
+ftw/publisher/core/tests/test_adapters.py:139: [C0301] Line too long (106/80)
+ftw/publisher/core/tests/test_adapters.py:140: [C0301] Line too long (108/80)
+ftw/publisher/core/tests/test_adapters.py:141: [C0301] Line too long (115/80)
+ftw/publisher/core/tests/test_adapters.py:142: [C0301] Line too long (111/80)
+ftw/publisher/core/tests/test_adapters.py:143: [C0301] Line too long (109/80)
+ftw/publisher/core/tests/test_adapters.py:144: [C0301] Line too long (127/80)
+ftw/publisher/core/tests/test_adapters.py:146: [C0301] Line too long (117/80)
+ftw/publisher/core/tests/test_adapters.py:147: [C0301] Line too long (112/80)
+ftw/publisher/core/tests/test_adapters.py:148: [C0301] Line too long (110/80)
+ftw/publisher/core/tests/test_adapters.py:149: [C0301] Line too long (128/80)
+ftw/publisher/core/tests/test_adapters.py:202: [C0301] Line too long (87/80)
+ftw/publisher/core/tests/test_adapters.py:206: [C0301] Line too long (88/80)
+ftw/publisher/core/tests/test_adapters.py:219: [C0301] Line too long (93/80)
+ftw/publisher/core/tests/test_adapters.py:234: [C0301] Line too long (106/80)
+ftw/publisher/core/tests/test_adapters.py:239: [C0301] Line too long (87/80)
+ftw/publisher/core/tests/test_adapters.py:243: [C0301] Line too long (88/80)
+ftw/publisher/core/tests/test_adapters.py:247: [C0301] Line too long (119/80)
+ftw/publisher/core/tests/test_adapters.py:250: [C0301] Line too long (88/80)
+ftw/publisher/core/tests/test_adapters.py:254: [C0301] Line too long (88/80)
+ftw/publisher/core/tests/test_adapters.py:262: [C0301] Line too long (90/80)
+ftw/publisher/core/tests/test_adapters.py:265: [C0301] Line too long (90/80)
+ftw/publisher/core/tests/test_adapters.py:269: [C0301] Line too long (142/80)
+ftw/publisher/core/tests/test_adapters.py:271: [C0301] Line too long (144/80)
+ftw/publisher/core/tests/test_adapters.py:275: [C0301] Line too long (90/80)
+ftw/publisher/core/tests/test_adapters.py:279: [C0301] Line too long (91/80)
+ftw/publisher/core/tests/test_adapters.py:287: [C0301] Line too long (92/80)
+ftw/publisher/core/tests/test_adapters.py:1: [C0111] Missing docstring
+ftw/publisher/core/tests/test_adapters.py:28: [C0111, TestPublisherAdapters] Missing docstring
+ftw/publisher/core/tests/test_adapters.py:28: [R0902, TestPublisherAdapters] Too many instance attributes (13/7)
+ftw/publisher/core/tests/test_adapters.py:32: [C0111, TestPublisherAdapters.afterSetUp] Missing docstring
+ftw/publisher/core/tests/test_adapters.py:35: [C0324, TestPublisherAdapters.afterSetUp] Comma not followed by a space
+        self.testdoc1 = getattr(self.folder,testdoc1id,None)
+                                           ^^
+ftw/publisher/core/tests/test_adapters.py:37: [C0324, TestPublisherAdapters.afterSetUp] Comma not followed by a space
+        self.folder1 = getattr(self.folder,folder1id,None)
+                                          ^^
+ftw/publisher/core/tests/test_adapters.py:39: [C0324, TestPublisherAdapters.afterSetUp] Comma not followed by a space
+        self.folder2 = getattr(self.folder,folderid2,None)
+                                          ^^
+ftw/publisher/core/tests/test_adapters.py:41: [C0324, TestPublisherAdapters.afterSetUp] Comma not followed by a space
+        self.testdoc2 = getattr(self.folder1,testdoc2id,None)
+                                            ^^
+ftw/publisher/core/tests/test_adapters.py:43: [C0324, TestPublisherAdapters.afterSetUp] Comma not followed by a space
+        topicid = self.folder.manage_addProduct['ATContentTypes'].addATTopic(id='atopic',title='A topic')
+                                                                                        ^^
+ftw/publisher/core/tests/test_adapters.py:49: [C0324, TestPublisherAdapters.afterSetUp] Comma not followed by a space
+        self.testdoc1.manage_addProperty(id = 'bool', value = True,type = 'boolean')
+                                                                  ^^
+ftw/publisher/core/tests/test_adapters.py:50: [C0324, TestPublisherAdapters.afterSetUp] Comma not followed by a space
+        self.testdoc1.manage_addProperty(id = 'date', value = '2000/01/01',type = 'date')
+                                                                          ^^
+ftw/publisher/core/tests/test_adapters.py:51: [C0324, TestPublisherAdapters.afterSetUp] Comma not followed by a space
+        self.testdoc1.manage_addProperty(id = 'float', value = 2.1,type = 'float')
+                                                                  ^^
+ftw/publisher/core/tests/test_adapters.py:53: [C0324, TestPublisherAdapters.afterSetUp] Comma not followed by a space
+        self.testdoc1.manage_addProperty(id = 'lines', value = ('row1', 'row2', ),type = 'lines')
+                                                                                 ^^
+ftw/publisher/core/tests/test_adapters.py:54: [C0324, TestPublisherAdapters.afterSetUp] Comma not followed by a space
+        self.testdoc1.manage_addProperty(id = 'string', value = 'Hello World!',type = 'string')
+                                                                              ^^
+ftw/publisher/core/tests/test_adapters.py:67: [C0324, TestPublisherAdapters.afterSetUp] Comma not followed by a space
+        self.left_portlets['title1'] = static.Assignment(header='Title1',hide=False,text="some text",omit_border=False)
+                                                                        ^^
+ftw/publisher/core/tests/test_adapters.py:68: [C0324, TestPublisherAdapters.afterSetUp] Comma not followed by a space
+        self.right_portlets['title2'] = static.Assignment(header='Title2',hide=False,text="some text",omit_border=False)
+                                                                         ^^
+ftw/publisher/core/tests/test_adapters.py:69: [C0324, TestPublisherAdapters.afterSetUp] Comma not followed by a space
+        self.right_portlets['blubb'] = static.Assignment(header='blubb',hide=False,text="some text",omit_border=False)
+                                                                       ^^
+ftw/publisher/core/tests/test_adapters.py:92: [C0111, TestPublisherAdapters.test_properties_adapter_getter] Missing docstring
+ftw/publisher/core/tests/test_adapters.py:105: [C0111, TestPublisherAdapters.test_properties_adapter_setter] Missing docstring
+ftw/publisher/core/tests/test_adapters.py:110: [C0324, TestPublisherAdapters.test_properties_adapter_setter] Comma not followed by a space
+        adapter2.setData(data,metadata=None)
+                             ^^
+ftw/publisher/core/tests/test_adapters.py:126: [C0111, TestPublisherAdapters.test_portlets_adapter_getter] Missing docstring
+ftw/publisher/core/tests/test_adapters.py:191: [W0621, TestPublisherAdapters.test_portlets_adapter_getter] Redefining name 'collection' from outer scope (line 7)
+ftw/publisher/core/tests/test_adapters.py:152: [W0212, TestPublisherAdapters.test_portlets_adapter_getter] Access to a protected member _order of a client class
+ftw/publisher/core/tests/test_adapters.py:153: [W0212, TestPublisherAdapters.test_portlets_adapter_getter] Access to a protected member _order of a client class
+ftw/publisher/core/tests/test_adapters.py:200: [C0111, TestPublisherAdapters.test_portlets_adapter_setter] Missing docstring
+ftw/publisher/core/tests/test_adapters.py:216: [W0621, TestPublisherAdapters.test_portlets_adapter_setter] Redefining name 'collection' from outer scope (line 7)
+ftw/publisher/core/tests/test_adapters.py:207: [C0324, TestPublisherAdapters.test_portlets_adapter_setter] Comma not followed by a space
+        adapter2.setData(data,metadata=None)
+                             ^^
+ftw/publisher/core/tests/test_adapters.py:234: [W0212, TestPublisherAdapters.test_portlets_adapter_setter] Access to a protected member _order of a client class
+ftw/publisher/core/tests/test_adapters.py:237: [C0111, TestPublisherAdapters.test_portlets_adapter_sync] Missing docstring
+ftw/publisher/core/tests/test_adapters.py:244: [C0324, TestPublisherAdapters.test_portlets_adapter_sync] Comma not followed by a space
+        adapter2.setData(data,metadata=None)
+                             ^^
+ftw/publisher/core/tests/test_adapters.py:247: [C0324, TestPublisherAdapters.test_portlets_adapter_sync] Comma not followed by a space
+        self.left_portlets['title3'] = static.Assignment(header='Title3',hide=False,text="some text",omit_border=False)
+                                                                        ^^
+ftw/publisher/core/tests/test_adapters.py:255: [C0324, TestPublisherAdapters.test_portlets_adapter_sync] Comma not followed by a space
+        adapter4.setData(data2,metadata=None)
+                              ^^
+ftw/publisher/core/tests/test_adapters.py:259: [C0111, TestPublisherAdapters.test_interface_adapter_getter] Missing docstring
+ftw/publisher/core/tests/test_adapters.py:273: [C0111, TestPublisherAdapters.test_interface_adapter_setter] Missing docstring
+ftw/publisher/core/tests/test_adapters.py:41: [W0201, TestPublisherAdapters.afterSetUp] Attribute 'testdoc2' defined outside __init__
+ftw/publisher/core/tests/test_adapters.py:39: [W0201, TestPublisherAdapters.afterSetUp] Attribute 'folder2' defined outside __init__
+ftw/publisher/core/tests/test_adapters.py:37: [W0201, TestPublisherAdapters.afterSetUp] Attribute 'folder1' defined outside __init__
+ftw/publisher/core/tests/test_adapters.py:35: [W0201, TestPublisherAdapters.afterSetUp] Attribute 'testdoc1' defined outside __init__
+ftw/publisher/core/tests/test_adapters.py:61: [W0201, TestPublisherAdapters.afterSetUp] Attribute 'left_portlets' defined outside __init__
+ftw/publisher/core/tests/test_adapters.py:58: [W0201, TestPublisherAdapters.afterSetUp] Attribute 'left_column2' defined outside __init__
+ftw/publisher/core/tests/test_adapters.py:62: [W0201, TestPublisherAdapters.afterSetUp] Attribute 'left_portlets2' defined outside __init__
+ftw/publisher/core/tests/test_adapters.py:63: [W0201, TestPublisherAdapters.afterSetUp] Attribute 'right_portlets' defined outside __init__
+ftw/publisher/core/tests/test_adapters.py:60: [W0201, TestPublisherAdapters.afterSetUp] Attribute 'right_column2' defined outside __init__
+ftw/publisher/core/tests/test_adapters.py:59: [W0201, TestPublisherAdapters.afterSetUp] Attribute 'right_column' defined outside __init__
+ftw/publisher/core/tests/test_adapters.py:64: [W0201, TestPublisherAdapters.afterSetUp] Attribute 'right_portlets2' defined outside __init__
+ftw/publisher/core/tests/test_adapters.py:44: [W0201, TestPublisherAdapters.afterSetUp] Attribute 'topic' defined outside __init__
+ftw/publisher/core/tests/test_adapters.py:57: [W0201, TestPublisherAdapters.afterSetUp] Attribute 'left_column' defined outside __init__
+ftw/publisher/core/tests/test_adapters.py:299: [C0111, test_suite] Missing docstring
+ftw/publisher/core/tests/__init__.py:1: [C0111] Missing docstring
+ftw/publisher/core/tests/layer.py:1: [C0111] Missing docstring
+ftw/publisher/core/tests/layer.py:3: [C0111, IntegrationTestLayer] Missing docstring
+ftw/publisher/core/tests/layer.py:5: [C0111, IntegrationTestLayer.afterSetUp] Missing docstring
+ftw/publisher/core/adapters/portlet_data.py:53: [C0301] Line too long (103/80)
+ftw/publisher/core/adapters/portlet_data.py:57: [C0301] Line too long (88/80)
+ftw/publisher/core/adapters/portlet_data.py:60: [C0301] Line too long (90/80)
+ftw/publisher/core/adapters/portlet_data.py:68: [C0301] Line too long (94/80)
+ftw/publisher/core/adapters/portlet_data.py:71: [C0301] Line too long (88/80)
+ftw/publisher/core/adapters/portlet_data.py:72: [C0301] Line too long (86/80)
+ftw/publisher/core/adapters/portlet_data.py:73: [C0301] Line too long (102/80)
+ftw/publisher/core/adapters/portlet_data.py:74: [C0301] Line too long (92/80)
+ftw/publisher/core/adapters/portlet_data.py:76: [C0301] Line too long (110/80)
+ftw/publisher/core/adapters/portlet_data.py:89: [C0301] Line too long (105/80)
+ftw/publisher/core/adapters/portlet_data.py:99: [C0301] Line too long (88/80)
+ftw/publisher/core/adapters/portlet_data.py:103: [C0301] Line too long (92/80)
+ftw/publisher/core/adapters/portlet_data.py:113: [C0301] Line too long (90/80)
+ftw/publisher/core/adapters/portlet_data.py:118: [C0301] Line too long (110/80)
+ftw/publisher/core/adapters/portlet_data.py:121: [C0301] Line too long (112/80)
+ftw/publisher/core/adapters/portlet_data.py:124: [C0301] Line too long (94/80)
+ftw/publisher/core/adapters/portlet_data.py:126: [C0301] Line too long (86/80)
+ftw/publisher/core/adapters/portlet_data.py:127: [C0301] Line too long (84/80)
+ftw/publisher/core/adapters/portlet_data.py:128: [C0301] Line too long (100/80)
+ftw/publisher/core/adapters/portlet_data.py:129: [C0301] Line too long (90/80)
+ftw/publisher/core/adapters/portlet_data.py:154: [C0301] Line too long (89/80)
+ftw/publisher/core/adapters/portlet_data.py:157: [C0301] Line too long (84/80)
+ftw/publisher/core/adapters/portlet_data.py:55: [W0511] XXX this is a static list, replace by a configlet option
+ftw/publisher/core/adapters/portlet_data.py:159: [W0511] XXX boolean value fix
+ftw/publisher/core/adapters/portlet_data.py:1: [C0111] Missing docstring
+ftw/publisher/core/adapters/portlet_data.py:20: [C0322, PortletsData] Operator not preceded by a space
+    logger= getLogger()
+          ^
+ftw/publisher/core/adapters/portlet_data.py:22: [W0622, PortletsData.__init__] Redefining built-in 'object'
+ftw/publisher/core/adapters/portlet_data.py:22: [C0324, PortletsData.__init__] Comma not followed by a space
+    def __init__(self,object):
+                     ^^
+ftw/publisher/core/adapters/portlet_data.py:79: [W0212, PortletsData.getData] Access to a protected member _order of a client class
+ftw/publisher/core/adapters/portlet_data.py:108: [R0914, PortletsData.setData] Too many local variables (19/15)
+ftw/publisher/core/adapters/portlet_data.py:119: [W0212, PortletsData.setData] Access to a protected member _data of a client class
+ftw/publisher/core/adapters/portlet_data.py:126: [C0324, PortletsData.setData] Comma not followed by a space
+            blacklist.setBlacklistStatus(GROUP_CATEGORY,blacklistdata[GROUP_CATEGORY])
+                                                       ^^
+ftw/publisher/core/adapters/portlet_data.py:127: [C0324, PortletsData.setData] Comma not followed by a space
+            blacklist.setBlacklistStatus(USER_CATEGORY,blacklistdata[USER_CATEGORY])
+                                                      ^^
+ftw/publisher/core/adapters/portlet_data.py:128: [C0324, PortletsData.setData] Comma not followed by a space
+            blacklist.setBlacklistStatus(CONTENT_TYPE_CATEGORY,blacklistdata[CONTENT_TYPE_CATEGORY])
+                                                              ^^
+ftw/publisher/core/adapters/portlet_data.py:129: [C0324, PortletsData.setData] Comma not followed by a space
+            blacklist.setBlacklistStatus(CONTEXT_CATEGORY,blacklistdata[CONTEXT_CATEGORY])
+                                                         ^^
+ftw/publisher/core/adapters/portlet_data.py:135: [C0321, PortletsData.setData] More than one statement on a single line
+ftw/publisher/core/adapters/portlet_data.py:135: [W0212, PortletsData.setData] Access to a protected member _data of a client class
+ftw/publisher/core/adapters/portlet_data.py:146: [C0324, PortletsData.setData] Comma not followed by a space
+                for k,v in portletfielddata.items():
+                     ^^
+ftw/publisher/core/adapters/portlet_data.py:154: [C0324, PortletsData.setData] Comma not followed by a space
+                        imgobj = klass(v['id'],v['title'],base64.decodestring(v['data']))
+                                              ^^
+ftw/publisher/core/adapters/portlet_data.py:157: [W0142, PortletsData.setData] Used * or ** magic
+ftw/publisher/core/adapters/portlet_data.py:162: [C0324, PortletsData.setData] Comma not followed by a space
+                for k,v in portletfielddata.items():
+                     ^^
+ftw/publisher/core/adapters/properties_data.py:1: [C0111] Missing docstring
+ftw/publisher/core/adapters/properties_data.py:12: [C0322, PropertiesData] Operator not preceded by a space
+    logger= getLogger()
+          ^
+ftw/publisher/core/adapters/properties_data.py:14: [W0622, PropertiesData.__init__] Redefining built-in 'object'
+ftw/publisher/core/adapters/properties_data.py:14: [C0324, PropertiesData.__init__] Comma not followed by a space
+    def __init__(self,object):
+                     ^^
+ftw/publisher/core/adapters/properties_data.py:44: [W0212, PropertiesData.getPropertyData] Access to a protected member _propertyMap of a client class
+ftw/publisher/core/adapters/properties_data.py:85: [W0622, PropertiesData.setData] Redefining built-in 'id'
+ftw/publisher/core/adapters/properties_data.py:102: [W0212, PropertiesData.setData] Access to a protected member _updateProperty of a client class
+ftw/publisher/core/adapters/backreferences.py:67: [C0301] Line too long (85/80)
+ftw/publisher/core/adapters/backreferences.py:1: [C0111] Missing docstring
+ftw/publisher/core/adapters/backreferences.py:55: [C0111, Backreferences.setData] Missing docstring
+ftw/publisher/core/adapters/__init__.py:1: [C0111] Missing docstring
+ftw/publisher/core/adapters/topic_criterias.py:32: [C0301] Line too long (98/80)
+ftw/publisher/core/adapters/topic_criterias.py:56: [C0301] Line too long (109/80)
+ftw/publisher/core/adapters/topic_criterias.py:63: [C0301] Line too long (84/80)
+ftw/publisher/core/adapters/topic_criterias.py:72: [C0301] Line too long (100/80)
+ftw/publisher/core/adapters/topic_criterias.py:1: [C0111] Missing docstring
+ftw/publisher/core/adapters/topic_criterias.py:12: [C0322, TopicCriteraData] Operator not preceded by a space
+    logger= getLogger()
+          ^
+ftw/publisher/core/adapters/topic_criterias.py:14: [W0622, TopicCriteraData.__init__] Redefining built-in 'object'
+ftw/publisher/core/adapters/topic_criterias.py:14: [C0324, TopicCriteraData.__init__] Comma not followed by a space
+    def __init__(self,object):
+                     ^^
+ftw/publisher/core/adapters/topic_criterias.py:39: [W0622, TopicCriteraData.getTopicCriterias] Redefining built-in 'id'
+ftw/publisher/core/adapters/topic_criterias.py:38: [C0321, TopicCriteraData.getTopicCriterias] More than one statement on a single line
+ftw/publisher/core/adapters/topic_criterias.py:58: [C0324, TopicCriteraData.setData] Comma not followed by a space
+        for criteria_id,data in topic_criteria_data.items():
+                       ^^
+ftw/publisher/core/adapters/topic_criterias.py:63: [C0324, TopicCriteraData.setData] Comma not followed by a space
+                criteria = self.object.addCriterion(data['field'],data['meta_type'])
+                                                                 ^^
+ftw/publisher/core/adapters/topic_criterias.py:72: [C0324, TopicCriteraData.setData] Comma not followed by a space
+                field_data_adapter = queryAdapter(criteria,IDataCollector,name="field_data_adapter")
+                                                          ^^
+ftw/publisher/core/adapters/topic_criterias.py:73: [C0324, TopicCriteraData.setData] Comma not followed by a space
+                field_data_adapter.setData(data,metadata)
+                                               ^^
+ftw/publisher/core/adapters/interface_data.py:1: [C0111] Missing docstring
+ftw/publisher/core/adapters/interface_data.py:14: [C0322, InterfaceData] Operator not preceded by a space
+    logger= getLogger()
+          ^
+ftw/publisher/core/adapters/interface_data.py:16: [W0622, InterfaceData.__init__] Redefining built-in 'object'
+ftw/publisher/core/adapters/interface_data.py:16: [C0324, InterfaceData.__init__] Comma not followed by a space
+    def __init__(self,object):
+                     ^^
+ftw/publisher/core/adapters/field_data.py:61: [C0301] Line too long (85/80)
+ftw/publisher/core/adapters/field_data.py:66: [C0301] Line too long (84/80)
+ftw/publisher/core/adapters/field_data.py:67: [C0301] Line too long (83/80)
+ftw/publisher/core/adapters/field_data.py:1: [C0111] Missing docstring
+ftw/publisher/core/adapters/field_data.py:19: [W0622, FieldData.__init__] Redefining built-in 'object'
+ftw/publisher/core/adapters/field_data.py:19: [C0324, FieldData.__init__] Comma not followed by a space
+    def __init__(self,object):
+                     ^^
+ftw/publisher/core/adapters/field_data.py:49: [R0201, FieldData.fieldSerialization] Method could be a function
+ftw/publisher/core/adapters/field_data.py:1: [R0801] Similar lines in 3 files
+==ftw.publisher.core.adapters.portlet_data:18
+==ftw.publisher.core.adapters.properties_data:10
+==ftw.publisher.core.adapters.topic_criterias:10
+    implements(IDataCollector)
+    logger= getLogger()
+
+    def __init__(self,object):
+        self.object = object
+
+    def getData(self):
+        """returns all important data"""
+ftw/publisher/core/adapters/field_data.py:1: [R0801] Similar lines in 2 files
+==ftw.publisher.core.adapters.portlet_data:3
+==ftw.publisher.core.tests.test_adapters:8
+from plone.portlets.constants import CONTENT_TYPE_CATEGORY, CONTEXT_CATEGORY
+from plone.portlets.constants import USER_CATEGORY, GROUP_CATEGORY
+from plone.portlets.interfaces import ILocalPortletAssignmentManager
+from plone.portlets.interfaces import IPortletAssignmentMapping
+from plone.portlets.interfaces import IPortletManager
+
+Report
+======
+620 statements analysed.
+
+Duplication
+-----------
+
++-------------------------+------+---------+-----------+
+|                         |now   |previous |difference |
++=========================+======+=========+===========+
+|nb duplicated lines      |21    |21       |=          |
++-------------------------+------+---------+-----------+
+|percent duplicated lines |1.514 |1.514    |=          |
++-------------------------+------+---------+-----------+
+
+Raw metrics
+-----------
+
++----------+-------+------+---------+-----------+
+|type      |number |%     |previous |difference |
++==========+=======+======+=========+===========+
+|code      |670    |54.56 |670      |=          |
++----------+-------+------+---------+-----------+
+|docstring |307    |25.00 |307      |=          |
++----------+-------+------+---------+-----------+
+|comment   |88     |7.17  |88       |=          |
++----------+-------+------+---------+-----------+
+|empty     |163    |13.27 |163      |=          |
++----------+-------+------+---------+-----------+
+
+External dependencies
+---------------------
+::
+
+    ftw
+      \-publisher
+        \-core
+          \-_ (ftw.publisher.core.states)
+          \-getLogger (ftw.publisher.core.adapters.interface_data,ftw.publisher.core.adapters.properties_data,ftw.publisher.core.adapters.field_data,ftw.publisher.core.adapters.portlet_data,ftw.publisher.core.adapters.backreferences,ftw.publisher.core.adapters.topic_criterias)
+          \-interfaces
+          | \-IDataCollector (ftw.publisher.core.adapters.interface_data,ftw.publisher.core.adapters.properties_data,ftw.publisher.core.adapters.backreferences,ftw.publisher.core.tests.test_adapters,ftw.publisher.core.adapters.portlet_data,ftw.publisher.core.adapters.field_data,ftw.publisher.core.adapters.topic_criterias)
+          \-states (ftw.publisher.core.communication)
+          \-tests
+          | \-layer
+          |   \-Layer (ftw.publisher.core.tests.test_adapters)
+          \-utils
+            \-getPublisherLogger (ftw.publisher.core)
+
+Statistics by type
+------------------
+
++---------+-------+-----------+-----------+------------+---------+
+|type     |number |old number |difference |%documented |%badname |
++=========+=======+===========+===========+============+=========+
+|module   |15     |15         |=          |0.00        |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|class    |31     |31         |=          |93.55       |0.00     |
++---------+-------+-----------+-----------+------------+---------+
+|method   |36     |36         |=          |72.22       |61.11    |
++---------+-------+-----------+-----------+------------+---------+
+|function |9      |9          |=          |88.89       |66.67    |
++---------+-------+-----------+-----------+------------+---------+
+
+Messages by category
+--------------------
+
++-----------+-------+---------+-----------+
+|type       |number |previous |difference |
++===========+=======+=========+===========+
+|convention |153    |153      |=          |
++-----------+-------+---------+-----------+
+|refactor   |8      |8        |=          |
++-----------+-------+---------+-----------+
+|warning    |41     |41       |=          |
++-----------+-------+---------+-----------+
+|error      |1      |1        |=          |
++-----------+-------+---------+-----------+
+
+% errors / warnings by module
+-----------------------------
+
++--------------------------------------------+-------+--------+---------+-----------+
+|module                                      |error  |warning |refactor |convention |
++============================================+=======+========+=========+===========+
+|ftw.publisher.core.utils                    |100.00 |17.07   |37.50    |1.96       |
++--------------------------------------------+-------+--------+---------+-----------+
+|ftw.publisher.core.tests.test_adapters      |0.00   |43.90   |12.50    |52.94      |
++--------------------------------------------+-------+--------+---------+-----------+
+|ftw.publisher.core.adapters.portlet_data    |0.00   |17.07   |12.50    |21.57      |
++--------------------------------------------+-------+--------+---------+-----------+
+|ftw.publisher.core.adapters.properties_data |0.00   |9.76    |0.00     |1.96       |
++--------------------------------------------+-------+--------+---------+-----------+
+|ftw.publisher.core.adapters.topic_criterias |0.00   |4.88    |0.00     |7.84       |
++--------------------------------------------+-------+--------+---------+-----------+
+|ftw.publisher.core.adapters.field_data      |0.00   |2.44    |37.50    |3.27       |
++--------------------------------------------+-------+--------+---------+-----------+
+|ftw.publisher.core.adapters.interface_data  |0.00   |2.44    |0.00     |1.96       |
++--------------------------------------------+-------+--------+---------+-----------+
+|ftw.publisher.core.communication            |0.00   |2.44    |0.00     |1.31       |
++--------------------------------------------+-------+--------+---------+-----------+
+
+Messages
+--------
+
++-----------+------------+
+|message id |occurrences |
++===========+============+
+|C0301      |85          |
++-----------+------------+
+|C0324      |34          |
++-----------+------------+
+|C0111      |28          |
++-----------+------------+
+|W0201      |13          |
++-----------+------------+
+|W0212      |8           |
++-----------+------------+
+|W0622      |7           |
++-----------+------------+
+|W0105      |4           |
++-----------+------------+
+|C0322      |4           |
++-----------+------------+
+|W0621      |2           |
++-----------+------------+
+|W0603      |2           |
++-----------+------------+
+|W0511      |2           |
++-----------+------------+
+|R0911      |2           |
++-----------+------------+
+|R0801      |2           |
++-----------+------------+
+|C0321      |2           |
++-----------+------------+
+|W0403      |1           |
++-----------+------------+
+|W0142      |1           |
++-----------+------------+
+|W0102      |1           |
++-----------+------------+
+|R0914      |1           |
++-----------+------------+
+|R0912      |1           |
++-----------+------------+
+|R0902      |1           |
++-----------+------------+
+|R0201      |1           |
++-----------+------------+
+|E1103      |1           |
++-----------+------------+
+
+Global evaluation
+-----------------
+Your code has been rated at 6.66/10 (previous run: 6.66/10)
+
+[TASKS] Scanning workspace files for tasks...
+Recording test results
+Performing Post build task...
+Match found for : : True
+Logical operation result is TRUE
+Running script  : /var/lib/jenkins/scripts/git-note-result-async.sh
+[workspace] $ /bin/sh -xe /tmp/hudson4039551018194652731.sh
++ /var/lib/jenkins/scripts/git-note-result-async.sh
+POST BUILD TASK : SUCCESS
+END OF POST BUILD TASK : 0
+Finished: SUCCESS
