@@ -2,7 +2,7 @@ from Products.Five.utilities.interfaces import IMarkerInterfaces
 from ftw.publisher.core import getLogger
 from ftw.publisher.core.interfaces import IDataCollector
 from zope.dottedname.resolve import resolve
-from zope.interface import alsoProvides, noLongerProvides
+from zope.interface import directlyProvides, noLongerProvides
 from zope.interface import implements
 
 
@@ -51,13 +51,13 @@ class InterfaceData(object):
                 (self.object.UID())
         )
 
-        current_ifaces = self.adapted.getDirectlyProvidedNames()
+        current_ifaces = set(self.adapted.getDirectlyProvidedNames())
+        desired_ifaces = set(interfacedata)
 
-        #delete removed ifaces
-        for iface_dotted in current_ifaces:
+        for iface_dotted in current_ifaces - desired_ifaces:
             iface = resolve(iface_dotted)
             noLongerProvides(self.object, iface)
 
-        for iface_dotted in interfacedata:
+        for iface_dotted in desired_ifaces - current_ifaces:
             iface = resolve(iface_dotted)
-            alsoProvides(self.object, iface)
+            directlyProvides(self.obkect, iface)

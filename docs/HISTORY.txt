@@ -5,6 +5,10 @@ Changelog
 1.3
 ---
 
+- Improve marker interface adapter.
+  Do not remove / readd all interfaces, but only apply differences.
+  [jone]
+
 
 1.2
 ---
