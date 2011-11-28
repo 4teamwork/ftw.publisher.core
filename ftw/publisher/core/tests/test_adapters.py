@@ -271,6 +271,19 @@ class TestPublisherAdapters(PloneTestCase):
         self.assertEquals(data2, ['ftw.publisher.core.tests.test_adapters.IDummyIface2', 'ftw.publisher.core.tests.test_adapters.IDummyIface3'])
 
     def test_interface_adapter_setter(self):
+        # this should be the current interface state:
+        self.assertEquals(IDummyIface.providedBy(self.testdoc1), True)
+        self.assertEquals(IDummyIface2.providedBy(self.testdoc1), True)
+        self.assertEquals(IDummyIface3.providedBy(self.testdoc1), False)
+
+        self.assertEquals(IDummyIface.providedBy(self.testdoc2), False)
+        self.assertEquals(IDummyIface2.providedBy(self.testdoc2), False)
+        self.assertEquals(IDummyIface3.providedBy(self.testdoc2), False)
+
+        self.assertEquals(IDummyIface.providedBy(self.folder2), False)
+        self.assertEquals(IDummyIface2.providedBy(self.folder2), True)
+        self.assertEquals(IDummyIface3.providedBy(self.folder2), True)
+
         #getter - from testdoc1
         adapter = getAdapter(self.testdoc1, IDataCollector, name="interface_data_adapter")
         data = adapter.getData()
@@ -282,16 +295,17 @@ class TestPublisherAdapters(PloneTestCase):
         # there are two ifaces
         self.assertEquals(IDummyIface.providedBy(self.testdoc2), True)
         self.assertEquals(IDummyIface2.providedBy(self.testdoc2), True)
+        self.assertEquals(IDummyIface3.providedBy(self.testdoc2), False)
 
         # check if allready provided ifaces will be removed if we set new ones
         newadapter = getAdapter(self.folder2, IDataCollector, name="interface_data_adapter")
         newdata = newadapter.getData()
 
         adapter2.setData(newdata, metadata=None)
-        # IDummyIface2 should be available
-        self.assertEquals(IDummyIface2.providedBy(self.testdoc2), True)
         # IDummIface should not be available
         self.assertEquals(IDummyIface.providedBy(self.testdoc2), False)
+        # IDummyIface2 should be available
+        self.assertEquals(IDummyIface2.providedBy(self.testdoc2), True)
         # new IDummyIface3 should be available
         self.assertEquals(IDummyIface3.providedBy(self.testdoc2), True)
 
