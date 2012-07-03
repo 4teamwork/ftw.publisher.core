@@ -1,4 +1,4 @@
-import states
+from ftw.publisher.core import states
 
 
 def createResponse(state):
