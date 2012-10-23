@@ -1,3 +1,4 @@
+from Products.CMFCore.utils import getToolByName
 from ftw.publisher.core import getLogger
 from ftw.publisher.core.interfaces import IDataCollector
 from zope.interface import implements
@@ -56,10 +57,10 @@ class Backreferences(object):
         self.logger.info('Updating backreferences (UID %s)' %
                          metadata['UID'])
         cuid = self.context.UID()
-        atool = self.context.archetype_tool
+        reference_catalog = getToolByName(self.context, 'reference_catalog')
 
         for suid, mapping in data.items():
-            sobj = atool.getObject(suid)
+            sobj = reference_catalog.lookupObject(suid)
             if not sobj:
                 # source object is not published
                 continue
@@ -79,7 +80,7 @@ class Backreferences(object):
                     if tuid == cuid:
                         new_value.append(self.context)
                     else:
-                        tobj = atool.getObject(tuid)
+                        tobj = reference_catalog.lookupObject(tuid)
                         if tuid:
                             new_value.append(tobj)
 
