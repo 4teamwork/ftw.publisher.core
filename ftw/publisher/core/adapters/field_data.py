@@ -4,6 +4,7 @@ from Products.Archetypes.Field import DateTimeField
 from Products.Archetypes.Field import FileField
 from ftw.publisher.core import getLogger
 from ftw.publisher.core.interfaces import IDataCollector
+from plone.app.blob.interfaces import IBlobWrapper
 from zope.interface import implements
 import StringIO
 import base64
@@ -66,16 +67,22 @@ class FieldData(object):
         # FileField : returns a File-Object, but TextField is a FileField too, so we
         # have to detect the type of value. Binary data must be encoded with base64
         elif isinstance(field, FileField):
-            if isinstance(value, File):
 
+            if isinstance(value, File):
                 # we have to convert our data first into StringIO
                 # otherwise base64.encodestring sometimes cut's some data off
                 tmp = StringIO.StringIO(value.data)
                 tmp.seek(0)
-                value = {
-                        'filename' : value.filename,
-                        'data' : base64.encodestring(tmp.read()),
-                }
+                value = {'filename' : value.filename,
+                         'data' : base64.encodestring(tmp.read())}
+
+            elif IBlobWrapper.providedBy(value):
+                file_ = value.getBlob().open()
+                value = {'filename' : value.getFilename(),
+                         'data' : base64.encodestring(file_.read()),
+                         'type': 'blob'}
+                file_.close()
+
         return value
 
     def setData(self, fielddata, metadata):
@@ -89,9 +96,24 @@ class FieldData(object):
 
         for field in fields:
             fieldname = field.getName()
+
             # do not update "id" field
-            if fieldname in fielddata.keys() and fieldname not in ['id']:
+            if fieldname == 'id':
+                continue
+
+            if fieldname in fielddata.keys():
                 field_value = fielddata[fieldname]
-                #check for mode
-                if field.mode != 'r':
+
+                if field.mode == 'r':
+                    continue
+
+                if isinstance(field_value, dict) and \
+                        field_value.get('type') == 'blob':
+
+                    data = StringIO.StringIO(base64.decodestring(field_value['data']))
+                    data.seek(0)
+                    setattr(data, 'filename', field_value['filename'])
+                    field.getMutator(self.object)(data)
+
+                else:
                     field.getMutator(self.object)(field_value)
