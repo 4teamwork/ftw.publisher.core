@@ -64,9 +64,9 @@ class TestPublisherAdapters(PloneTestCase):
         self.right_portlets2 = getMultiAdapter((self.folder1, self.right_column,), IPortletAssignmentMapping, context=self.folder2)
 
         # static-text-portlets on right and left column
-        self.left_portlets['title1'] = static.Assignment(header='Title1',hide=False,text="some text",omit_border=False)
-        self.right_portlets['title2'] = static.Assignment(header='Title2',hide=False,text="some text",omit_border=False)
-        self.right_portlets['blubb'] = static.Assignment(header='blubb',hide=False,text="some text",omit_border=False)
+        self.left_portlets['title1'] = static.Assignment(header='Title1', text="some text", omit_border=False)
+        self.right_portlets['title2'] = static.Assignment(header='Title2', text="some text", omit_border=False)
+        self.right_portlets['blubb'] = static.Assignment(header='blubb', text="some text", omit_border=False)
         self.right_portlets['news'] = portlets.news.Assignment()
         self.right_portlets['search'] = portlets.search.Assignment()
         # collection portlet on the right
@@ -168,7 +168,6 @@ class TestPublisherAdapters(PloneTestCase):
         self.assertEquals(bool(title1), True)
         #check given data
         self.assertEquals(title1.header, left['title1']['header'])
-        self.assertEquals(title1.hide, left['title1']['hide'])
         self.assertEquals(title1.text, left['title1']['text'])
         self.assertEquals(title1.omit_border, left['title1']['omit_border'])
         #custom navigation portlet
@@ -184,7 +183,6 @@ class TestPublisherAdapters(PloneTestCase):
         self.assertEquals(bool(title2), True)
         #check given data
         self.assertEquals(title2.header, right['title2']['header'])
-        self.assertEquals(title2.hide, right['title2']['hide'])
         self.assertEquals(title2.text, right['title2']['text'])
         self.assertEquals(title2.omit_border, right['title2']['omit_border'])
         # check collection portlet
@@ -211,7 +209,6 @@ class TestPublisherAdapters(PloneTestCase):
         self.assertEquals(bool(title2), True)
         self.assertEquals(title2.header, "Title2")
         self.assertEquals(title2.text, "some text")
-        self.assertEquals(title2.hide, False)
 
         collection = self.right_portlets2.get('collection', False)
         self.assertEquals(bool(collection), True)
@@ -224,7 +221,6 @@ class TestPublisherAdapters(PloneTestCase):
         self.assertEquals(bool(title1), True)
         self.assertEquals(title1.header, "Title1")
         self.assertEquals(title1.text, "some text")
-        self.assertEquals(title1.hide, False)
 
         navi = self.left_portlets2.get('custom_navigation', False)
         self.assertEquals(bool(navi), True)
@@ -244,7 +240,7 @@ class TestPublisherAdapters(PloneTestCase):
         adapter2.setData(data,metadata=None)
 
         # add another portlet to folder1
-        self.left_portlets['title3'] = static.Assignment(header='Title3',hide=False,text="some text",omit_border=False)
+        self.left_portlets['title3'] = static.Assignment(header='Title3', text="some text", omit_border=False)
 
         # now get data again
         adapter3 = getAdapter(self.folder1, IDataCollector, name="portlet_data_adapter")
