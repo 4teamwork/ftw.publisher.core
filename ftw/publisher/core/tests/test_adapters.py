@@ -95,7 +95,7 @@ class TestPublisherAdapters(PloneTestCase):
         getterdata = adapter.getData()
         data = [{'type': 'string', 'id': 'title', 'value': u'', 'mode': 'wd'},
                 {'type': 'boolean', 'id': 'bool', 'value': True},
-                {'type': 'date', 'id': 'date', 'value': '2000/01/01'},
+                {'type': 'date', 'id': 'date', 'value': '2000/01/01 00:00:00 GMT+1'},
                 {'type': 'float', 'id': 'float', 'value': 2.1000000000000001},
                 {'type': 'int', 'id': 'int', 'value': 2},
                 {'type': 'lines', 'id': 'lines', 'value': ('row1', 'row2')},
