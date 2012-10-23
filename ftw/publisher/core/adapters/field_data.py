@@ -49,7 +49,7 @@ class FieldData(object):
     def fieldSerialization(self, field, value):
         """
         Custom serialization for fields which provide field values that are incompatible
-        with simplejson / JSON-standard.
+        with json / JSON-standard.
         @param field:   Field-Object from Schema
         @type field:    Field
         @param value:   Return-Value of the Raw-Accessor of the Field on the current context
