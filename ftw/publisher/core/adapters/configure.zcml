@@ -3,31 +3,31 @@
       xmlns:five="http://namespaces.zope.org/five">
 
     <adapter
-          for="Products.Archetypes.interfaces._base.IBaseObject"
+          for="Products.Archetypes.interfaces.IBaseObject"
           provides="ftw.publisher.core.interfaces.IDataCollector"
           factory="ftw.publisher.core.adapters.field_data.FieldData"
           name="field_data_adapter" />
 
     <adapter
-          for="Products.Archetypes.interfaces._base.IBaseObject"
+          for="Products.Archetypes.interfaces.IBaseObject"
           provides="ftw.publisher.core.interfaces.IDataCollector"
           factory="ftw.publisher.core.adapters.properties_data.PropertiesData"
           name="properties_data_adapter" />
 
     <adapter
-          for="Products.Archetypes.interfaces._base.IBaseObject"
+          for="Products.Archetypes.interfaces.IBaseObject"
           provides="ftw.publisher.core.interfaces.IDataCollector"
           factory="ftw.publisher.core.adapters.portlet_data.PortletsData"
           name="portlet_data_adapter" />
 
     <adapter
-          for="Products.Archetypes.interfaces._base.IBaseObject"
+          for="Products.Archetypes.interfaces.IBaseObject"
           provides="ftw.publisher.core.interfaces.IDataCollector"
           factory="ftw.publisher.core.adapters.interface_data.InterfaceData"
           name="interface_data_adapter" />
 
     <adapter
-          for="Products.Archetypes.interfaces._base.IBaseObject"
+          for="Products.Archetypes.interfaces.IBaseObject"
           provides="ftw.publisher.core.interfaces.IDataCollector"
           factory="ftw.publisher.core.adapters.backreferences.Backreferences"
           name="backreferences_adapter" />
