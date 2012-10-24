@@ -36,6 +36,7 @@ setup(name='ftw.publisher.core',
 
       install_requires=[
         'setuptools',
+        'ZConfig',
         ],
 
       extras_require={
