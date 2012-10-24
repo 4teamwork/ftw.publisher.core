@@ -11,7 +11,7 @@ class InterfaceData(object):
     """
 
     implements(IDataCollector)
-    logger= getLogger()
+    logger = getLogger()
 
     def __init__(self,object):
         self.object = object
