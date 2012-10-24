@@ -8,6 +8,8 @@ maintainer = 'Jonas Baumann'
 tests_require=[
     'collective.testcaselayer',
     'Plone',
+    'plone.app.testing',
+    'ftw.testing',
     ]
 
 setup(name='ftw.publisher.core',

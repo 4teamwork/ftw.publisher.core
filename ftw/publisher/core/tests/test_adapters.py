@@ -305,6 +305,5 @@ class TestPublisherAdapters(PloneTestCase):
         # new IDummyIface3 should be available
         self.assertEquals(IDummyIface3.providedBy(self.testdoc2), True)
 
-
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
