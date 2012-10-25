@@ -39,7 +39,7 @@ class Backreferences(object):
 
             if suid not in data.keys():
                 data[suid] = {}
-            if getattr(ref, 'field', None) == None:
+            if getattr(ref, 'field', None) is None:
                 continue
 
             if ref.field in data[suid]:

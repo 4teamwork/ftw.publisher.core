@@ -9,9 +9,9 @@ class TopicCriteraData(object):
     """
 
     implements(IDataCollector)
-    logger= getLogger()
+    logger = getLogger()
 
-    def __init__(self,object):
+    def __init__(self, object):
         self.object = object
 
     def getData(self):
@@ -29,13 +29,16 @@ class TopicCriteraData(object):
         """
         criterias = {}
         for criteria in self.object.objectValues():
-            field_data_adapter = queryAdapter(criteria, IDataCollector, name="field_data_adapter")
+            field_data_adapter = queryAdapter(criteria, IDataCollector,
+                                              name="field_data_adapter")
             # this adapter must be available, otherwise we cannot go ahead
             if field_data_adapter is None:
                 continue
 
             # dont add subcollections
-            if isinstance(criteria, self.object.__class__):continue
+            if isinstance(criteria, self.object.__class__):
+                continue
+
             id = criteria.id
             data = field_data_adapter.getData()
             data['meta_type'] = criteria.meta_type
@@ -49,18 +52,19 @@ class TopicCriteraData(object):
         {'criteria_type':{field_data_adapter result}}
         """
         self.logger.info('Updating criterias for topic (UID %s)' %
-                (self.object.UID())
-        )
+                         (self.object.UID()))
 
         #easiest way - first delete all criterias
-        self.object.manage_delObjects([i for i in self.object.objectIds() if i != 'syndication_information'])
+        self.object.manage_delObjects([i for i in self.object.objectIds()
+                                       if i != 'syndication_information'])
 
-        for criteria_id,data in topic_criteria_data.items():
+        for criteria_id, data in topic_criteria_data.items():
             #create criteria
 
             #sortCriteria behave a bit special
             if 'ATSortCriterion' not in criteria_id:
-                criteria = self.object.addCriterion(data['field'],data['meta_type'])
+                criteria = self.object.addCriterion(data['field'],
+                                                    data['meta_type'])
 
             #add/change sort criteria
             if 'ATSortCriterion' in criteria_id:
@@ -69,5 +73,6 @@ class TopicCriteraData(object):
             # we don't have to update data for for ATSortCriterion
             # check topic.py line 293
             if 'ATSortCriterion' not in criteria_id:
-                field_data_adapter = queryAdapter(criteria,IDataCollector,name="field_data_adapter")
-                field_data_adapter.setData(data,metadata)
+                field_data_adapter = queryAdapter(criteria, IDataCollector,
+                                                  name="field_data_adapter")
+                field_data_adapter.setData(data, metadata)
