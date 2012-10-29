@@ -15,7 +15,7 @@ class InterfaceData(object):
     logger = getLogger()
     security = ClassSecurityInformation()
 
-    def __init__(self,object):
+    def __init__(self, object):
         self.object = object
         self.adapted = IMarkerInterfaces(self.object)
 
@@ -47,7 +47,8 @@ class InterfaceData(object):
 
         @param object:      Plone-Object to set the properties on
         @type object:       Plone-Object
-        @param properties:  list of propertes. See ftw.publisher.sender.extractor
+        @param properties:  list of propertes.
+                            See ftw.publisher.sender.extractor
                             for format details.
         @param type:        list
         @return:            None

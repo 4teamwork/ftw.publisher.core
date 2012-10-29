@@ -19,17 +19,19 @@ class FieldData(object):
     logger = getLogger()
     security = ClassSecurityInformation()
 
-    def __init__(self,object):
+    def __init__(self, object):
         self.object = object
 
+    security.declarePrivate('getData')
     def getData(self):
         """returns all important data"""
         return self.getFieldData()
 
+    security.declarePrivate('getFieldData')
     def getFieldData(self):
         """
-        Extracts data from the object fields and creates / returns a dictionary with
-        the data. Objects are converted to string.
+        Extracts data from the object fields and creates / returns a dictionary
+        with the data. Objects are converted to string.
         @return:    dictionary with extracetd data
         @rtype:     dict
         """
@@ -52,37 +54,32 @@ class FieldData(object):
     security.declarePrivate('fieldSerialization')
     def fieldSerialization(self, field, value):
         """
-        Custom serialization for fields which provide field values that are incompatible
-        with json / JSON-standard.
+        Custom serialization for fields which provide field values that are
+        incompatible with json / JSON-standard.
         @param field:   Field-Object from Schema
         @type field:    Field
-        @param value:   Return-Value of the Raw-Accessor of the Field on the current context
+        @param value:   Return-Value of the Raw-Accessor of the Field on the
+        current context
         @type value:    string or stream
         @return:        JSON-optimized value
         @rtype:         string
         """
 
-        # DateField : returns a DateTime-Object as value. We cast it to string and it
-        #   looks like '2010-05-31 13:06:01.925652'
         if isinstance(field, DateTimeField) and value:
             value = str(value)
 
-        # FileField : returns a File-Object, but TextField is a FileField too, so we
-        # have to detect the type of value. Binary data must be encoded with base64
         elif isinstance(field, FileField):
 
             if isinstance(value, File):
-                # we have to convert our data first into StringIO
-                # otherwise base64.encodestring sometimes cut's some data off
                 tmp = StringIO.StringIO(value.data)
                 tmp.seek(0)
-                value = {'filename' : value.filename,
-                         'data' : base64.encodestring(tmp.read())}
+                value = {'filename': value.filename,
+                         'data': base64.encodestring(tmp.read())}
 
             elif IBlobWrapper.providedBy(value):
                 file_ = value.getBlob().open()
-                value = {'filename' : value.getFilename(),
-                         'data' : base64.encodestring(file_.read()),
+                value = {'filename': value.getFilename(),
+                         'data': base64.encodestring(file_.read()),
                          'type': 'blob'}
                 file_.close()
 
@@ -114,7 +111,8 @@ class FieldData(object):
                 if isinstance(field_value, dict) and \
                         field_value.get('type') == 'blob':
 
-                    data = StringIO.StringIO(base64.decodestring(field_value['data']))
+                    data = StringIO.StringIO(base64.decodestring(
+                            field_value['data']))
                     data.seek(0)
                     setattr(data, 'filename', field_value['filename'])
                     field.getMutator(self.object)(data)

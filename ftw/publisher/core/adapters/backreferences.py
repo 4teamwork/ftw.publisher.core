@@ -69,7 +69,8 @@ class Backreferences(object):
                 # source object is not published
                 continue
 
-            self.logger.info('... source-obj: %s' % '/'.join(sobj.getPhysicalPath()))
+            self.logger.info('... source-obj: %s' % '/'.join(
+                    sobj.getPhysicalPath()))
             for fieldname, value in mapping.items():
                 # value maybe uid (str) or list of uids (list)
                 if isinstance(value, str):

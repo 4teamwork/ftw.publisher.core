@@ -120,7 +120,6 @@ class ObjectNotFoundForDeletingWarning(WarningState):
     localized_name = _(u'ObjectNotFoundForDeletingWarning')
 
 
-
 # Failed states
 
 

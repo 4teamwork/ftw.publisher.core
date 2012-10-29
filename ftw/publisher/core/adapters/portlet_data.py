@@ -18,10 +18,10 @@ class PortletsData(object):
     """
 
     implements(IDataCollector)
-    logger= getLogger()
+    logger = getLogger()
     security = ClassSecurityInformation()
 
-    def __init__(self,object):
+    def __init__(self, object):
         self.object = object
 
     security.declarePrivate('getData')
@@ -50,17 +50,20 @@ class PortletsData(object):
         annotations = getattr(self.object, '__annotations__', None)
         if not annotations:
             return data
-        if not annotations.has_key('plone.portlets.contextassignments'):
+        if 'plone.portlets.contextassignments' not in annotations:
             return data
 
-        plone_portlet_manager = self.object.__annotations__['plone.portlets.contextassignments'].keys()
+        plone_portlet_manager = self.object.__annotations__[
+            'plone.portlets.contextassignments'].keys()
         EXCLUDED_FIELDS = ['__name__', '__parent__']
         # XXX this is a static list, replace by a configlet option
         # the list contains all not serializable portlets (__module__)
-        blacklisted_portlets = ['collective.dancing.browser.portlets.channelsubscribe',]
+        blacklisted_portlets = [
+            'collective.dancing.browser.portlets.channelsubscribe']
 
         for manager_name in plone_portlet_manager:
-            column = queryUtility(IPortletManager, name=manager_name, context=self.object)
+            column = queryUtility(IPortletManager, name=manager_name,
+                                  context=self.object)
             if column is None:
                 continue
 
@@ -68,15 +71,24 @@ class PortletsData(object):
             data[manager_name] = {}
 
             #get blackliststatus
-            blacklist = getMultiAdapter((self.object, column), ILocalPortletAssignmentManager)
+            blacklist = getMultiAdapter((self.object, column),
+                                        ILocalPortletAssignmentManager)
             data[manager_name]['blackliststatus'] = {}
             blacklistdata = data[manager_name]['blackliststatus']
-            blacklistdata[GROUP_CATEGORY] = blacklist.getBlacklistStatus(GROUP_CATEGORY)
-            blacklistdata[USER_CATEGORY] = blacklist.getBlacklistStatus(USER_CATEGORY)
-            blacklistdata[CONTENT_TYPE_CATEGORY] = blacklist.getBlacklistStatus(CONTENT_TYPE_CATEGORY)
-            blacklistdata[CONTEXT_CATEGORY] = blacklist.getBlacklistStatus(CONTEXT_CATEGORY)
+            blacklistdata[GROUP_CATEGORY] = blacklist.getBlacklistStatus(
+                GROUP_CATEGORY)
+            blacklistdata[USER_CATEGORY] = blacklist.getBlacklistStatus(
+                USER_CATEGORY)
 
-            portlets = getMultiAdapter((self.object, column,), IPortletAssignmentMapping, context=self.object)
+            blacklistdata[CONTENT_TYPE_CATEGORY] = \
+                blacklist.getBlacklistStatus(CONTENT_TYPE_CATEGORY)
+
+            blacklistdata[CONTEXT_CATEGORY] = \
+                blacklist.getBlacklistStatus(CONTEXT_CATEGORY)
+
+            portlets = getMultiAdapter((self.object, column,),
+                                       IPortletAssignmentMapping,
+                                       context=self.object)
 
             #portlets order - dicts are unsorted
             data[manager_name]['order'] = ','.join(portlets._order)
@@ -89,7 +101,8 @@ class PortletsData(object):
 
                 # we habe a portlet
                 data[manager_name][portlet_assignment.__name__] = {}
-                data[manager_name][portlet_assignment.__name__]['module'] = portlet_assignment.__module__
+                data[manager_name][portlet_assignment.__name__]['module'] = \
+                    portlet_assignment.__module__
                 #get all data
                 for field in portlet_assignment.__dict__.keys():
                     if field not in EXCLUDED_FIELDS:
@@ -98,12 +111,14 @@ class PortletsData(object):
                         if isinstance(field_value, OFSImage):
                             # same way as in AT field serializer
 
-                            field_value = {'module':OFSImage.__module__,
-                                           'data':base64.encodestring(field_value.data),
+                            field_value = {'module': OFSImage.__module__,
+                                           'data': base64.encodestring(
+                                    field_value.data),
                                            'id': field_value.id(),
                                            'title': field_value.title,
-                                           'klass_name':OFSImage.__name__}
-                        data[manager_name][portlet_assignment.__name__][field] = field_value
+                                           'klass_name': OFSImage.__name__}
+                        data[manager_name][portlet_assignment.__name__][
+                            field] = field_value
 
         return data
 
@@ -113,30 +128,40 @@ class PortletsData(object):
         """
 
         for manager_name in portletsdata.keys():
-            column = queryUtility(IPortletManager, name=manager_name, context=self.object)
+            column = queryUtility(IPortletManager, name=manager_name,
+                                  context=self.object)
             if column is None:
                 continue
             #ok we have a portlet manager
             #get all current assigned portlets
-            portlets = getMultiAdapter((self.object, column,), IPortletAssignmentMapping, context=self.object)
+            portlets = getMultiAdapter((self.object, column,),
+                                       IPortletAssignmentMapping,
+                                       context=self.object)
             p_ids = [p for p in portlets._data.keys()]
             #get new order
-            order = portletsdata[manager_name]['order'] and portletsdata[manager_name]['order'].split(',') or []
+            order = portletsdata[manager_name]['order'] and \
+                portletsdata[manager_name]['order'].split(',') or []
 
             #set blackliststatus
-            blacklist = getMultiAdapter((self.object, column), ILocalPortletAssignmentManager)
+            blacklist = getMultiAdapter((self.object, column),
+                                        ILocalPortletAssignmentManager)
             blacklistdata = portletsdata[manager_name]['blackliststatus']
-            blacklist.setBlacklistStatus(GROUP_CATEGORY,blacklistdata[GROUP_CATEGORY])
-            blacklist.setBlacklistStatus(USER_CATEGORY,blacklistdata[USER_CATEGORY])
-            blacklist.setBlacklistStatus(CONTENT_TYPE_CATEGORY,blacklistdata[CONTENT_TYPE_CATEGORY])
-            blacklist.setBlacklistStatus(CONTEXT_CATEGORY,blacklistdata[CONTEXT_CATEGORY])
+            blacklist.setBlacklistStatus(
+                GROUP_CATEGORY, blacklistdata[GROUP_CATEGORY])
+            blacklist.setBlacklistStatus(
+                USER_CATEGORY, blacklistdata[USER_CATEGORY])
+            blacklist.setBlacklistStatus(
+                CONTENT_TYPE_CATEGORY, blacklistdata[CONTENT_TYPE_CATEGORY])
+            blacklist.setBlacklistStatus(
+                CONTEXT_CATEGORY, blacklistdata[CONTEXT_CATEGORY])
+
             #bit clean up
             del portletsdata[manager_name]['blackliststatus']
             del portletsdata[manager_name]['order']
 
             #remove all currenlty assigned portlets from manager
-            for p_id in p_ids: del portlets._data[p_id]
-
+            for p_id in p_ids:
+                del portlets._data[p_id]
 
             for portlet_id in portletsdata[manager_name].keys():
                 portletfielddata = portletsdata[manager_name][portlet_id]
@@ -146,7 +171,7 @@ class PortletsData(object):
                 del portletfielddata['module']
 
                 #check for dicts
-                for k,v in portletfielddata.items():
+                for k, v in portletfielddata.items():
 
                     if isinstance(v, dict):
                         # so we have one, now we have to turn the
@@ -154,15 +179,18 @@ class PortletsData(object):
                         # this is generic, but currently only in use
                         # by the image portlet
                         klass = modules[v['module']].__dict__[v['klass_name']]
-                        imgobj = klass(v['id'],v['title'],base64.decodestring(v['data']))
+                        imgobj = klass(v['id'],
+                                       v['title'],
+                                       base64.decodestring(v['data']))
                         portletfielddata[k] = imgobj
 
-                portlets[portlet_id] = portlet_module.Assignment(**portletfielddata)
+                portlets[portlet_id] = portlet_module.Assignment(
+                    **portletfielddata)
 
                 # XXX boolean value fix
                 # for some reason boolean types cannpt be passed with **...
                 # use setattr
-                for k,v in portletfielddata.items():
+                for k, v in portletfielddata.items():
                     if isinstance(v, bool):
                         setattr(portlets[portlet_id], k, v)
 

@@ -77,8 +77,9 @@ def getPublisherErrorLogger(name):
         if filepath:
             errorLogHandler = logging.FileHandler(filepath)
             # register formatter
-            errorLogHandler.setFormatter(logging.Formatter(fmt=LOG_FORMAT,
-                                                           datefmt=LOG_DATEFORMAT))
+            errorLogHandler.setFormatter(logging.Formatter(
+                    fmt=LOG_FORMAT,
+                    datefmt=LOG_DATEFORMAT))
 
     if errorLogHandler and errorLogHandler not in logger.handlers:
         # register it
@@ -106,8 +107,8 @@ def getLogFilePath(error_log=False):
 
 
 def decode_for_json(value, additional_encodings=[]):
-    """ Json does not handle encodings, so we need to convert any strings in unicode in
-    a way which allows to convert it back on the receiver.
+    """ Json does not handle encodings, so we need to convert any strings
+    in unicode in a way which allows to convert it back on the receiver.
     """
     if additional_encodings:
         encodings = list(EXPECTED_ENCODINGS) + list(additional_encodings)

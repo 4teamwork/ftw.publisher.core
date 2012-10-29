@@ -18,8 +18,8 @@ def createResponse(state):
 
 def parseResponse(data):
     """
-    Decodes the string message from the response containing the state and returns
-    a new state object with its message.
+    Decodes the string message from the response containing the state and
+    returns a new state object with its message.
 
     @param data:    String representation of a state
     @type data:     string
@@ -29,7 +29,9 @@ def parseResponse(data):
     classname = data.split('\n')[0]
     message = '\n'.join(data.split('\n')[1:])
     if classname not in dir(states):
-        msg = 'Could not find state class: %s (message: %s)' % (classname, message)
+        msg = 'Could not find state class: %s (message: %s)' % (
+            classname,
+            message)
         raise Exception(msg)
 
     stateClass = getattr(states, classname)
