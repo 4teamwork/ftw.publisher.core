@@ -1,3 +1,4 @@
+from AccessControl.SecurityInfo import ClassSecurityInformation
 from Products.Five.utilities.interfaces import IMarkerInterfaces
 from ftw.publisher.core import getLogger
 from ftw.publisher.core.interfaces import IDataCollector
@@ -12,15 +13,18 @@ class InterfaceData(object):
 
     implements(IDataCollector)
     logger = getLogger()
+    security = ClassSecurityInformation()
 
     def __init__(self,object):
         self.object = object
         self.adapted = IMarkerInterfaces(self.object)
 
+    security.declarePrivate('getData')
     def getData(self):
         """returns all important data"""
         return self.getInterfaceData()
 
+    security.declarePrivate('getInterfaceData')
     def getInterfaceData(self):
         """
         Returns a list of directlyProvided interfaces.
@@ -34,6 +38,7 @@ class InterfaceData(object):
         """
         return self.adapted.getDirectlyProvidedNames()
 
+    security.declarePrivate('setData')
     def setData(self, interfacedata, metadata):
         """
         Sets a list of properties on a object.

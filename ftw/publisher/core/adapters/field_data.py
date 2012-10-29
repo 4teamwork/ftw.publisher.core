@@ -1,3 +1,4 @@
+from AccessControl.SecurityInfo import ClassSecurityInformation
 from OFS.Image import File
 from Products.Archetypes.Field import ComputedField
 from Products.Archetypes.Field import DateTimeField
@@ -16,6 +17,7 @@ class FieldData(object):
 
     implements(IDataCollector)
     logger = getLogger()
+    security = ClassSecurityInformation()
 
     def __init__(self,object):
         self.object = object
@@ -47,6 +49,7 @@ class FieldData(object):
 
         return data
 
+    security.declarePrivate('fieldSerialization')
     def fieldSerialization(self, field, value):
         """
         Custom serialization for fields which provide field values that are incompatible
@@ -85,6 +88,7 @@ class FieldData(object):
 
         return value
 
+    security.declarePrivate('setData')
     def setData(self, fielddata, metadata):
         """sets all important field data
         """

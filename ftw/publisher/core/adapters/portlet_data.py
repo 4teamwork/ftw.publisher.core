@@ -1,3 +1,4 @@
+from AccessControl.SecurityInfo import ClassSecurityInformation
 from OFS.Image import Image as OFSImage
 from ftw.publisher.core import getLogger
 from ftw.publisher.core.interfaces import IDataCollector
@@ -18,10 +19,12 @@ class PortletsData(object):
 
     implements(IDataCollector)
     logger= getLogger()
+    security = ClassSecurityInformation()
 
     def __init__(self,object):
         self.object = object
 
+    security.declarePrivate('getData')
     def getData(self):
         """returns all important data
         data form
@@ -104,7 +107,7 @@ class PortletsData(object):
 
         return data
 
-
+    security.declarePrivate('setData')
     def setData(self, portletsdata, metadata):
         """create or updates portlet informations
         """

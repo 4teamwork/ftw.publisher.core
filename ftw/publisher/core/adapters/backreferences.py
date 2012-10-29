@@ -1,3 +1,4 @@
+from AccessControl.SecurityInfo import ClassSecurityInformation
 from Products.CMFCore.utils import getToolByName
 from ftw.publisher.core import getLogger
 from ftw.publisher.core.interfaces import IDataCollector
@@ -11,10 +12,12 @@ class Backreferences(object):
 
     implements(IDataCollector)
     logger = getLogger()
+    security = ClassSecurityInformation()
 
     def __init__(self, obj):
         self.context = obj
 
+    security.declarePrivate('getData')
     def getData(self):
         """ Returns backreferences:
         {
@@ -53,6 +56,7 @@ class Backreferences(object):
 
         return data
 
+    security.declarePrivate('setData')
     def setData(self, data, metadata):
         self.logger.info('Updating backreferences (UID %s)' %
                          metadata['UID'])

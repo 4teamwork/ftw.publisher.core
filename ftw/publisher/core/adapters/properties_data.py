@@ -1,3 +1,4 @@
+from AccessControl.SecurityInfo import ClassSecurityInformation
 from DateTime import DateTime
 from ftw.publisher.core import getLogger
 from ftw.publisher.core.interfaces import IDataCollector
@@ -9,15 +10,18 @@ class PropertiesData(object):
     """
 
     implements(IDataCollector)
-    logger= getLogger()
+    logger = getLogger()
+    security = ClassSecurityInformation()
 
     def __init__(self,object):
         self.object = object
 
+    security.declarePrivate('getData')
     def getData(self):
         """returns all important data"""
         return self.getPropertyData()
 
+    security.declarePrivate('getPropertyData')
     def getPropertyData(self):
         """
         Returns a list of dictonaries each representing a property.
@@ -56,6 +60,7 @@ class PropertiesData(object):
 
         return properties
 
+    security.declarePrivate('setData')
     def setData(self, properties, metadata):
         """
         Sets a list of properties on a object.

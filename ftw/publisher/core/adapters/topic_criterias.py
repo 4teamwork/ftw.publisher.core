@@ -1,3 +1,4 @@
+from AccessControl.SecurityInfo import ClassSecurityInformation
 from ftw.publisher.core import getLogger
 from ftw.publisher.core.interfaces import IDataCollector
 from zope.component import queryAdapter
@@ -10,14 +11,17 @@ class TopicCriteraData(object):
 
     implements(IDataCollector)
     logger = getLogger()
+    security = ClassSecurityInformation()
 
     def __init__(self, object):
         self.object = object
 
+    security.declarePrivate('getData')
     def getData(self):
         """returns all important data"""
         return self.getTopicCriterias()
 
+    security.declarePrivate('getTopicCriterias')
     def getTopicCriterias(self):
         """
         extract data from topic criterions, like regular field adapter.
@@ -46,6 +50,7 @@ class TopicCriteraData(object):
 
         return criterias
 
+    security.declarePrivate('setData')
     def setData(self, topic_criteria_data, metadata):
         """
         creates criterias fro a topic from
