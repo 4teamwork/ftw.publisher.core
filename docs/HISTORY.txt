@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.3 (unreleased)
+2.0 (unreleased)
 ----------------
 
 - Support for transporting datetime objects.
@@ -10,6 +10,9 @@ Changelog
 
 - Improve marker interface adapter.
   Do not remove / readd all interfaces, but only apply differences.
+  [jone]
+
+- Drop Plone 3 support.
   [jone]
 
 
