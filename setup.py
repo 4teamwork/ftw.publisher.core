@@ -1,8 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = open(os.path.join('ftw', 'publisher', 'core',
-                            'version.txt')).read().strip()
+version = '1.3.dev0'
 maintainer = 'Jonas Baumann'
 
 tests_require=[
