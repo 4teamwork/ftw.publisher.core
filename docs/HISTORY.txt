@@ -2,92 +2,95 @@ Changelog
 =========
 
 
-1.3
----
+2.0 (unreleased)
+----------------
+
+- Support for transporting datetime objects.
+  [jone]
 
 - Improve marker interface adapter.
   Do not remove / readd all interfaces, but only apply differences.
   [jone]
 
+- Drop Plone 3 support.
+  [jone]
 
-1.2
----
 
-* Cleanup, move to github (https://github.com/4teamwork/ftw.publisher.core) and
+1.2 (2011-04-06)
+----------------
+
+- Cleanup, move to github (https://github.com/4teamwork/ftw.publisher.core) and
   prepare for release.
-  [jbaumann]
+  [jone]
 
 
-1.1
----
+1.1 (2010-09-27)
+----------------
 
-* Removed archetypes.schemaextender, since we can use obj.Schema() for getting
+- Removed archetypes.schemaextender, since we can use obj.Schema() for getting
   all the fields
-  [02.09.2010, jbaumann]
+  [jone]
 
-* Added new warning states
-  [19.08.2010, jbaumann]
-
-
-1.0c4
------
-
-* Added translations for the states
-  [01.07.2010, jbaumann]
+- Added new warning states
+  [jone]
 
 
-1.0c3
------
+1.0c4 (2010-07-21)
+------------------
 
-* Removed encoding stuff for portlets, that now should be done be the
+- Added translations for the states
+  [jone]
+
+
+1.0c3 (2010-06-24)
+------------------
+
+- Removed encoding stuff for portlets, that now should be done be the
   better encoding / decoding.
-  [24.06.2010, jbaumann]
+  [jone]
 
-* Added string encoding / decoding methods which work with json
-  [24.06.2010, jbaumann]
-
-
-1.0c2
------
-
-* Fixed fixed namespace_packages in setup.py
-  [22.06.2010, jbaumann]
+- Added string encoding / decoding methods which work with json
+  [jone]
 
 
-1.0
----
+1.0c2 (2010-06-22)
+------------------
 
-* Issue #1007 Publizieren von Content Pages mit Mitgliederbloecken schlaegt fehl
+- Fixed namespace_packages in setup.py
+  [jone]
 
-* Added Backreference adapter
-  [25.05.2010, jbaumann]
+- Added Backreference adapter
+  [jone]
 
-* Make portlet adapter more save
-  [18.05.2010, jbaumann]
+- Make portlet adapter more save
+  [jone]
 
-* added new states for renaming purposes [mathias.leimgruber]
+- added new states for renaming purposes
+  [mathias.leimgruber]
 
-* fixed binary conversion to base64 string [mathias.leimgruber, victor.baumann]
+- fixed binary conversion to base64 string
+  [mathias.leimgruber, victor.baumann]
 
-* added test cases for portlet adapter and
-  properties adapter [mathias.leimgruber]
+- added test cases for portlet adapter and properties adapter
+  [mathias.leimgruber]
 
-* added an afterpushEvent [mathias.leimgruber]
+- added an afterpushEvent
+  [mathias.leimgruber]
 
-* several bug fixes in field_data adapter
+- Extend publish process with adapters
+  [mathias.leimgruber]
 
-* Extend publish process with adapters [mathias.leimgruber]
+- sync context portlet
+  [mathias.leimgruber]
 
-* sync context portlets [mathias.leimgruber]
+- sync interfaces
+  [mathias.leimgruber]
 
-* sync interfaces [mathias.leimgruber]
+- sync topic criterias
+  [mathias.leimgruber]
 
-* sync topic criterias [mathias.leimgruber]
+- concept/structure
+  [jone]
 
-
-0.1
----
-
-* concept/structure [jonas.baumann]
-
-* Working initial release [jonas.baumann]
+- Working initial release
+  [jone]

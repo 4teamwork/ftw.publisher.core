@@ -1,13 +1,14 @@
 from setuptools import setup, find_packages
 import os
 
-version = open(os.path.join('ftw', 'publisher', 'core',
-                            'version.txt')).read().strip()
+version = '2.0.dev0'
 maintainer = 'Jonas Baumann'
 
 tests_require=[
     'collective.testcaselayer',
     'Plone',
+    'plone.app.testing',
+    'ftw.testing',
     ]
 
 setup(name='ftw.publisher.core',
@@ -36,6 +37,7 @@ setup(name='ftw.publisher.core',
 
       install_requires=[
         'setuptools',
+        'ZConfig',
         ],
 
       extras_require={

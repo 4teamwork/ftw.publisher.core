@@ -1,4 +1,6 @@
+from DateTime import DateTime
 from ZConfig.components.logger import loghandler
+from datetime import datetime
 import logging
 import os.path
 
@@ -24,6 +26,8 @@ ERROR_LOG_FILENAME = 'publisher.error.log'
 """
 logHandler = None
 errorLogHandler = None
+
+ISOFORMAT = '%Y-%m-%dT%H:%M:%S.%f'
 
 EXPECTED_ENCODINGS = (
     'utf8',
@@ -77,8 +81,9 @@ def getPublisherErrorLogger(name):
         if filepath:
             errorLogHandler = logging.FileHandler(filepath)
             # register formatter
-            errorLogHandler.setFormatter(logging.Formatter(fmt=LOG_FORMAT,
-                                                           datefmt=LOG_DATEFORMAT))
+            errorLogHandler.setFormatter(logging.Formatter(
+                    fmt=LOG_FORMAT,
+                    datefmt=LOG_DATEFORMAT))
 
     if errorLogHandler and errorLogHandler not in logger.handlers:
         # register it
@@ -106,8 +111,8 @@ def getLogFilePath(error_log=False):
 
 
 def decode_for_json(value, additional_encodings=[]):
-    """ Json does not handle encodings, so we need to convert any strings in unicode in
-    a way which allows to convert it back on the receiver.
+    """ Json does not handle encodings, so we need to convert any strings
+    in unicode in a way which allows to convert it back on the receiver.
     """
     if additional_encodings:
         encodings = list(EXPECTED_ENCODINGS) + list(additional_encodings)
@@ -128,14 +133,10 @@ def decode_for_json(value, additional_encodings=[]):
         raise
 
     # lists, tuples, sets
-    elif type(value) in (list, tuple, set):
+    elif isinstance(value, (list, tuple, set)):
         nval = []
         for sval in value:
             nval.append(decode_for_json(sval))
-        if isinstance(value, tuple):
-            return tuple(nval)
-        if isinstance(value, set):
-            return set(nval)
         return nval
 
     # dicts
@@ -146,6 +147,18 @@ def decode_for_json(value, additional_encodings=[]):
             sval = decode_for_json(sval)
             nval[key] = sval
         return nval
+
+    # python datetime
+    elif isinstance(value, datetime):
+        return {'publisher-wrapper': True,
+                'type': 'datetime',
+                'value': value.strftime(ISOFORMAT)}
+
+    # zope datetime
+    elif isinstance(value, DateTime):
+        return {'publisher-wrapper': True,
+                'type': 'DateTime',
+                'value': str(value)}
 
     # others
     else:
@@ -164,6 +177,7 @@ def encode_after_json(value):
         encoding, nval = unicode(value).split(':', 1)
         if encoding == u'unicode':
             return nval
+
         else:
             return nval.encode(encoding)
 
@@ -178,6 +192,16 @@ def encode_after_json(value):
             return set(nval)
         else:
             return nval
+
+    # python datetime
+    elif isinstance(value, dict) and value.get('publisher-wrapper', False) \
+            and value.get('type', None) == 'datetime':
+        return datetime.strptime(value.get('value'), ISOFORMAT)
+
+    # zope datetime
+    elif isinstance(value, dict) and value.get('publisher-wrapper', False) \
+            and value.get('type', None) == 'DateTime':
+        return DateTime(value.get('value'))
 
     # dicts
     elif isinstance(value, dict):
