@@ -8,6 +8,7 @@ tests_require=[
     'collective.testcaselayer',
     'Plone',
     'plone.app.testing',
+    'plone.app.blob',
     'ftw.testing',
     ]
 

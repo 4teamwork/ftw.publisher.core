@@ -5,10 +5,22 @@ from Products.Archetypes.Field import DateTimeField
 from Products.Archetypes.Field import FileField
 from ftw.publisher.core import getLogger
 from ftw.publisher.core.interfaces import IDataCollector
-from plone.app.blob.interfaces import IBlobWrapper
 from zope.interface import implements
 import StringIO
 import base64
+import pkg_resources
+
+
+try:
+    pkg_resources.get_distribution('plone.app.blob')
+
+except pkg_resources.DistributionNotFound:
+    HAS_BLOBS = False
+
+else:
+    HAS_BLOBS = True
+    from plone.app.blob.interfaces import IBlobWrapper
+
 
 
 class FieldData(object):
@@ -76,7 +88,7 @@ class FieldData(object):
                 value = {'filename': value.filename,
                          'data': base64.encodestring(tmp.read())}
 
-            elif IBlobWrapper.providedBy(value):
+            elif HAS_BLOBS and IBlobWrapper.providedBy(value):
                 file_ = value.getBlob().open()
                 value = {'filename': value.getFilename(),
                          'data': base64.encodestring(file_.read()),
