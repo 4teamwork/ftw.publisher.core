@@ -26,11 +26,12 @@ setup(name='ftw.publisher.core',
         ],
 
       keywords='ftw publisher core',
-      author='%s, 4teamwork GmbH' % maintainer,
+      author='4teamwork GmbH',
       author_email='mailto:info@4teamwork.ch',
       maintainer=maintainer,
       url='https://github.com/4teamwork/ftw.publisher.core',
       license='GPL2',
+
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['ftw', 'ftw.publisher'],
       include_package_data=True,
