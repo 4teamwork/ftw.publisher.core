@@ -19,7 +19,7 @@ Here are some additional links:
 - Main github project repository: https://github.com/4teamwork/ftw.publisher.sender
 - Issue tracker: https://github.com/4teamwork/ftw.publisher.sender/issues
 - Wiki: https://github.com/4teamwork/ftw.publisher.sender/wiki
-- Continuous integration: https://jenkins.4teamwork.ch/search?q=ftw.publisher.sender
+- Continuous integration: https://jenkins.4teamwork.ch/search?q=ftw.publisher.core
 
 
 Copyright
@@ -27,4 +27,4 @@ Copyright
 
 This package is copyright by `4teamwork <http://www.4teamwork.ch/>`_.
 
-``ftw.publisher.sender`` is licensed under GNU General Public License, version 2.
+``ftw.publisher.core`` is licensed under GNU General Public License, version 2.
