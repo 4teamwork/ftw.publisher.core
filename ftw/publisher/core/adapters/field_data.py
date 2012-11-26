@@ -120,14 +120,4 @@ class FieldData(object):
                 if field.mode == 'r':
                     continue
 
-                if isinstance(field_value, dict) and \
-                        field_value.get('type') == 'blob':
-
-                    data = StringIO.StringIO(base64.decodestring(
-                            field_value['data']))
-                    data.seek(0)
-                    setattr(data, 'filename', field_value['filename'])
-                    field.getMutator(self.object)(data)
-
-                else:
-                    field.getMutator(self.object)(field_value)
+                field.getMutator(self.object)(field_value)

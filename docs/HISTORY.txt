@@ -5,6 +5,9 @@ Changelog
 2.0 (unreleased)
 ----------------
 
+- Fix setting files / blobs: the decoder (f.p.receiver) takes care of the value.
+  [jone]
+
 - Support for transporting datetime objects.
   [jone]
 
