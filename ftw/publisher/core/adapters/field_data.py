@@ -80,20 +80,18 @@ class FieldData(object):
         if isinstance(field, DateTimeField) and value:
             value = str(value)
 
-        elif isinstance(field, FileField):
+        elif HAS_BLOBS and IBlobWrapper.providedBy(value):
+            file_ = value.getBlob().open()
+            value = {'filename': value.getFilename(),
+                     'data': base64.encodestring(file_.read()),
+                     'type': 'blob'}
+            file_.close()
 
-            if isinstance(value, File):
-                tmp = StringIO.StringIO(value.data)
-                tmp.seek(0)
-                value = {'filename': value.filename,
-                         'data': base64.encodestring(tmp.read())}
-
-            elif HAS_BLOBS and IBlobWrapper.providedBy(value):
-                file_ = value.getBlob().open()
-                value = {'filename': value.getFilename(),
-                         'data': base64.encodestring(file_.read()),
-                         'type': 'blob'}
-                file_.close()
+        elif isinstance(field, FileField) and isinstance(value, File):
+            tmp = StringIO.StringIO(value.data)
+            tmp.seek(0)
+            value = {'filename': value.filename,
+                     'data': base64.encodestring(tmp.read())}
 
         return value
 

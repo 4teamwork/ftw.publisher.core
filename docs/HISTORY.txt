@@ -5,6 +5,9 @@ Changelog
 2.0 (unreleased)
 ----------------
 
+- Implement better blob file detection (ftw.file support).
+  [jone]
+
 - Fix setting files / blobs: the decoder (f.p.receiver) takes care of the value.
   [jone]
 
