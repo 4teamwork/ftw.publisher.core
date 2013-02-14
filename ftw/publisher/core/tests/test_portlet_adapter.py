@@ -1,4 +1,3 @@
-from DateTime import DateTime
 from ftw.publisher.core.interfaces import IDataCollector
 from ftw.publisher.core.testing import PUBLISHER_EXAMPLE_CONTENT_INTEGRATION
 from plone.portlet.static import static
