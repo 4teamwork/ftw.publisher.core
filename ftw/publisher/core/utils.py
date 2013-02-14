@@ -1,6 +1,8 @@
+from BTrees.OOBTree import OOBTree
 from DateTime import DateTime
 from ZConfig.components.logger import loghandler
 from datetime import datetime
+from plone.portlets.settings import PortletAssignmentSettings
 import logging
 import os.path
 
@@ -119,6 +121,18 @@ def decode_for_json(value, additional_encodings=[]):
     else:
         encodings = EXPECTED_ENCODINGS
 
+    # OOBTree
+    if isinstance(value, OOBTree):
+        value = {'publisher-wrapper': True,
+                 'type': 'OOBTree',
+                 'value': dict(value)}
+
+    # PortletAssignmentSettings
+    if isinstance(value, PortletAssignmentSettings):
+        value = {'publisher-wrapper': True,
+                 'type': 'PortletAssignmentSettings',
+                 'value': dict(value.data)}
+
     # unicode
     if isinstance(value, unicode):
         return u'unicode:' + value
@@ -193,13 +207,31 @@ def encode_after_json(value):
         else:
             return nval
 
+    # OOBTree
+    elif isinstance(value, dict) and \
+            value.get('utf8:publisher-wrapper', False) \
+            and value.get('utf8:type', None) == 'utf8:OOBTree':
+        return OOBTree(value.get('utf8:value'))
+
+    # PortletAssignmentSettings
+    elif isinstance(value, dict) and \
+            value.get('utf8:publisher-wrapper', False) \
+            and value.get('utf8:type', None) == \
+            'utf8:PortletAssignmentSettings':
+        settings = PortletAssignmentSettings()
+        for key, val in value.get('utf8:value').items():
+            settings[key] = val
+        return settings
+
     # python datetime
-    elif isinstance(value, dict) and value.get('publisher-wrapper', False) \
+    elif isinstance(value, dict) and \
+            value.get('publisher-wrapper', False) \
             and value.get('type', None) == 'datetime':
         return datetime.strptime(value.get('value'), ISOFORMAT)
 
     # zope datetime
-    elif isinstance(value, dict) and value.get('publisher-wrapper', False) \
+    elif isinstance(value, dict) and \
+            value.get('publisher-wrapper', False) \
             and value.get('type', None) == 'DateTime':
         return DateTime(value.get('value'))
 
