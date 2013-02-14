@@ -1,12 +1,18 @@
+from BTrees.OOBTree import OOBTree
+from ftw.publisher.core import utils
 from ftw.publisher.core.interfaces import IDataCollector
 from ftw.publisher.core.testing import PUBLISHER_EXAMPLE_CONTENT_INTEGRATION
 from plone.portlet.static import static
+from plone.portlets.constants import ASSIGNMENT_SETTINGS_KEY
 from plone.portlets.constants import CONTENT_TYPE_CATEGORY, CONTEXT_CATEGORY
 from plone.portlets.constants import USER_CATEGORY, GROUP_CATEGORY
 from plone.portlets.interfaces import ILocalPortletAssignmentManager
+from plone.portlets.interfaces import IPortletAssignmentSettings
 from unittest2 import TestCase
+from zope.annotation import IAnnotations
 from zope.component import getAdapter
 from zope.component import getMultiAdapter
+import json
 
 
 class TestPortletAdapter(TestCase):
@@ -166,3 +172,40 @@ class TestPortletAdapter(TestCase):
         adapter4 = getAdapter(self.layer['folder2'], IDataCollector,
                               name="portlet_data_adapter")
         adapter4.setData(data2, metadata=None)
+
+    def test_portlets_with_settings(self):
+        # IPortletAssignmentSettings creates settings in the annotations
+        ori_assignment = self.layer['right_portlets'].get('title2', False)
+        ori_settings = getAdapter(ori_assignment, IPortletAssignmentSettings)
+        ori_settings['foo'] = 'bar'
+
+        # extract the data
+        adapter = getAdapter(self.layer['folder1'], IDataCollector,
+                             name="portlet_data_adapter")
+        getterdata = adapter.getData()
+        getterdata = utils.decode_for_json(getterdata)
+        jsondata = json.dumps(getterdata)
+
+        # set the data on the folder2
+        data = json.loads(jsondata)
+        data = utils.encode_after_json(data)
+        adapter2 = getAdapter(self.layer['folder2'], IDataCollector,
+                              name="portlet_data_adapter")
+        adapter2.setData(data, metadata=None)
+
+        # test the assignment settings
+        new_assignment = self.layer['right_portlets'].get('title2', False)
+        new_settings = getAdapter(new_assignment, IPortletAssignmentSettings)
+        self.assertEqual(new_settings['foo'], 'bar')
+
+        assignment_annotations = new_assignment.__annotations__
+        self.assertTrue(
+            isinstance(assignment_annotations, OOBTree),
+            'annotations are not OOBTree but %s' % type(
+                assignment_annotations))
+
+        settings = assignment_annotations.get(ASSIGNMENT_SETTINGS_KEY)
+        self.assertTrue(
+            IPortletAssignmentSettings.providedBy(settings),
+            'Portlet settings is not PortletAssignmentSettings but %s' % (
+                type(settings)))

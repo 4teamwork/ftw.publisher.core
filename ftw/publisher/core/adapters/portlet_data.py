@@ -170,6 +170,10 @@ class PortletsData(object):
                 #prepare data to pass as arguments
                 del portletfielddata['module']
 
+                annotations = portletfielddata.get('__annotations__', None)
+                if '__annotations__' in portletfielddata:
+                    del portletfielddata['__annotations__']
+
                 #check for dicts
                 for k, v in portletfielddata.items():
 
@@ -193,6 +197,9 @@ class PortletsData(object):
                 for k, v in portletfielddata.items():
                     if isinstance(v, bool):
                         setattr(portlets[portlet_id], k, v)
+
+                if annotations:
+                    portlets[portlet_id].__annotations__ = annotations
 
             #set new order afterwards
             portlets._order = order
