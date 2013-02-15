@@ -5,6 +5,9 @@ Changelog
 2.0 (unreleased)
 ----------------
 
+- Add portlet settings support for Plone 4.
+  [jone]
+
 - Implement better blob file detection (ftw.file support).
   [jone]
 
