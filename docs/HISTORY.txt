@@ -5,6 +5,9 @@ Changelog
 2.0 (unreleased)
 ----------------
 
+- Add support for plone.namedfile in portlets.
+  [jone]
+
 - Add portlet settings support for Plone 4.
   [jone]
 
