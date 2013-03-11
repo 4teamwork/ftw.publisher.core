@@ -2,6 +2,7 @@ from AccessControl.SecurityInfo import ClassSecurityInformation
 from OFS.Image import Image as OFSImage
 from ftw.publisher.core import getLogger
 from ftw.publisher.core.interfaces import IDataCollector
+from plone.namedfile.interfaces import INamedFile
 from plone.portlets.constants import CONTENT_TYPE_CATEGORY, CONTEXT_CATEGORY
 from plone.portlets.constants import USER_CATEGORY, GROUP_CATEGORY
 from plone.portlets.interfaces import ILocalPortletAssignmentManager
@@ -111,12 +112,26 @@ class PortletsData(object):
                         if isinstance(field_value, OFSImage):
                             # same way as in AT field serializer
 
-                            field_value = {'module': OFSImage.__module__,
-                                           'data': base64.encodestring(
-                                    field_value.data),
-                                           'id': field_value.id(),
-                                           'title': field_value.title,
-                                           'klass_name': OFSImage.__name__}
+                            field_value = {
+                                'module': OFSImage.__module__,
+                                'klass_name': OFSImage.__name__,
+                                'kwargs': {
+                                    'file': base64.encodestring(
+                                        field_value.data),
+                                    'id': field_value.id(),
+                                    'title': field_value.title}}
+
+                        elif INamedFile.providedBy(field_value):
+                            klass = type(field_value)
+                            field_value = {
+                                'module': klass.__module__,
+                                'klass_name': klass.__name__,
+                                'kwargs': {
+                                    'data': base64.encodestring(
+                                        field_value.data),
+                                    'filename': field_value.filename,
+                                    'contentType': field_value.contentType}}
+
                         data[manager_name][portlet_assignment.__name__][
                             field] = field_value
 
@@ -183,9 +198,13 @@ class PortletsData(object):
                         # this is generic, but currently only in use
                         # by the image portlet
                         klass = modules[v['module']].__dict__[v['klass_name']]
-                        imgobj = klass(v['id'],
-                                       v['title'],
-                                       base64.decodestring(v['data']))
+
+                        for argname in ('file', 'data'):
+                            if argname in v['kwargs']:
+                                v['kwargs'][argname] = base64.decodestring(
+                                    v['kwargs'][argname])
+
+                        imgobj = klass(**v['kwargs'])
                         portletfielddata[k] = imgobj
 
                 portlets[portlet_id] = portlet_module.Assignment(
