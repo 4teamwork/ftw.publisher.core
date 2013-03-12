@@ -2,7 +2,6 @@ from AccessControl.SecurityInfo import ClassSecurityInformation
 from OFS.Image import Image as OFSImage
 from ftw.publisher.core import getLogger
 from ftw.publisher.core.interfaces import IDataCollector
-from plone.namedfile.interfaces import INamedFile
 from plone.portlets.constants import CONTENT_TYPE_CATEGORY, CONTEXT_CATEGORY
 from plone.portlets.constants import USER_CATEGORY, GROUP_CATEGORY
 from plone.portlets.interfaces import ILocalPortletAssignmentManager
@@ -12,6 +11,16 @@ from sys import modules
 from zope.component import queryUtility, getMultiAdapter
 from zope.interface import implements
 import base64
+import pkg_resources
+
+
+try:
+    pkg_resources.get_distribution('plone.namedfile')
+except pkg_resources.DistributionNotFound:
+    HAS_NAMEDFILE = False
+else:
+    from plone.namedfile.interfaces import INamedFile
+    HAS_NAMEDFILE = True
 
 
 class PortletsData(object):
@@ -121,7 +130,8 @@ class PortletsData(object):
                                     'id': field_value.id(),
                                     'title': field_value.title}}
 
-                        elif INamedFile.providedBy(field_value):
+                        elif (HAS_NAMEDFILE and INamedFile.providedBy(
+                                field_value)):
                             klass = type(field_value)
                             field_value = {
                                 'module': klass.__module__,
