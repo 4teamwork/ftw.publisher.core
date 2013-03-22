@@ -5,11 +5,17 @@ version = '2.0.dev0'
 maintainer = 'Jonas Baumann'
 
 tests_require=[
-    'collective.testcaselayer',
+
+    'Acquisition',
     'Plone',
-    'plone.app.testing',
-    'plone.app.blob',
+    'collective.testcaselayer',
     'ftw.testing',
+    'plone.app.blob',
+    'plone.app.testing',
+    'unittest2',
+    'zope.annotation',
+    'zope.configuration',
+
     ]
 
 setup(name='ftw.publisher.core',
@@ -42,8 +48,22 @@ setup(name='ftw.publisher.core',
       zip_safe=False,
 
       install_requires=[
-        'setuptools',
+
+        'AccessControl',
+        'Products.Archetypes',
+        'Products.CMFCore',
         'ZConfig',
+        'ZODB3',
+        'Zope2',
+        'plone.app.blob',
+        'plone.namedfile',
+        'plone.portlets',
+        'setuptools',
+        'zope.component',
+        'zope.dottedname',
+        'zope.i18nmessageid',
+        'zope.interface',
+
         ],
 
       extras_require={

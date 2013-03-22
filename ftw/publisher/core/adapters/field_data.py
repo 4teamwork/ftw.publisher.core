@@ -22,7 +22,6 @@ else:
     from plone.app.blob.interfaces import IBlobWrapper
 
 
-
 class FieldData(object):
     """returns all field data
     """
