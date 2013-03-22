@@ -10,7 +10,7 @@
     <property name="add_permission">cmf.AddPortalContent</property>
 
     <!-- schema interface -->
-    <property name="schema"></property>
+    <property name="schema">ftw.publisher.core.tests.interfaces.IFoo</property>
 
     <!-- class used for content items -->
     <property name="klass">plone.dexterity.content.Item</property>
