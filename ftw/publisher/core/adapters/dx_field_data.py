@@ -106,14 +106,6 @@ class DexterityFieldData(object):
             # XXX RELATION SUPPORT
             raise NotImplementedError()
 
-            # # Remove all relations since we cannot guarantee anyway the they
-            # # are on the target. Relations have to be rebuilt by to tool which
-            # # uses the transporter - if required.
-            # if self._provided_by_one_of(field, (IRelation, IRelationChoice)):
-            #     return None
-            # elif self._provided_by_one_of(field, (IRelationList,)):
-            #     return []
-
         return value
 
     def unpack(self, name, field, value):
