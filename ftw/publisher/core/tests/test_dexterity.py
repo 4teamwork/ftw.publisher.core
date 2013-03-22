@@ -7,7 +7,7 @@ from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import applyProfile
 from plone.dexterity.utils import createContentInContainer
-from plone.namedfile.file import NamedBlobFile
+from plone.namedfile.file import NamedFile
 from unittest2 import TestCase
 from zope.component import getAdapter
 from zope.configuration import xmlconfig
@@ -92,7 +92,7 @@ class TestDexterityFieldData(TestCase):
 
         foo = createContentInContainer(
             self.portal, 'DXFile', title=u'Foo')
-        foo.file = NamedBlobFile(data=filedata, filename=u'fuu.txt')
+        foo.file = NamedFile(data=filedata, filename=u'fuu.txt')
         data = self._get_field_data(foo, json=True)
 
         bar = createContentInContainer(
