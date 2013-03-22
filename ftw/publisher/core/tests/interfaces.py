@@ -1,5 +1,5 @@
 from plone.directives import form
-from plone.namedfile.field import NamedBlobFile
+from plone.namedfile.field import NamedFile
 
 
 class IFoo(form.Schema):
@@ -9,4 +9,4 @@ class IFoo(form.Schema):
 class IFileSchema(form.Schema):
 
     form.primary('file')
-    file = NamedBlobFile(title=u'File')
+    file = NamedFile(title=u'File')
