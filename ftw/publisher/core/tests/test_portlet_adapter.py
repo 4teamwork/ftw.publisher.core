@@ -9,7 +9,6 @@ from plone.portlets.constants import USER_CATEGORY, GROUP_CATEGORY
 from plone.portlets.interfaces import ILocalPortletAssignmentManager
 from plone.portlets.interfaces import IPortletAssignmentSettings
 from unittest2 import TestCase
-from zope.annotation import IAnnotations
 from zope.component import getAdapter
 from zope.component import getMultiAdapter
 import json

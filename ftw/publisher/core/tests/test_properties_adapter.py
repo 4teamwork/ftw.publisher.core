@@ -1,13 +1,8 @@
 from DateTime import DateTime
 from ftw.publisher.core.interfaces import IDataCollector
 from ftw.publisher.core.testing import PUBLISHER_EXAMPLE_CONTENT_INTEGRATION
-from plone.portlet.static import static
-from plone.portlets.constants import CONTENT_TYPE_CATEGORY, CONTEXT_CATEGORY
-from plone.portlets.constants import USER_CATEGORY, GROUP_CATEGORY
-from plone.portlets.interfaces import ILocalPortletAssignmentManager
 from unittest2 import TestCase
 from zope.component import getAdapter
-from zope.component import getMultiAdapter
 
 
 class TestPortletAdapter(TestCase):
