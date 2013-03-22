@@ -1,5 +1,6 @@
 <configure
       xmlns="http://namespaces.zope.org/zope"
+      xmlns:zcml="http://namespaces.zope.org/zcml"
       xmlns:five="http://namespaces.zope.org/five">
 
     <adapter
@@ -7,6 +8,11 @@
           provides="ftw.publisher.core.interfaces.IDataCollector"
           factory="ftw.publisher.core.adapters.field_data.FieldData"
           name="field_data_adapter" />
+
+    <adapter
+        zcml:condition="installed plone.dexterity"
+        factory="ftw.publisher.core.adapters.dx_field_data.DexterityFieldData"
+        name="dx_field_data_adapter" />
 
     <adapter
           for="Products.Archetypes.interfaces.IBaseObject"
