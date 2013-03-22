@@ -69,9 +69,9 @@ class TestDexterityFieldData(TestCase):
         obj = createContentInContainer(
             self.portal, 'ExampleDxType', title=u'My Object')
 
-        self.assertEquals({'plone_0_ExampleDxType': {},
-                           'IBasic': {'description': u'',
-                                      'title': u'My Object'}},
+        self.assertEquals({'IBasic': {'description': u'',
+                                      'title': u'My Object'},
+                           'IFoo': {}},
 
                           self._get_field_data(obj))
 
