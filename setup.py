@@ -19,6 +19,7 @@ extras_require['tests'] = tests_require = [
     'ftw.testing',
     'plone.app.blob',
     'plone.app.testing',
+    'plone.directives.form',
     'unittest2',
     'zope.annotation',
     'zope.configuration',
