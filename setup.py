@@ -4,7 +4,14 @@ import os
 version = '2.0.dev0'
 maintainer = 'Jonas Baumann'
 
-tests_require=[
+
+extras_require={
+    'dexterity': [
+        'plone.app.dexterity',
+        ]}
+
+
+extras_require['tests'] = tests_require = [
 
     'Acquisition',
     'Plone',
@@ -12,11 +19,14 @@ tests_require=[
     'ftw.testing',
     'plone.app.blob',
     'plone.app.testing',
+    'plone.directives.form',
+    'plone.namedfile',
     'unittest2',
     'zope.annotation',
     'zope.configuration',
 
-    ]
+    ] + reduce(list.__add__, extras_require.values())
+
 
 setup(name='ftw.publisher.core',
       version=version,
@@ -66,11 +76,8 @@ setup(name='ftw.publisher.core',
 
         ],
 
-      extras_require={
-        'tests': tests_require,
-        },
-
       tests_require=tests_require,
+      extras_require=extras_require,
 
       entry_points="""
       # -*- Entry points: -*-

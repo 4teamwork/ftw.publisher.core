@@ -1,5 +1,6 @@
 <configure
       xmlns="http://namespaces.zope.org/zope"
+      xmlns:zcml="http://namespaces.zope.org/zcml"
       xmlns:five="http://namespaces.zope.org/five">
 
     <adapter
@@ -9,25 +10,30 @@
           name="field_data_adapter" />
 
     <adapter
-          for="Products.Archetypes.interfaces.IBaseObject"
+        zcml:condition="installed plone.dexterity"
+        factory="ftw.publisher.core.adapters.dx_field_data.DexterityFieldData"
+        name="dx_field_data_adapter" />
+
+    <adapter
+          for="*"
           provides="ftw.publisher.core.interfaces.IDataCollector"
           factory="ftw.publisher.core.adapters.properties_data.PropertiesData"
           name="properties_data_adapter" />
 
     <adapter
-          for="Products.Archetypes.interfaces.IBaseObject"
+          for="*"
           provides="ftw.publisher.core.interfaces.IDataCollector"
           factory="ftw.publisher.core.adapters.portlet_data.PortletsData"
           name="portlet_data_adapter" />
 
     <adapter
-          for="Products.Archetypes.interfaces.IBaseObject"
+          for="*"
           provides="ftw.publisher.core.interfaces.IDataCollector"
           factory="ftw.publisher.core.adapters.interface_data.InterfaceData"
           name="interface_data_adapter" />
 
     <adapter
-          for="Products.Archetypes.interfaces.IBaseObject"
+          for="*"
           provides="ftw.publisher.core.interfaces.IDataCollector"
           factory="ftw.publisher.core.adapters.backreferences.Backreferences"
           name="backreferences_adapter" />
