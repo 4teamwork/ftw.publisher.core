@@ -2,7 +2,6 @@ from AccessControl.SecurityInfo import ClassSecurityInformation
 from ftw.publisher.core.interfaces import IDataCollector
 from plone.dexterity.interfaces import IDexterityContent
 from plone.dexterity.utils import iterSchemata
-from plone.namedfile.interfaces import INamedFileField
 from zope import schema
 from zope.component import adapts
 from zope.interface import implements
@@ -22,6 +21,17 @@ else:
     from z3c.relationfield.interfaces import IRelation
     from z3c.relationfield.interfaces import IRelationChoice
     from z3c.relationfield.interfaces import IRelationList
+
+
+try:
+    pkg_resources.get_distribution('plone.namedfile')
+
+except pkg_resources.DistributionNotFound:
+    HAS_NAMEDFILE = False
+
+else:
+    HAS_NAMEDFILE = True
+    from plone.namedfile.interfaces import INamedFileField
 
 
 _marker = object()
@@ -80,7 +90,7 @@ class DexterityFieldData(object):
             if value:
                 return str(value)
 
-        elif self._provided_by_one_of(field, [
+        elif HAS_NAMEDFILE and self._provided_by_one_of(field, [
                 INamedFileField,
                 ]):
             if value:
@@ -119,7 +129,8 @@ class DexterityFieldData(object):
             if value:
                 return DateTime.DateTime(value).asdatetime()
 
-        if self._provided_by_one_of(field, [INamedFileField]):
+        if HAS_NAMEDFILE and self._provided_by_one_of(
+            field, [INamedFileField]):
             if value and isinstance(value, dict):
                 filename = value['filename']
                 data = base64.decodestring(value['data'])
