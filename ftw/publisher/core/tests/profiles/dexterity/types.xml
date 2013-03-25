@@ -1,0 +1,4 @@
+<object name="portal_types">
+    <object name="ExampleDxType" meta_type="Dexterity FTI" />
+    <object name="DXFile" meta_type="Dexterity FTI" />
+</object>

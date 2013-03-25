@@ -1,4 +1,6 @@
 from AccessControl.SecurityInfo import ClassSecurityInformation
+from Acquisition import aq_base
+from Products.Archetypes.interfaces.referenceable import IReferenceable
 from Products.CMFCore.utils import getToolByName
 from ftw.publisher.core import getLogger
 from ftw.publisher.core.interfaces import IDataCollector
@@ -35,7 +37,21 @@ class Backreferences(object):
         """
 
         data = {}
-        for ref in self.context.getBackReferenceImpl():
+
+        if hasattr(aq_base(self.context), 'getBackReferenceImpl'):
+            referenceable = self.context
+
+        else:
+            try:
+                referenceable = IReferenceable(self.context)
+
+            except TypeError:
+                # could not adapt
+                # this means we have a dexterity object without
+                # plone.app.referenceablebehavior activated.
+                return data
+
+        for ref in referenceable.getBackReferenceImpl():
             # get source object
             src = ref.getSourceObject()
             suid = src.UID()
