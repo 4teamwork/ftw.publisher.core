@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.0 (unreleased)
+2.0 (2013-05-24)
 ----------------
 
 - Add support for plone.namedfile in portlets.
