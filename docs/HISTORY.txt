@@ -5,7 +5,8 @@ Changelog
 2.1 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Do not publish properties of site root.
+  [jone]
 
 
 2.0 (2013-05-24)
