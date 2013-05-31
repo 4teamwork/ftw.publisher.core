@@ -1,5 +1,6 @@
 from AccessControl.SecurityInfo import ClassSecurityInformation
 from DateTime import DateTime
+from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from ftw.publisher.core import getLogger
 from ftw.publisher.core.interfaces import IDataCollector
 from zope.interface import implements
@@ -44,6 +45,9 @@ class PropertiesData(object):
         @rtype:     list
         """
 
+        if IPloneSiteRoot.providedBy(self.object):
+            return None
+
         properties = []
         for prop in self.object._propertyMap():
             # create a copy (we dont want to change the effective property)
@@ -75,6 +79,9 @@ class PropertiesData(object):
         @param type:        list
         @return:            None
         """
+
+        if IPloneSiteRoot.providedBy(self.object):
+            return
 
         # plone root implementation
         root_path = '/'.join(self.object.getPhysicalPath())
