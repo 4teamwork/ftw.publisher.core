@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-2.1 (unreleased)
-----------------
+2.0.1 (2013-06-03)
+------------------
 
 - Do not publish properties of site root.
   [jone]
