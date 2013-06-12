@@ -24,6 +24,8 @@ extras_require['tests'] = tests_require = [
     'unittest2',
     'zope.annotation',
     'zope.configuration',
+    'collective.geo.geographer',
+    'collective.geo.contentlocations',
 
     ] + reduce(list.__add__, extras_require.values())
 
