@@ -88,4 +88,13 @@
 
     </configure>
 
+    <configure zcml:condition="installed collective.geo.geographer">
+        <adapter
+              for="collective.geo.geographer.interfaces.IGeoreferenceable"
+              provides="ftw.publisher.core.interfaces.IDataCollector"
+              factory="ftw.publisher.core.adapters.geo_data.GeoData"
+              name="geo_data_adapter" />
+    </configure>
+
+
 </configure>
