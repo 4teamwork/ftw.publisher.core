@@ -5,7 +5,8 @@ Changelog
 2.0.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add geo data adapter to publish coordinates of c.geo.
+  [mathias.leimgruber]
 
 
 2.0.1 (2013-06-03)
