@@ -1,10 +1,15 @@
 from AccessControl.SecurityInfo import ClassSecurityInformation
+from AccessControl import getSecurityManager
+from AccessControl.SecurityManagement import newSecurityManager
+from AccessControl.SecurityManagement import setSecurityManager
+from AccessControl.SecurityManagement import SpecialUsers
 from Acquisition import aq_base
 from Products.Archetypes.interfaces.referenceable import IReferenceable
 from Products.CMFCore.utils import getToolByName
 from ftw.publisher.core import getLogger
 from ftw.publisher.core.interfaces import IDataCollector
 from zope.interface import implements
+import AccessControl
 
 
 class Backreferences(object):
@@ -51,7 +56,14 @@ class Backreferences(object):
                 # plone.app.referenceablebehavior activated.
                 return data
 
-        for ref in referenceable.getBackReferenceImpl():
+        old_security_manager = getSecurityManager()
+        newSecurityManager(self.context.REQUEST, SpecialUsers.system)
+        try:
+            references = referenceable.getBackReferenceImpl()
+        finally:
+            setSecurityManager(old_security_manager)
+
+        for ref in references:
             # get source object
             src = ref.getSourceObject()
             suid = src.UID()
