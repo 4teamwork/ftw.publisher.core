@@ -5,7 +5,9 @@ Changelog
 2.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix Unauthorized exception in back references adapter
+  caused by Products.PloneHotfix20130618.
+  [jone]
 
 
 2.1.0 (2013-06-13)
