@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.1.1 (unreleased)
+2.1.1 (2013-06-21)
 ------------------
 
 - Fix Unauthorized exception in back references adapter
