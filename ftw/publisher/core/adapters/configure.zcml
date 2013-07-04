@@ -96,5 +96,12 @@
               name="geo_data_adapter" />
     </configure>
 
+    <configure zcml:condition="installed ftw.shop">
+        <adapter
+              for="ftw.shop.interfaces.IShopItem"
+              provides="ftw.publisher.core.interfaces.IDataCollector"
+              factory="ftw.publisher.core.adapters.shop_items.ShopItemVariations"
+              name="shop_item_adapter" />
+    </configure>
 
 </configure>
