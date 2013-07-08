@@ -20,4 +20,10 @@
         trusted="true"
         />
 
+    <!-- Manually register the necessary ftw.shop adapters -->
+    <adapter
+        for="ftw.shop.interfaces.IShopItem"
+        provides="ftw.shop.interfaces.IVariationConfig"
+        factory="ftw.shop.content.variations.VariationConfig" />
+
 </configure>
