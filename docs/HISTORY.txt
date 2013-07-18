@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-2.1.2 (unreleased)
-------------------
+2.2 (2013-07-18)
+----------------
 
 - Implemented adapter to publish ShopItem Variations
   (those are stored in annotations and therefore haven't been published before).
