@@ -5,7 +5,10 @@ Changelog
 2.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Implement simplelayout block adapter.
+  The adapter adds publisher support for simplelayout block settings,
+  such as dimensions, height, position etc.
+  [jone]
 
 
 2.2 (2013-07-18)
