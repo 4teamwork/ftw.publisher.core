@@ -26,6 +26,7 @@ extras_require['tests'] = tests_require = [
     'zope.configuration',
     'collective.geo.geographer',
     'collective.geo.contentlocations',
+    'simplelayout.base',
     'ftw.shop',
 
     ] + reduce(list.__add__, extras_require.values())
