@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-2.3 (unreleased)
-----------------
+2.3.0 (2013-09-02)
+------------------
 
 - Implement simplelayout block adapter.
   The adapter adds publisher support for simplelayout block settings,
