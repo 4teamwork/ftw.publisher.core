@@ -8,6 +8,7 @@ from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import applyProfile
 from plone.dexterity.utils import createContentInContainer
 from plone.namedfile.file import NamedFile
+from plone.namedfile.file import NamedImage
 from unittest2 import TestCase
 from zope.component import getAdapter
 from zope.configuration import xmlconfig
@@ -103,3 +104,17 @@ class TestDexterityFieldData(TestCase):
         self.assertTrue(bar.file, 'File data missing')
 
         self.assertEquals(u'fuu.txt', bar.file.filename, 'Filename wrong')
+
+    def test_named_images(self):
+        filedata = u'**** imagedata ****'
+        source = createContentInContainer(self.portal, 'DXImage',
+                                          title=u'Image')
+        source.image = NamedImage(data=filedata, filename=u'picture.jpg')
+
+        data = self._get_field_data(source, json=True)
+
+        target = createContentInContainer(self.portal, 'DXImage')
+        self._set_field_data(target, data, json=True)
+
+        self.assertEquals(NamedImage, type(target.image))
+        self.assertEquals(u'picture.jpg', target.image.filename)
