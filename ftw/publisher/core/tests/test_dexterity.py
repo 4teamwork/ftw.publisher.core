@@ -1,11 +1,13 @@
 from ftw.publisher.core import utils
 from ftw.publisher.core.interfaces import IDataCollector
 from ftw.publisher.core.testing import PUBLISHER_EXAMPLE_CONTENT_FIXTURE
+from ftw.publisher.core.tests.interfaces import ITextSchema
 from json import dumps
 from json import loads
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import applyProfile
+from plone.app.textfield.value import RichTextValue
 from plone.dexterity.utils import createContentInContainer
 from plone.namedfile.file import NamedFile
 from plone.namedfile.file import NamedImage
@@ -118,3 +120,17 @@ class TestDexterityFieldData(TestCase):
 
         self.assertEquals(NamedImage, type(target.image))
         self.assertEquals(u'picture.jpg', target.image.filename)
+
+    def test_richtext_fields(self):
+        textdata = u'<b>Text</b>'
+        source = createContentInContainer(self.portal, 'DXText',
+                                          title=u'Text')
+        source.text = ITextSchema['text'].fromUnicode(textdata)
+
+        data = self._get_field_data(source, json=True)
+
+        target = createContentInContainer(self.portal, 'DXText')
+        self._set_field_data(target, data, json=True)
+
+        self.assertEquals(RichTextValue, type(target.text))
+        self.assertEquals(textdata, target.text.raw)
