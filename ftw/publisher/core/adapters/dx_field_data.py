@@ -32,6 +32,7 @@ except pkg_resources.DistributionNotFound:
 else:
     HAS_NAMEDFILE = True
     from plone.namedfile.interfaces import INamedFileField
+    from plone.namedfile.interfaces import INamedImageField
 
 
 _marker = object()
@@ -92,6 +93,7 @@ class DexterityFieldData(object):
 
         elif HAS_NAMEDFILE and self._provided_by_one_of(field, [
                 INamedFileField,
+                INamedImageField
                 ]):
             if value:
                 return {
@@ -122,7 +124,7 @@ class DexterityFieldData(object):
                 return DateTime.DateTime(value).asdatetime()
 
         if HAS_NAMEDFILE and self._provided_by_one_of(
-            field, [INamedFileField]):
+            field, [INamedFileField, INamedImageField]):
             if value and isinstance(value, dict):
                 filename = value['filename']
                 data = base64.decodestring(value['data'])
