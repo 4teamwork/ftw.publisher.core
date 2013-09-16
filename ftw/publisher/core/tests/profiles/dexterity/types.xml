@@ -2,4 +2,5 @@
     <object name="ExampleDxType" meta_type="Dexterity FTI" />
     <object name="DXFile" meta_type="Dexterity FTI" />
     <object name="DXImage" meta_type="Dexterity FTI" />
+    <object name="DXText" meta_type="Dexterity FTI" />
 </object>
