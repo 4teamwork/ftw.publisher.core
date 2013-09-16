@@ -1,5 +1,7 @@
 from AccessControl.SecurityInfo import ClassSecurityInformation
 from ftw.publisher.core.interfaces import IDataCollector
+from plone.app.textfield.interfaces import IRichText
+from plone.app.textfield.value import RichTextValue
 from plone.dexterity.interfaces import IDexterityContent
 from plone.dexterity.utils import iterSchemata
 from zope import schema
@@ -108,6 +110,13 @@ class DexterityFieldData(object):
             # XXX RELATION SUPPORT
             raise NotImplementedError()
 
+        elif self._provided_by_one_of(field, (IRichText,)):
+            if value:
+                return {'raw': value.raw,
+                        'mimeType': value.mimeType,
+                        'outputMimeType': value.outputMimeType,
+                        'encoding': value.encoding}
+
         return value
 
     def unpack(self, name, field, value):
@@ -129,6 +138,11 @@ class DexterityFieldData(object):
                 filename = value['filename']
                 data = base64.decodestring(value['data'])
                 return field._type(data=data, filename=filename)
+
+        if self._provided_by_one_of(field, (IRichText,)):
+            if value and isinstance(value, dict):
+                return RichTextValue(**value)
+
         return value
 
     def _provided_by_one_of(self, obj, ifaces):
