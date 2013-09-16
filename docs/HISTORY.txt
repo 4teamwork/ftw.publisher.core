@@ -5,7 +5,8 @@ Changelog
 2.3.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Dexterity: add support for plone.namedfile images.
+  [jone]
 
 
 2.3.0 (2013-09-02)
