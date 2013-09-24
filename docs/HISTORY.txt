@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.3.2 (unreleased)
+2.3.2 (2013-09-24)
 ------------------
 
 - Dexterity: add support for richtext fields.
