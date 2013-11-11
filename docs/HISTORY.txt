@@ -25,6 +25,9 @@ Changelog
 2.3.0 (2013-09-02)
 ------------------
 
+- Fix publishing imagelayout of contentpage-description block.
+  [elioschmutz]
+
 - Implement simplelayout block adapter.
   The adapter adds publisher support for simplelayout block settings,
   such as dimensions, height, position etc.

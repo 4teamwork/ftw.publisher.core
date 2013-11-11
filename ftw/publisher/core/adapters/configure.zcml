@@ -112,4 +112,12 @@
             name="simplelayout_block" />
     </configure>
 
+    <!-- Teaser datacollector adapter for ftw.publisher -->
+    <configure zcml:condition="installed ftw.contentpage">
+        <adapter
+            for="ftw.contentpage.interfaces.ITeaser"
+            provides="ftw.publisher.core.interfaces.IDataCollector"
+            factory=".simplelayout_blocks.SimplelayoutBlockDataCollector"
+            name="teaser_data_collector" />
+    </configure>
 </configure>
