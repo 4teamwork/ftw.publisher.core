@@ -5,7 +5,8 @@ Changelog
 2.3.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix publishing imagelayout of contentpage-description block.
+  [elioschmutz]
 
 
 2.3.2 (2013-09-24)
