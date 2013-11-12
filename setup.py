@@ -27,6 +27,7 @@ extras_require['tests'] = tests_require = [
     'collective.geo.geographer',
     'collective.geo.contentlocations',
     'simplelayout.base',
+    'ftw.contentpage',
     'ftw.shop',
 
     ] + reduce(list.__add__, extras_require.values())
