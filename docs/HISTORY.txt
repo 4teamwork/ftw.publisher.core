@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.3.3 (unreleased)
+2.3.3 (2013-11-12)
 ------------------
 
 - Fix publishing imagelayout of contentpage-description block.
