@@ -121,4 +121,13 @@
             name="teaser_data_collector" />
     </configure>
 
+    <!-- plonetheme.onegov custom styles -->
+    <configure zcml:condition="installed plonetheme.onegov">
+        <adapter
+            for="plone.app.layout.navigation.interfaces.INavigationRoot"
+            provides="ftw.publisher.core.interfaces.IDataCollector"
+            factory=".custom_styles.CustomStyles"
+            name="custom_style_adapter" />
+    </configure>
+
 </configure>

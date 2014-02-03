@@ -56,7 +56,10 @@ class PublisherCoreLayer(PloneSandboxLayer):
         import ftw.publisher.core
         xmlconfig.file('configure.zcml', ftw.publisher.core,
                        context=configurationContext)
-
+        # Load ZCML
+        import plonetheme.onegov
+        xmlconfig.file('configure.zcml', plonetheme.onegov,
+                       context=configurationContext)
 
 PUBLISHER_CORE_FIXTURE = PublisherCoreLayer()
 PUBLISHER_CORE_INTEGRATION_TESTING = IntegrationTesting(
