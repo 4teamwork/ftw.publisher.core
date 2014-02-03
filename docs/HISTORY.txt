@@ -5,6 +5,10 @@ Changelog
 2.3.4 (unreleased)
 ------------------
 
+- Drop Plone 4.2 compatibility, since plonetheme.onegov is only Plone 4.3
+  compatible. If you are not using plonetheme.onegov the publisger may work
+  also on older Plone versions.
+
 - plonetheme.onegov: Support custom styles.
   [mathias.leimgruber]
 
