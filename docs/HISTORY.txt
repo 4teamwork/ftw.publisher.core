@@ -5,7 +5,8 @@ Changelog
 2.3.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- plone.app.collection: Implement publishing the query.
+  [mathias.leimgruber]
 
 
 2.3.3 (2013-11-12)

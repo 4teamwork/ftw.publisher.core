@@ -1,4 +1,6 @@
 from Acquisition import aq_inner, aq_parent
+from ftw.builder.testing import BUILDER_LAYER
+from ftw.publisher.core.tests import builders
 from ftw.testing.layer import ComponentRegistryLayer
 from plone.app.portlets import portlets
 from plone.app.portlets.portlets import navigation
@@ -13,8 +15,8 @@ from plone.portlets.interfaces import IPortletManager
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.configuration import xmlconfig
-from zope.interface import Interface
 from zope.interface import alsoProvides
+from zope.interface import Interface
 
 
 #Dummy Interfaces
@@ -47,7 +49,7 @@ ZCML_LAYER = ZCMLLayer()
 
 class PublisherCoreLayer(PloneSandboxLayer):
 
-    defaultBases = (PLONE_FIXTURE,)
+    defaultBases = (PLONE_FIXTURE, BUILDER_LAYER)
 
     def setUpZope(self, app, configurationContext):
         # Load ZCML

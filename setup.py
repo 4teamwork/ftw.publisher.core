@@ -4,8 +4,7 @@ import os
 version = '2.3.4.dev0'
 maintainer = 'Jonas Baumann'
 
-
-extras_require={
+extras_require = {
     'dexterity': [
         'plone.app.dexterity',
         ]}
@@ -29,6 +28,7 @@ extras_require['tests'] = tests_require = [
     'simplelayout.base',
     'ftw.contentpage',
     'ftw.shop',
+    'ftw.builder',
 
     ] + reduce(list.__add__, extras_require.values())
 
@@ -36,7 +36,7 @@ extras_require['tests'] = tests_require = [
 setup(name='ftw.publisher.core',
       version=version,
       description="Staging and publishing addon for Plone contents.",
-      long_description=open("README.rst").read() + "\n" + \
+      long_description=open("README.rst").read() + "\n" +
           open(os.path.join("docs", "HISTORY.txt")).read(),
 
       # Get more strings from
