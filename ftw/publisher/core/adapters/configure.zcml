@@ -120,4 +120,5 @@
             factory=".simplelayout_blocks.SimplelayoutBlockDataCollector"
             name="teaser_data_collector" />
     </configure>
+
 </configure>

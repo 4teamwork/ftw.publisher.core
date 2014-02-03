@@ -1,14 +1,15 @@
 from AccessControl.SecurityInfo import ClassSecurityInformation
+from archetypes.querywidget.field import QueryField
+from ftw.publisher.core import getLogger
+from ftw.publisher.core.interfaces import IDataCollector
 from OFS.Image import File
 from Products.Archetypes.Field import ComputedField
 from Products.Archetypes.Field import DateTimeField
 from Products.Archetypes.Field import FileField
-from ftw.publisher.core import getLogger
-from ftw.publisher.core.interfaces import IDataCollector
 from zope.interface import implements
-import StringIO
 import base64
 import pkg_resources
+import StringIO
 
 
 try:
@@ -91,6 +92,11 @@ class FieldData(object):
             tmp.seek(0)
             value = {'filename': value.filename,
                      'data': base64.encodestring(tmp.read())}
+
+        elif isinstance(field, QueryField):
+            query = field.getRaw(self.object)
+            # Cast "ZPublisher.HTTPRequest.record" instance to dict
+            value = [dict(item) for item in query]
 
         return value
 
