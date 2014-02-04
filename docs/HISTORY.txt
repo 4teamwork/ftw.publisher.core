@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.3.4 (unreleased)
+2.4.0 (2014-02-04)
 ------------------
 
 - plonetheme.onegov: Support custom styles.
