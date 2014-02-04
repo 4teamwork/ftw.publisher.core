@@ -5,6 +5,9 @@ Changelog
 2.3.4 (unreleased)
 ------------------
 
+- plonetheme.onegov: Support custom styles.
+  [mathias.leimgruber]
+
 - plone.app.collection: Implement publishing the query.
   [mathias.leimgruber]
 

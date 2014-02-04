@@ -15,8 +15,17 @@ from plone.portlets.interfaces import IPortletManager
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.configuration import xmlconfig
-from zope.interface import alsoProvides
 from zope.interface import Interface
+from zope.interface import alsoProvides
+import pkg_resources
+
+
+try:
+    pkg_resources.get_distribution('plonetheme.onegov')
+except pkg_resources.DistributionNotFound:
+    ONEGOV_THEME_INSTALLED = False
+else:
+    ONEGOV_THEME_INSTALLED = True
 
 
 #Dummy Interfaces
@@ -57,6 +66,11 @@ class PublisherCoreLayer(PloneSandboxLayer):
         xmlconfig.file('configure.zcml', ftw.publisher.core,
                        context=configurationContext)
 
+        if ONEGOV_THEME_INSTALLED:
+            # Load ZCML
+            import plonetheme.onegov
+            xmlconfig.file('configure.zcml', plonetheme.onegov,
+                           context=configurationContext)
 
 PUBLISHER_CORE_FIXTURE = PublisherCoreLayer()
 PUBLISHER_CORE_INTEGRATION_TESTING = IntegrationTesting(
