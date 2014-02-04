@@ -6,7 +6,7 @@ Changelog
 ------------------
 
 - Drop Plone 4.2 compatibility, since plonetheme.onegov is only Plone 4.3
-  compatible. If you are not using plonetheme.onegov the publisger may work
+  compatible. If you are not using plonetheme.onegov the publisher may work
   also on older Plone versions.
 
 - plonetheme.onegov: Support custom styles.
