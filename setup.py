@@ -29,7 +29,6 @@ extras_require['tests'] = tests_require = [
     'ftw.contentpage',
     'ftw.shop',
     'ftw.builder',
-    'plonetheme.onegov',
 
     ] + reduce(list.__add__, extras_require.values())
 
