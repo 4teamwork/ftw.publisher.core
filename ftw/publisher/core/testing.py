@@ -1,6 +1,5 @@
 from Acquisition import aq_inner, aq_parent
 from ftw.builder.testing import BUILDER_LAYER
-from ftw.publisher.core.tests import builders
 from ftw.testing.layer import ComponentRegistryLayer
 from plone.app.portlets import portlets
 from plone.app.portlets.portlets import navigation
