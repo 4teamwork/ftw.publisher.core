@@ -5,8 +5,10 @@ Changelog
 2.4.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- BugFix in property adapter: Setting a property can raise a AttributeError
+  if the content type influence the property behavior.
+  Example see https://github.com/seantis/seantis.dir.contacts/blob/a0360a35e41afb1a8e0fa4ff553b423e0f731eee/seantis/dir/contacts/contact.py#L83
+  [mathias.leimgruber]
 
 2.4.0 (2014-02-04)
 ------------------

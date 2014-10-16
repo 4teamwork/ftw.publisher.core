@@ -112,9 +112,14 @@ class PropertiesData(object):
 
             if prop['id'] in currentProperties:
                 # update property if existing ...
-                self.object._updateProperty(
-                    id=prop['id'],
-                    value=val)
+                try:
+                    self.object._updateProperty(
+                        id=prop['id'],
+                        value=val)
+                except AttributeError:
+                    self.logger.info(
+                        'Could not set property "{0}" on {1}'.format(
+                            prop['id'], uid))
 
             else:
                 # ... otherwise
