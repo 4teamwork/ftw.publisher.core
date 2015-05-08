@@ -51,7 +51,7 @@ setup(name='ftw.publisher.core',
         ],
 
       keywords='ftw publisher core',
-      author='4teamwork GmbH',
+      author='4teamwork AG',
       author_email='mailto:info@4teamwork.ch',
       maintainer=maintainer,
       url='https://github.com/4teamwork/ftw.publisher.core',
