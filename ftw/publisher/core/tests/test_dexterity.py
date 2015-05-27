@@ -4,9 +4,10 @@ from ftw.publisher.core.testing import PUBLISHER_EXAMPLE_CONTENT_FIXTURE
 from ftw.publisher.core.tests.interfaces import ITextSchema
 from json import dumps
 from json import loads
+from plone.app.relationfield.behavior import IRelatedItems
+from plone.app.testing import applyProfile
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
-from plone.app.testing import applyProfile
 from plone.app.textfield.value import RichTextValue
 from plone.dexterity.utils import createContentInContainer
 from plone.namedfile.file import NamedFile
@@ -74,7 +75,8 @@ class TestDexterityFieldData(TestCase):
 
         self.assertEquals({'IBasic': {'description': u'',
                                       'title': u'My Object'},
-                           'IFoo': {}},
+                           'IFoo': {},
+                           'IRelatedItems': {'relatedItems': []}},
 
                           self._get_field_data(obj))
 
@@ -134,3 +136,13 @@ class TestDexterityFieldData(TestCase):
 
         self.assertEquals(RichTextValue, type(target.text))
         self.assertEquals(textdata, target.text.raw)
+
+    def test_relations_when_target_is_available(self):
+        foo = createContentInContainer(self.portal, 'ExampleDxType', title=u'Foo')
+        source = createContentInContainer(self.portal, 'ExampleDxType', title=u'Item')
+        IRelatedItems(source).relatedItems = [foo]
+
+        data = self._get_field_data(source, json=True)
+        target = createContentInContainer(self.portal, 'ExampleDxType')
+        self._set_field_data(target, data, json=True)
+        self.assertEquals([foo], target.relatedItems)

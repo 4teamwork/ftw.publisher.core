@@ -4,11 +4,12 @@ from plone.app.textfield.interfaces import IRichText
 from plone.app.textfield.value import RichTextValue
 from plone.dexterity.interfaces import IDexterityContent
 from plone.dexterity.utils import iterSchemata
+from Products.CMFCore.utils import getToolByName
 from zope import schema
 from zope.component import adapts
 from zope.interface import implements
-import DateTime
 import base64
+import DateTime
 import pkg_resources
 
 
@@ -105,10 +106,14 @@ class DexterityFieldData(object):
 
         elif HAS_RELATIONS and self._provided_by_one_of(field, (
                 IRelation,
-                IRelationChoice,
-                IRelationList,)):
-            # XXX RELATION SUPPORT
-            raise NotImplementedError()
+                IRelationChoice)):
+            if value:
+                return '/'.join(value.getPhysicalPath())
+            else:
+                return None
+
+        elif HAS_RELATIONS and IRelationList.providedBy(field):
+            return ['/'.join(item.getPhysicalPath()) for item in value or ()]
 
         elif self._provided_by_one_of(field, (IRichText,)):
             if value:
@@ -123,6 +128,7 @@ class DexterityFieldData(object):
         """Unpacks the value from the basic json types to the objects which
         are stored on the field later.
         """
+        site = getToolByName(self.context, 'portal_url').getPortalObject()
 
         if self._provided_by_one_of(field, [
                 schema.interfaces.IDate,
@@ -138,6 +144,16 @@ class DexterityFieldData(object):
                 filename = value['filename']
                 data = base64.decodestring(value['data'])
                 return field._type(data=data, filename=filename)
+
+        elif HAS_RELATIONS and self._provided_by_one_of(field, (
+                IRelation,
+                IRelationChoice)):
+            if value:
+                value = site.unrestrictedTraverse(value, None)
+            return value
+
+        elif HAS_RELATIONS and IRelationList.providedBy(field):
+            return filter(None, map(site.unrestrictedTraverse, value))
 
         if self._provided_by_one_of(field, (IRichText,)):
             if value and isinstance(value, dict):

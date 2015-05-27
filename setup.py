@@ -14,21 +14,22 @@ extras_require['tests'] = tests_require = [
 
     'Acquisition',
     'Plone',
+    'collective.geo.contentlocations',
+    'collective.geo.geographer',
     'collective.testcaselayer',
+    'ftw.builder',
+    'ftw.contentpage',
+    'ftw.shop',
     'ftw.testing',
     'plone.app.blob',
+    'plone.app.relationfield',
     'plone.app.testing',
     'plone.directives.form',
     'plone.namedfile',
+    'simplelayout.base',
     'unittest2',
     'zope.annotation',
     'zope.configuration',
-    'collective.geo.geographer',
-    'collective.geo.contentlocations',
-    'simplelayout.base',
-    'ftw.contentpage',
-    'ftw.shop',
-    'ftw.builder',
 
     ] + reduce(list.__add__, extras_require.values())
 
