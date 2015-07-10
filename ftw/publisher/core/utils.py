@@ -1,10 +1,13 @@
+from Acquisition import aq_base
 from BTrees.OOBTree import OOBTree
 from DateTime import DateTime
-from ZConfig.components.logger import loghandler
 from datetime import datetime
 from plone.portlets.settings import PortletAssignmentSettings
+from ZConfig.components.logger import loghandler
+from zope.component import getUtility
 import logging
 import os.path
+import pkg_resources
 
 
 """
@@ -247,3 +250,22 @@ def encode_after_json(value):
     # other types
     else:
         return value
+
+
+try:
+    pkg_resources.get_distribution('z3c.relationfield')
+
+except pkg_resources.DistributionNotFound:
+    def create_relation_for(obj):
+        # Relations cannot be created since z3c.relationfield is not
+        # available. Lets raise an ImportError
+        import z3c.relationfield
+
+else:
+    from z3c.relationfield import RelationValue
+    from zope.intid.interfaces import IIntIds
+
+    def create_relation_for(obj):
+        intids = getUtility(IIntIds)
+        intid = intids.getId(aq_base(obj))
+        return RelationValue(intid)
