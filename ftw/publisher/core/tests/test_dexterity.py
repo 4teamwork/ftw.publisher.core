@@ -12,7 +12,9 @@ from plone.app.textfield.value import RichTextValue
 from plone.dexterity.utils import createContentInContainer
 from plone.namedfile.file import NamedFile
 from plone.namedfile.file import NamedImage
+from Products.CMFPlone.utils import getFSVersionTuple
 from unittest2 import TestCase
+from z3c.relationfield import RelationValue
 from zope.component import getAdapter
 from zope.configuration import xmlconfig
 
@@ -47,9 +49,12 @@ class TestDexterityFieldData(TestCase):
         super(TestDexterityFieldData, self).setUp()
         self.portal = self.layer['portal']
 
+    def _get_collector_for(self, obj):
+        return getAdapter(obj, IDataCollector,
+                          name='dx_field_data_adapter')
+
     def _get_field_data(self, obj, json=False):
-        collector = getAdapter(obj, IDataCollector,
-                               name='dx_field_data_adapter')
+        collector = self._get_collector_for(obj)
         data = collector.getData()
 
         if json:
@@ -58,10 +63,8 @@ class TestDexterityFieldData(TestCase):
 
         return data
 
-
     def _set_field_data(self, obj, data, metadata=None, json=False):
-        collector = getAdapter(obj, IDataCollector,
-                               name='dx_field_data_adapter')
+        collector = self._get_collector_for(obj)
 
         if json:
             data = loads(data)
@@ -73,10 +76,15 @@ class TestDexterityFieldData(TestCase):
         obj = createContentInContainer(
             self.portal, 'ExampleDxType', title=u'My Object')
 
+        if getFSVersionTuple() >= (4, 3):
+            relateditems = ['list', []]
+        else:
+            relateditems = ['raw', None]
+
         self.assertEquals({'IBasic': {'description': u'',
                                       'title': u'My Object'},
                            'IFoo': {},
-                           'IRelatedItems': {'relatedItems': []}},
+                           'IRelatedItems': {'relatedItems': relateditems}},
 
                           self._get_field_data(obj))
 
@@ -146,3 +154,72 @@ class TestDexterityFieldData(TestCase):
         target = createContentInContainer(self.portal, 'ExampleDxType')
         self._set_field_data(target, data, json=True)
         self.assertEquals([foo], target.relatedItems)
+
+    def test_relations_with_RelationValue_objects(self):
+        foo = createContentInContainer(self.portal, 'ExampleDxType', title=u'Foo')
+        source = createContentInContainer(self.portal, 'ExampleDxType', title=u'Item')
+        IRelatedItems(source).relatedItems = [utils.create_relation_for(foo)]
+
+        data = self._get_field_data(source, json=True)
+        target = createContentInContainer(self.portal, 'ExampleDxType')
+        self._set_field_data(target, data, json=True)
+        self.assertEquals(1, len(target.relatedItems),
+                          'Relation missing')
+
+        relation, = target.relatedItems
+        self.assertEquals(foo, relation.to_object)
+
+    def test_relation_is_None(self):
+        foo = createContentInContainer(self.portal, 'ExampleDxType', title=u'Foo')
+        collector = self._get_collector_for(foo)
+        self.assertEquals(None,
+                          collector._unpack_relation(
+                              collector._pack_relation(None)))
+
+    def test_relation_is_object(self):
+        foo = createContentInContainer(self.portal, 'ExampleDxType', title=u'Foo')
+        collector = self._get_collector_for(foo)
+        self.assertEquals(foo,
+                          collector._unpack_relation(
+                              collector._pack_relation(foo)))
+
+    def test_relation_is_relation_value(self):
+        foo = createContentInContainer(self.portal, 'ExampleDxType', title=u'Foo')
+        collector = self._get_collector_for(foo)
+        result = collector._unpack_relation(
+            collector._pack_relation(
+                utils.create_relation_for(foo)))
+        self.assertEquals(RelationValue, type(result))
+        self.assertEquals(foo, result.to_object)
+
+    def test_relation_is_broken_relation_value(self):
+        foo = createContentInContainer(self.portal, 'ExampleDxType', title=u'Foo')
+        collector = self._get_collector_for(foo)
+        relation = utils.create_relation_for(foo)
+        relation.to_id = None  # break it
+        self.assertEquals(None,
+                          collector._unpack_relation(
+                              collector._pack_relation(relation)))
+
+    def test_list_of_relations(self):
+        foo = createContentInContainer(self.portal, 'ExampleDxType', title=u'Foo')
+        collector = self._get_collector_for(foo)
+
+        result = collector._unpack_relation(
+            collector._pack_relation(
+                [foo,
+                 utils.create_relation_for(foo)]))
+
+        self.assertEquals(2, len(result), 'Unexpected length of relations')
+        obj, relation = result
+        self.assertEquals(foo, obj)
+        self.assertEquals(RelationValue, type(relation))
+        self.assertEquals(foo, relation.to_object)
+
+    def test_list_of_relations_empty(self):
+        foo = createContentInContainer(self.portal, 'ExampleDxType', title=u'Foo')
+        collector = self._get_collector_for(foo)
+
+        self.assertEquals([],
+                          collector._unpack_relation(
+                              collector._pack_relation([])))

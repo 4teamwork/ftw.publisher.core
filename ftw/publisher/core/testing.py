@@ -3,6 +3,7 @@ from ftw.builder.testing import BUILDER_LAYER
 from ftw.testing.layer import ComponentRegistryLayer
 from plone.app.portlets import portlets
 from plone.app.portlets.portlets import navigation
+from plone.app.testing import applyProfile
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
@@ -14,8 +15,8 @@ from plone.portlets.interfaces import IPortletManager
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.configuration import xmlconfig
-from zope.interface import Interface
 from zope.interface import alsoProvides
+from zope.interface import Interface
 import pkg_resources
 
 
@@ -60,16 +61,23 @@ class PublisherCoreLayer(PloneSandboxLayer):
     defaultBases = (PLONE_FIXTURE, BUILDER_LAYER)
 
     def setUpZope(self, app, configurationContext):
-        # Load ZCML
-        import ftw.publisher.core
-        xmlconfig.file('configure.zcml', ftw.publisher.core,
-                       context=configurationContext)
+        xmlconfig.string(
+            '<configure xmlns="http://namespaces.zope.org/zope">'
+            '  <include package="z3c.autoinclude" file="meta.zcml" />'
+            '  <includePlugins package="plone" />'
+            '  <includePluginsOverrides package="plone" />'
+            '</configure>',
+            context=configurationContext)
 
         if ONEGOV_THEME_INSTALLED:
             # Load ZCML
             import plonetheme.onegov
             xmlconfig.file('configure.zcml', plonetheme.onegov,
                            context=configurationContext)
+
+    def setUpPloneSite(self, portal):
+        applyProfile(portal, 'plone.app.relationfield:default')
+
 
 PUBLISHER_CORE_FIXTURE = PublisherCoreLayer()
 PUBLISHER_CORE_INTEGRATION_TESTING = IntegrationTesting(

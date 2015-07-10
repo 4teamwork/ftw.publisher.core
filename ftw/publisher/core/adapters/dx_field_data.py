@@ -1,4 +1,5 @@
 from AccessControl.SecurityInfo import ClassSecurityInformation
+from ftw.publisher.core import utils
 from ftw.publisher.core.interfaces import IDataCollector
 from plone.app.textfield.interfaces import IRichText
 from plone.app.textfield.value import RichTextValue
@@ -21,6 +22,7 @@ except pkg_resources.DistributionNotFound:
 
 else:
     HAS_RELATIONS = True
+    from z3c.relationfield import RelationValue
     from z3c.relationfield.interfaces import IRelation
     from z3c.relationfield.interfaces import IRelationChoice
     from z3c.relationfield.interfaces import IRelationList
@@ -72,7 +74,6 @@ class DexterityFieldData(object):
     def setData(self, data, metadata):
         """Inserts the field data on self.context
         """
-
         for schemata in iterSchemata(self.context):
             repr = schemata(self.context)
             subdata = data[schemata.getName()]
@@ -106,14 +107,9 @@ class DexterityFieldData(object):
 
         elif HAS_RELATIONS and self._provided_by_one_of(field, (
                 IRelation,
-                IRelationChoice)):
-            if value:
-                return '/'.join(value.getPhysicalPath())
-            else:
-                return None
-
-        elif HAS_RELATIONS and IRelationList.providedBy(field):
-            return ['/'.join(item.getPhysicalPath()) for item in value or ()]
+                IRelationChoice,
+                IRelationList)):
+            return self._pack_relation(value)
 
         elif self._provided_by_one_of(field, (IRichText,)):
             if value:
@@ -128,8 +124,6 @@ class DexterityFieldData(object):
         """Unpacks the value from the basic json types to the objects which
         are stored on the field later.
         """
-        site = getToolByName(self.context, 'portal_url').getPortalObject()
-
         if self._provided_by_one_of(field, [
                 schema.interfaces.IDate,
                 schema.interfaces.ITime,
@@ -147,13 +141,9 @@ class DexterityFieldData(object):
 
         elif HAS_RELATIONS and self._provided_by_one_of(field, (
                 IRelation,
-                IRelationChoice)):
-            if value:
-                value = site.unrestrictedTraverse(value, None)
-            return value
-
-        elif HAS_RELATIONS and IRelationList.providedBy(field):
-            return filter(None, map(site.unrestrictedTraverse, value))
+                IRelationChoice,
+                IRelationList)):
+            return self._unpack_relation(value)
 
         if self._provided_by_one_of(field, (IRichText,)):
             if value and isinstance(value, dict):
@@ -170,3 +160,37 @@ class DexterityFieldData(object):
             if ifc.providedBy(obj):
                 return True
         return False
+
+    def _pack_relation(self, value):
+        if isinstance(value, (list, tuple)):
+            return ['list', map(self._pack_relation, value)]
+
+        if not value:
+            return ['raw', None]
+
+        if isinstance(value, RelationValue):
+            if value.isBroken():
+                return ['raw', None]
+
+            return ['RelationValue', value.to_path]
+
+        return ['obj', '/'.join(value.getPhysicalPath())]
+
+    def _unpack_relation(self, value):
+        valuetype, value = value
+        if valuetype == 'list':
+            return filter(None, map(self._unpack_relation, value))
+
+        if valuetype == 'raw':
+            return value
+
+        if valuetype == 'RelationValue':
+            site = getToolByName(self.context, 'portal_url').getPortalObject()
+            obj = site.unrestrictedTraverse(value, None)
+            if not obj:
+                return None
+            return utils.create_relation_for(obj)
+
+        if valuetype == 'obj':
+            site = getToolByName(self.context, 'portal_url').getPortalObject()
+            return site.unrestrictedTraverse(value, None)
