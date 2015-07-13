@@ -46,25 +46,31 @@ class TestEncodeDecodeJson(MockTestCase):
         result = self.transport(data, additional_encodings=['GB18030'])
         self.assertEqual(result, data)
 
+    def test_unicode(self):
+        transported = self.transport(u'foo')
+        self.assertEqual(u'foo', transported)
+        self.assertEqual(unicode, type(transported))
+
+    def test_empty_unicode(self):
+        transported = self.transport(u'')
+        self.assertEqual(u'', transported)
+        self.assertEqual(unicode, type(transported))
+
     def test_list(self):
         input = ['foo', 'bar']
         output = self.transport(input)
         self.assertEqual(output, input)
         self.assertEqual(type(output), type(input))
 
-    def test_tuple_becomes_list(self):
-        input = ('foo', 'bar')
-        output = self.transport(input)
-        self.assertEqual(list(output), list(input))
-        self.assertNotEqual(type(output), type(input))
-        self.assertEqual(type(output), list)
+    def test_tuple(self):
+        transported = self.transport((1, 2))
+        self.assertEqual((1, 2), transported)
+        self.assertEqual(tuple, type(transported))
 
-    def test_set_becomes_list(self):
-        input = set(['foo', 'bar'])
-        output = self.transport(input)
-        self.assertEqual(list(output), list(input))
-        self.assertNotEqual(type(output), type(input))
-        self.assertEqual(type(output), list)
+    def test_set(self):
+        transported = self.transport({1, 2})
+        self.assertEqual({1, 2}, transported)
+        self.assertEqual(set, type(transported))
 
     def test_dict(self):
         input = {'foo': 'bar', 'bar': 'baz'}

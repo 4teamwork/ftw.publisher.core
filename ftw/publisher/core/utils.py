@@ -149,12 +149,21 @@ def decode_for_json(value, additional_encodings=[]):
                 pass
         raise
 
-    # lists, tuples, sets
-    elif isinstance(value, (list, tuple, set)):
+
+    # list
+    elif isinstance(value, list):
         nval = []
         for sval in value:
             nval.append(decode_for_json(sval))
         return nval
+
+    # tuple
+    elif isinstance(value, tuple):
+        return decode_for_json(['tuple', list(value)])
+
+    # set
+    elif isinstance(value, set):
+        return decode_for_json(['set', list(value)])
 
     # dicts
     elif isinstance(value, dict):
@@ -198,17 +207,15 @@ def encode_after_json(value):
         else:
             return nval.encode(encoding)
 
-    # lists, tuples, sets
-    elif type(value) in (list, tuple, set):
-        nval = []
-        for sval in value:
-            nval.append(encode_after_json(sval))
-        if isinstance(value, tuple):
-            return tuple(nval)
-        elif isinstance(value, set):
-            return set(nval)
+    # list, tuple, set
+    elif isinstance(value, list):
+        new_value = map(encode_after_json, value)
+        if len(new_value) == 2 and new_value[0] == 'tuple':
+            return tuple(new_value[1])
+        elif len(new_value) == 2 and new_value[0] == 'set':
+            return set(new_value[1])
         else:
-            return nval
+            return new_value
 
     # OOBTree
     elif isinstance(value, dict) and \
