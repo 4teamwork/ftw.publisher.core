@@ -172,9 +172,11 @@ class DexterityFieldData(object):
             if value.isBroken():
                 return ['raw', None]
 
-            return ['RelationValue', value.to_path]
+            return ['RelationValue',
+                    utils.make_path_relative(value.to_path)]
 
-        return ['obj', '/'.join(value.getPhysicalPath())]
+        return ['obj',
+                utils.get_relative_path(value)]
 
     def _unpack_relation(self, value):
         valuetype, value = value
@@ -185,12 +187,10 @@ class DexterityFieldData(object):
             return value
 
         if valuetype == 'RelationValue':
-            site = getToolByName(self.context, 'portal_url').getPortalObject()
-            obj = site.unrestrictedTraverse(value, None)
+            obj = utils.get_obj_by_relative_path(value)
             if not obj:
                 return None
             return utils.create_relation_for(obj)
 
         if valuetype == 'obj':
-            site = getToolByName(self.context, 'portal_url').getPortalObject()
-            return site.unrestrictedTraverse(value, None)
+            return utils.get_obj_by_relative_path(value)
