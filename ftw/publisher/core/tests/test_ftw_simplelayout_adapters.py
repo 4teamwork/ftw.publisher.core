@@ -3,6 +3,7 @@ from ftw.builder import create
 from ftw.publisher.core.interfaces import IDataCollector
 from ftw.publisher.core.testing import PUBLISHER_CORE_INTEGRATION_TESTING
 from ftw.simplelayout.interfaces import IPageConfiguration
+from ftw.simplelayout.interfaces import IBlockConfiguration
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.uuid.interfaces import IUUID
@@ -73,3 +74,31 @@ class TestSimplelayoutPageAnnotations(TestCase):
                     ]},
                 ]
             }, IPageConfiguration(page).load())
+
+
+class TestSimplelayoutBlockAnnotations(TestCase):
+    layer = PUBLISHER_CORE_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+
+    def test_data_getter(self):
+        page = create(Builder('sl content page').titled(u'The Page'))
+        block = create(Builder('sl textblock').titled(u'The Block').within(page))
+
+        IBlockConfiguration(block).store({'scale': 'sl_textblock_small'})
+
+        component = getAdapter(block, IDataCollector,
+                               name='ftw.simplelayout:SimplelayoutBlockAnnotations')
+        self.assertEquals({'scale': 'sl_textblock_small'},
+                          json.loads(json.dumps(component.getData())))
+
+    def test_data_setter(self):
+        page = create(Builder('sl content page').titled(u'The Page'))
+        block = create(Builder('sl textblock').titled(u'The Block').within(page))
+        component = getAdapter(block, IDataCollector,
+                               name='ftw.simplelayout:SimplelayoutBlockAnnotations')
+        component.setData({'scale': 'sl_textblock_small'}, {})
+        self.assertEquals({'scale': 'sl_textblock_small'},
+                          IBlockConfiguration(block).load())
