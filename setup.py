@@ -20,6 +20,7 @@ extras_require['tests'] = tests_require = [
     'ftw.builder',
     'ftw.contentpage',
     'ftw.shop',
+    'ftw.simplelayout [contenttypes]',
     'ftw.testing',
     'plone.app.blob',
     'plone.app.relationfield',

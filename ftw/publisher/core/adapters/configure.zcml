@@ -130,4 +130,13 @@
             name="custom_style_adapter" />
     </configure>
 
+    <!-- ftw.simplelayout -->
+    <configure zcml:condition="installed ftw.simplelayout">
+        <adapter
+            for="ftw.simplelayout.interfaces.ISimplelayout"
+            provides="ftw.publisher.core.interfaces.IDataCollector"
+            factory=".ftw_simplelayout.SimplelayoutPageAnnotations"
+            name="ftw.simplelayout:SimplelayoutPageAnnotations" />
+    </configure>
+
 </configure>
