@@ -17,6 +17,7 @@ from zope.component import getUtility
 from zope.configuration import xmlconfig
 from zope.interface import alsoProvides
 from zope.interface import Interface
+import ftw.simplelayout.tests.builders
 import pkg_resources
 
 
@@ -77,6 +78,7 @@ class PublisherCoreLayer(PloneSandboxLayer):
 
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'plone.app.relationfield:default')
+        applyProfile(portal, 'ftw.simplelayout:default')
 
 
 PUBLISHER_CORE_FIXTURE = PublisherCoreLayer()
