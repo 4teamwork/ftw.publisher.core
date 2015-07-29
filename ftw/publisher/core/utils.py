@@ -5,6 +5,7 @@ from datetime import datetime
 from plone.portlets.settings import PortletAssignmentSettings
 from ZConfig.components.logger import loghandler
 from zope.component import getUtility
+from zope.component.hooks import getSite
 import logging
 import os.path
 import pkg_resources
@@ -257,6 +258,42 @@ def encode_after_json(value):
     # other types
     else:
         return value
+
+
+def make_path_relative(path):
+    """Make an absolute path relative to the site root.
+    """
+    site_path = '/'.join(getSite().getPhysicalPath())
+    assert path.startswith(site_path), (
+        'The obj path "{0}" does not start with the site path "{1}"'.format(
+            path, site_path))
+
+    return path[len(site_path + '/'):]
+
+
+def get_relative_path(obj):
+    """Returns the path to an object relative to the site root.
+    """
+    site_path = '/'.join(getSite().getPhysicalPath())
+    obj_path = '/'.join(obj.getPhysicalPath())
+    assert obj_path.startswith(site_path), (
+        'The obj path "{0}" does not start with the site path "{1}"'.format(
+            obj_path, site_path))
+
+    return obj_path[len(site_path + '/'):]
+
+
+def get_obj_by_relative_path(relative_path):
+    """Returns the object by a path relative to the site root.
+    If no object is found, None is returned.
+    Bad acquisition lookups are eliminiated.
+    """
+    site_path = '/'.join(getSite().getPhysicalPath())
+    obj_path = '/'.join((site_path, relative_path.strip('/')))
+    obj = getSite().restrictedTraverse(obj_path, None)
+    if not obj or '/'.join(obj.getPhysicalPath()) != obj_path:
+        return None
+    return obj
 
 
 try:

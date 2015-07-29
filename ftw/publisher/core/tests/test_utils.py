@@ -1,7 +1,13 @@
 from DateTime import DateTime
 from datetime import datetime
+from ftw.builder import Builder
+from ftw.builder import create
 from ftw.publisher.core import utils
+from ftw.publisher.core.testing import PUBLISHER_CORE_INTEGRATION_TESTING
 from ftw.testing import MockTestCase
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from unittest2 import TestCase
 import json
 
 
@@ -113,3 +119,34 @@ class TestEncodeDecodeJson(MockTestCase):
         output = self.transport(input)
         self.assertEqual(input, output)
         self.assertEqual(type(input), type(output))
+
+
+class TestPathFunctions(TestCase):
+    layer = PUBLISHER_CORE_INTEGRATION_TESTING
+
+    def setUp(self):
+        setRoles(self.layer['portal'], TEST_USER_ID, ['Manager'])
+
+    def test_make_path_relative(self):
+        self.assertEquals(
+            'the-folder/the-page',
+            utils.make_path_relative('/plone/the-folder/the-page'))
+
+    def test_get_relative_path(self):
+        folder = create(Builder('folder').titled('The Folder'))
+        page = create(Builder('page').titled('The Page').within(folder))
+        self.assertEquals(
+            'the-folder/the-page',
+            utils.get_relative_path(page))
+
+    def test_get_obj_by_relative_path(self):
+        folder = create(Builder('folder').titled('The Folder'))
+        page = create(Builder('page').titled('The Page').within(folder))
+        self.assertEquals(
+            page,
+            utils.get_obj_by_relative_path('the-folder/the-page'))
+
+    def test_get_obj_by_relative_path_returns_None_when_object_missing(self):
+        self.assertEquals(
+            None,
+            utils.get_obj_by_relative_path('the-folder/the-page'))
