@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '2.4.2.dev0'
+version = '2.5.0.dev0'
 maintainer = 'Jonas Baumann'
 
 extras_require = {
@@ -46,7 +46,6 @@ setup(name='ftw.publisher.core',
 
       classifiers=[
         'Framework :: Plone',
-        'Framework :: Plone :: 4.2',
         'Framework :: Plone :: 4.3',
         'Programming Language :: Python',
         'Topic :: Software Development :: Libraries :: Python Modules',
@@ -73,7 +72,6 @@ setup(name='ftw.publisher.core',
         'ZODB3',
         'Zope2',
         'plone.app.blob',
-        'plone.namedfile',
         'plone.portlets',
         'setuptools',
         'zope.component',
