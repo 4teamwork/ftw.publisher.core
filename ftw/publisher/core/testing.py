@@ -78,7 +78,7 @@ class PublisherCoreLayer(PloneSandboxLayer):
 
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'plone.app.relationfield:default')
-        applyProfile(portal, 'ftw.simplelayout:default')
+        applyProfile(portal, 'ftw.simplelayout.contenttypes:default')
 
 
 PUBLISHER_CORE_FIXTURE = PublisherCoreLayer()
