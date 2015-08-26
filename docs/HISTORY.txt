@@ -8,6 +8,9 @@ Changelog
 - Drop Plone 4.2 support.
   [jone]
 
+- Add support for portlet assignment classes wich are not named "Assignment".
+  [jone]
+
 - Add ftw.simplelayout support (page and block states).
   [jone]
 

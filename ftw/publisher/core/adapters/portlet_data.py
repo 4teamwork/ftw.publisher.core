@@ -112,7 +112,10 @@ class PortletsData(object):
                 # we habe a portlet
                 data[manager_name][portlet_assignment.__name__] = {}
                 data[manager_name][portlet_assignment.__name__]['module'] = \
-                    portlet_assignment.__module__
+                    portlet_assignment.__class__.__module__
+                data[manager_name][portlet_assignment.__name__]['assignment_class_name'] = \
+                    portlet_assignment.__class__.__name__
+
                 # get all data
                 for field in portlet_assignment.__dict__.keys():
                     if field not in EXCLUDED_FIELDS:
@@ -192,8 +195,11 @@ class PortletsData(object):
                 portletfielddata = portletsdata[manager_name][portlet_id]
                 # get Assignment
                 portlet_module = modules[portletfielddata['module']]
+                portlet_class = getattr(portlet_module,
+                                        portletfielddata['assignment_class_name'])
                 # prepare data to pass as arguments
                 del portletfielddata['module']
+                del portletfielddata['assignment_class_name']
 
                 annotations = portletfielddata.get('__annotations__', None)
                 if '__annotations__' in portletfielddata:
@@ -217,7 +223,7 @@ class PortletsData(object):
                         imgobj = klass(**v['kwargs'])
                         portletfielddata[k] = imgobj
 
-                portlets[portlet_id] = portlet_module.Assignment(
+                portlets[portlet_id] = portlet_class(
                     **portletfielddata)
 
                 # XXX boolean value fix
