@@ -29,7 +29,6 @@ else:
     ONEGOV_THEME_INSTALLED = True
 
 
-#Dummy Interfaces
 class IDummyIface(Interface):
     """This is a dummy interface"""
 
@@ -127,7 +126,7 @@ class PublisherExampleContentLayer(PloneSandboxLayer):
                                          value='Hello World!',
                                          type='string')
 
-        #put some custom portlets on folder1 - prepare to get
+        # put some custom portlets on folder1 - prepare to get
         # portlets from folder 2
         self['left_column'] = getUtility(IPortletManager,
                                       name=u'plone.leftcolumn',
@@ -182,7 +181,7 @@ class PublisherExampleContentLayer(PloneSandboxLayer):
             root='/'.join(self.folder.getPhysicalPath()),
             )
 
-        #set dummy interfaces
+        # set dummy interfaces
         alsoProvides(self['testdoc1'], IDummyIface)
         alsoProvides(self['testdoc1'], IDummyIface2)
         alsoProvides(self['folder2'], IDummyIface2)

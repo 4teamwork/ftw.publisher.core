@@ -5,7 +5,6 @@ from plone.app.textfield.interfaces import IRichText
 from plone.app.textfield.value import RichTextValue
 from plone.dexterity.interfaces import IDexterityContent
 from plone.dexterity.utils import iterSchemata
-from Products.CMFCore.utils import getToolByName
 from zope import schema
 from zope.component import adapts
 from zope.interface import implements

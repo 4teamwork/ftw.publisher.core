@@ -59,19 +59,19 @@ class TopicCriteraData(object):
         self.logger.info('Updating criterias for topic (UID %s)' %
                          (self.object.UID()))
 
-        #easiest way - first delete all criterias
+        # easiest way - first delete all criterias
         self.object.manage_delObjects([i for i in self.object.objectIds()
                                        if i != 'syndication_information'])
 
         for criteria_id, data in topic_criteria_data.items():
-            #create criteria
+            # create criteria
 
-            #sortCriteria behave a bit special
+            # sortCriteria behave a bit special
             if 'ATSortCriterion' not in criteria_id:
                 criteria = self.object.addCriterion(data['field'],
                                                     data['meta_type'])
 
-            #add/change sort criteria
+            # add/change sort criteria
             if 'ATSortCriterion' in criteria_id:
                 self.object.setSortCriterion(data['field'], data['reversed'])
 

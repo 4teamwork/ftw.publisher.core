@@ -77,10 +77,10 @@ class PortletsData(object):
             if column is None:
                 continue
 
-            #ok we have a portlet manager
+            # ok we have a portlet manager
             data[manager_name] = {}
 
-            #get blackliststatus
+            # get blackliststatus
             blacklist = getMultiAdapter((self.object, column),
                                         ILocalPortletAssignmentManager)
             data[manager_name]['blackliststatus'] = {}
@@ -100,12 +100,12 @@ class PortletsData(object):
                                        IPortletAssignmentMapping,
                                        context=self.object)
 
-            #portlets order - dicts are unsorted
+            # portlets order - dicts are unsorted
             data[manager_name]['order'] = ','.join(portlets._order)
 
             for portlet_id in portlets.keys():
                 portlet_assignment = portlets[portlet_id]
-                #continue if portlet is blacklisted
+                # continue if portlet is blacklisted
                 if portlet_assignment.__module__ in blacklisted_portlets:
                     continue
 
@@ -113,7 +113,7 @@ class PortletsData(object):
                 data[manager_name][portlet_assignment.__name__] = {}
                 data[manager_name][portlet_assignment.__name__]['module'] = \
                     portlet_assignment.__module__
-                #get all data
+                # get all data
                 for field in portlet_assignment.__dict__.keys():
                     if field not in EXCLUDED_FIELDS:
                         field_value = getattr(portlet_assignment, field, '')
@@ -157,17 +157,17 @@ class PortletsData(object):
                                   context=self.object)
             if column is None:
                 continue
-            #ok we have a portlet manager
-            #get all current assigned portlets
+            # ok we have a portlet manager
+            # get all current assigned portlets
             portlets = getMultiAdapter((self.object, column,),
                                        IPortletAssignmentMapping,
                                        context=self.object)
             p_ids = [p for p in portlets._data.keys()]
-            #get new order
+            # get new order
             order = portletsdata[manager_name]['order'] and \
                 portletsdata[manager_name]['order'].split(',') or []
 
-            #set blackliststatus
+            # set blackliststatus
             blacklist = getMultiAdapter((self.object, column),
                                         ILocalPortletAssignmentManager)
             blacklistdata = portletsdata[manager_name]['blackliststatus']
@@ -180,26 +180,26 @@ class PortletsData(object):
             blacklist.setBlacklistStatus(
                 CONTEXT_CATEGORY, blacklistdata[CONTEXT_CATEGORY])
 
-            #bit clean up
+            # bit clean up
             del portletsdata[manager_name]['blackliststatus']
             del portletsdata[manager_name]['order']
 
-            #remove all currenlty assigned portlets from manager
+            # remove all currenlty assigned portlets from manager
             for p_id in p_ids:
                 del portlets._data[p_id]
 
             for portlet_id in portletsdata[manager_name].keys():
                 portletfielddata = portletsdata[manager_name][portlet_id]
-                #get Assignment
+                # get Assignment
                 portlet_module = modules[portletfielddata['module']]
-                #prepare data to pass as arguments
+                # prepare data to pass as arguments
                 del portletfielddata['module']
 
                 annotations = portletfielddata.get('__annotations__', None)
                 if '__annotations__' in portletfielddata:
                     del portletfielddata['__annotations__']
 
-                #check for dicts
+                # check for dicts
                 for k, v in portletfielddata.items():
 
                     if isinstance(v, dict):
@@ -230,5 +230,5 @@ class PortletsData(object):
                 if annotations:
                     portlets[portlet_id].__annotations__ = annotations
 
-            #set new order afterwards
+            # set new order afterwards
             portlets._order = order

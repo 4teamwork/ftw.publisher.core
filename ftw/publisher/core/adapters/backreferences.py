@@ -9,7 +9,6 @@ from Products.CMFCore.utils import getToolByName
 from ftw.publisher.core import getLogger
 from ftw.publisher.core.interfaces import IDataCollector
 from zope.interface import implements
-import AccessControl
 
 
 class Backreferences(object):

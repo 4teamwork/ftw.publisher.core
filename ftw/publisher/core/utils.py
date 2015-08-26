@@ -150,7 +150,6 @@ def decode_for_json(value, additional_encodings=[]):
                 pass
         raise
 
-
     # list
     elif isinstance(value, list):
         nval = []
