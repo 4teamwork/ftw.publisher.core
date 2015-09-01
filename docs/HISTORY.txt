@@ -5,6 +5,9 @@ Changelog
 2.5.0 (unreleased)
 ------------------
 
+- Add support for PersistentList and PersistentMapping in decode_for_json-utility
+  [elioschmutz]
+
 - Drop Plone 4.2 support.
   [jone]
 
