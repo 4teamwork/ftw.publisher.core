@@ -2,6 +2,8 @@ from Acquisition import aq_base
 from BTrees.OOBTree import OOBTree
 from DateTime import DateTime
 from datetime import datetime
+from persistent.list import PersistentList
+from persistent.mapping import PersistentMapping
 from plone.portlets.settings import PortletAssignmentSettings
 from ZConfig.components.logger import loghandler
 from zope.component import getUtility
@@ -151,7 +153,7 @@ def decode_for_json(value, additional_encodings=[]):
         raise
 
     # list
-    elif isinstance(value, list):
+    elif isinstance(value, list) or isinstance(value, PersistentList):
         nval = []
         for sval in value:
             nval.append(decode_for_json(sval))
@@ -166,7 +168,7 @@ def decode_for_json(value, additional_encodings=[]):
         return decode_for_json(['set', list(value)])
 
     # dicts
-    elif isinstance(value, dict):
+    elif isinstance(value, dict) or isinstance(value, PersistentMapping):
         nval = {}
         for key, sval in value.items():
             key = decode_for_json(key)

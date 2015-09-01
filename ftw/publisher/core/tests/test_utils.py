@@ -5,6 +5,8 @@ from ftw.builder import create
 from ftw.publisher.core import utils
 from ftw.publisher.core.testing import PUBLISHER_CORE_INTEGRATION_TESTING
 from ftw.testing import MockTestCase
+from persistent.list import PersistentList
+from persistent.mapping import PersistentMapping
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from unittest2 import TestCase
@@ -68,6 +70,12 @@ class TestEncodeDecodeJson(MockTestCase):
         self.assertEqual(output, input)
         self.assertEqual(type(output), type(input))
 
+    def test_persistent_list(self):
+        input = PersistentList(['foo', 'bar'])
+        output = self.transport(input)
+        self.assertEqual(output, input)
+        self.assertEqual(type(output), list)
+
     def test_tuple(self):
         transported = self.transport((1, 2))
         self.assertEqual((1, 2), transported)
@@ -83,6 +91,12 @@ class TestEncodeDecodeJson(MockTestCase):
         output = self.transport(input)
         self.assertEqual(output, input)
         self.assertEqual(type(output), type(input))
+
+    def test_persistent_dict(self):
+        input = PersistentMapping({'foo': 'bar', 'bar': 'baz'})
+        output = self.transport(input)
+        self.assertEqual(output, input)
+        self.assertEqual(type(output), dict)
 
     def test_integer(self):
         input = 42
