@@ -153,11 +153,15 @@ def decode_for_json(value, additional_encodings=[]):
         raise
 
     # list
-    elif isinstance(value, list) or isinstance(value, PersistentList):
+    elif isinstance(value, list):
         nval = []
         for sval in value:
             nval.append(decode_for_json(sval))
         return nval
+
+    # PersistentList
+    elif isinstance(value, PersistentList):
+        return decode_for_json(['PersistentList', list(value)])
 
     # tuple
     elif isinstance(value, tuple):
@@ -168,13 +172,17 @@ def decode_for_json(value, additional_encodings=[]):
         return decode_for_json(['set', list(value)])
 
     # dicts
-    elif isinstance(value, dict) or isinstance(value, PersistentMapping):
+    elif isinstance(value, dict):
         nval = {}
         for key, sval in value.items():
             key = decode_for_json(key)
             sval = decode_for_json(sval)
             nval[key] = sval
         return nval
+
+    # PersistentMapping
+    elif isinstance(value, PersistentMapping):
+        return decode_for_json(['PersistentMapping', dict(value)])
 
     # python datetime
     elif isinstance(value, datetime):
@@ -216,6 +224,10 @@ def encode_after_json(value):
             return tuple(new_value[1])
         elif len(new_value) == 2 and new_value[0] == 'set':
             return set(new_value[1])
+        elif len(new_value) == 2 and new_value[0] == 'PersistentList':
+            return PersistentList(new_value[1])
+        elif len(new_value) == 2 and new_value[0] == 'PersistentMapping':
+            return PersistentMapping(new_value[1])
         else:
             return new_value
 

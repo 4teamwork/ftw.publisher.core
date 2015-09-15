@@ -74,7 +74,13 @@ class TestEncodeDecodeJson(MockTestCase):
         input = PersistentList(['foo', 'bar'])
         output = self.transport(input)
         self.assertEqual(output, input)
-        self.assertEqual(type(output), list)
+        self.assertEqual(type(output), PersistentList)
+
+    def test_nested_persistent_list(self):
+        input = PersistentList(['foo', 'bar', PersistentList(['1', '2'])])
+        output = self.transport(input)
+        self.assertEqual(output, input)
+        self.assertEqual(type(output), PersistentList)
 
     def test_tuple(self):
         transported = self.transport((1, 2))
@@ -92,11 +98,23 @@ class TestEncodeDecodeJson(MockTestCase):
         self.assertEqual(output, input)
         self.assertEqual(type(output), type(input))
 
-    def test_persistent_dict(self):
+    def test_persistent_mapping(self):
         input = PersistentMapping({'foo': 'bar', 'bar': 'baz'})
         output = self.transport(input)
         self.assertEqual(output, input)
-        self.assertEqual(type(output), dict)
+        self.assertEqual(type(output), PersistentMapping)
+
+    def test_nested_persistent_mapping(self):
+        input = PersistentMapping(
+            {
+                'foo': 'bar',
+                'bar': PersistentList(['foo', 'bar']),
+                'baz': PersistentMapping({'foo': 'bar', 'bar': 'baz'})
+            }
+        )
+        output = self.transport(input)
+        self.assertEqual(output, input)
+        self.assertEqual(type(output), PersistentMapping)
 
     def test_integer(self):
         input = 42
