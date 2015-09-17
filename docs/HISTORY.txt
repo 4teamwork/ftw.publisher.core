@@ -5,13 +5,13 @@ Changelog
 2.5.0 (unreleased)
 ------------------
 
-- Add support for PersistentList and PersistentMapping in decode_for_json-utility
-  [elioschmutz]
+- Add support for PersistentList and PersistentMapping in decode_for_json-utility.
+  [elioschmutz, mbaechtold]
 
 - Drop Plone 4.2 support.
   [jone]
 
-- Add support for portlet assignment classes wich are not named "Assignment".
+- Add support for portlet assignment classes which are not named "Assignment".
   [jone]
 
 - Add ftw.simplelayout support (page and block states).
