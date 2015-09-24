@@ -79,8 +79,16 @@ class DexterityFieldData(object):
             for name, field in schema.getFieldsInOrder(schemata):
                 value = subdata[name]
                 value = self.unpack(name, field, value)
-                if value != _marker:
-                    setattr(repr, name, value)
+                if value == _marker:
+                    continue
+
+                if name == 'description' and value == '' and isinstance(value, str):
+                    # Prevent ValueError: Description must be unicode.
+                    # Dexterity has a wrong default description which is str instead
+                    # of unicode.
+                    value = u''
+
+                setattr(repr, name, value)
 
     def pack(self, name, field, value):
         """Packs the field data and makes it ready for transportation with
