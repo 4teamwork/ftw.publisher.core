@@ -137,11 +137,24 @@
             provides="ftw.publisher.core.interfaces.IDataCollector"
             factory=".ftw_simplelayout.SimplelayoutPageAnnotations"
             name="ftw.simplelayout:SimplelayoutPageAnnotations" />
+
         <adapter
             for="ftw.simplelayout.interfaces.ISimplelayoutBlock"
             provides="ftw.publisher.core.interfaces.IDataCollector"
             factory=".ftw_simplelayout.SimplelayoutBlockAnnotations"
             name="ftw.simplelayout:SimplelayoutBlockAnnotations" />
+
+        <adapter
+            for="ftw.simplelayout.interfaces.ISimplelayoutBlock"
+            provides="ftw.publisher.core.interfaces.IDataCollector"
+            factory=".ftw_simplelayout.RemoveDeletedSLContentishChildren"
+            name="ftw.simplelayout:RemoveDeletedSLContentishChildren" />
+
+        <adapter
+            for="ftw.simplelayout.interfaces.ISimplelayout"
+            provides="ftw.publisher.core.interfaces.IDataCollector"
+            factory=".ftw_simplelayout.RemoveDeletedSLContentishChildren"
+            name="ftw.simplelayout:RemoveDeletedSLContentishChildren" />
     </configure>
 
 </configure>
