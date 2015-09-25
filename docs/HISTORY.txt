@@ -5,6 +5,9 @@ Changelog
 2.5.0 (unreleased)
 ------------------
 
+- Prevent "ValueError: Description must be unicode." for dexterity objects.
+  [jone]
+
 - Add support for PersistentList and PersistentMapping in decode_for_json-utility.
   [elioschmutz, mbaechtold]
 
