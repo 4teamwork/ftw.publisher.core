@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.5.0 (unreleased)
+2.5.0 (2015-09-30)
 ------------------
 
 - Prevent "ValueError: Description must be unicode." for dexterity objects.
