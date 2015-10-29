@@ -1,11 +1,12 @@
 from AccessControl.SecurityInfo import ClassSecurityInformation
-from OFS.Image import Image as OFSImage
 from ftw.publisher.core import getLogger
 from ftw.publisher.core.interfaces import IDataCollector
+from OFS.Image import Image as OFSImage
 from plone.portlets.constants import CONTENT_TYPE_CATEGORY, CONTEXT_CATEGORY
 from plone.portlets.constants import USER_CATEGORY, GROUP_CATEGORY
 from plone.portlets.interfaces import ILocalPortletAssignmentManager
 from plone.portlets.interfaces import IPortletAssignmentMapping
+from plone.portlets.interfaces import IPortletAssignmentSettings
 from plone.portlets.interfaces import IPortletManager
 from sys import modules
 from zope.component import queryUtility, getMultiAdapter
@@ -116,6 +117,10 @@ class PortletsData(object):
                 data[manager_name][portlet_assignment.__name__]['assignment_class_name'] = \
                     portlet_assignment.__class__.__name__
 
+                # portlet settings (visibility)
+                settings = IPortletAssignmentSettings(portlet_assignment).data
+                data[manager_name][portlet_assignment.__name__]['settings'] = settings
+
                 # get all data
                 for field in portlet_assignment.__dict__.keys():
                     if field not in EXCLUDED_FIELDS:
@@ -197,9 +202,11 @@ class PortletsData(object):
                 portlet_module = modules[portletfielddata['module']]
                 portlet_class = getattr(portlet_module,
                                         portletfielddata['assignment_class_name'])
+                settings = portletfielddata.get('settings', None)
                 # prepare data to pass as arguments
                 del portletfielddata['module']
                 del portletfielddata['assignment_class_name']
+                del portletfielddata['settings']
 
                 annotations = portletfielddata.get('__annotations__', None)
                 if '__annotations__' in portletfielddata:
@@ -235,6 +242,10 @@ class PortletsData(object):
 
                 if annotations:
                     portlets[portlet_id].__annotations__ = annotations
+
+                # portlet settings (visibility)
+                portlet_assignment = portlets[portlet_id]
+                IPortletAssignmentSettings(portlet_assignment).data = settings
 
             # set new order afterwards
             portlets._order = order

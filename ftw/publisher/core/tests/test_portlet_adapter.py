@@ -2,6 +2,7 @@ from BTrees.OOBTree import OOBTree
 from ftw.publisher.core import utils
 from ftw.publisher.core.interfaces import IDataCollector
 from ftw.publisher.core.testing import PUBLISHER_EXAMPLE_CONTENT_INTEGRATION
+from persistent.mapping import PersistentMapping
 from plone.portlet.static import static
 from plone.portlets.constants import ASSIGNMENT_SETTINGS_KEY
 from plone.portlets.constants import CONTENT_TYPE_CATEGORY, CONTEXT_CATEGORY
@@ -12,6 +13,7 @@ from unittest2 import TestCase
 from zope.component import getAdapter
 from zope.component import getMultiAdapter
 import json
+
 
 
 class TestPortletAdapter(TestCase):
@@ -208,3 +210,30 @@ class TestPortletAdapter(TestCase):
             IPortletAssignmentSettings.providedBy(settings),
             'Portlet settings is not PortletAssignmentSettings but %s' % (
                 type(settings)))
+
+    def test_portlet_visibility_settings(self):
+        assignment = self.layer['right_portlets'].get('title2', False)
+        settings = PersistentMapping({'visible': False})
+        IPortletAssignmentSettings(assignment).data = settings
+
+        # get the data
+        adapter = getAdapter(self.layer['folder1'], IDataCollector,
+                             name="portlet_data_adapter")
+
+        data = adapter.getData()
+        jsondata = json.dumps(utils.decode_for_json(data))
+        data = utils.encode_after_json(json.loads(jsondata))
+
+        self.assertEqual(
+            settings,
+            data['plone.rightcolumn']['title2']['settings'])
+
+        # set the data
+        adapter2 = getAdapter(self.layer['folder2'], IDataCollector,
+                              name="portlet_data_adapter")
+        adapter2.setData(data, metadata=None)
+
+        new_assignment = self.layer['right_portlets'].get('title2', False)
+        self.assertEqual(
+            settings,
+            IPortletAssignmentSettings(new_assignment).data)

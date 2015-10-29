@@ -5,7 +5,8 @@ Changelog
 2.5.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Publish visible state on portlets.
+  [lknoepfel]
 
 
 2.5.0 (2015-09-30)
