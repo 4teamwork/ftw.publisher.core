@@ -24,7 +24,6 @@ class TestEncodeDecodeJson(MockTestCase):
         result_data = utils.encode_after_json(json.loads(transport_data))
         return result_data
 
-
     def test_string_encodings(self):
         unicodeS = u'\xe4\xeb\xef\xf6\xfc'
         utf8S = unicodeS.encode('utf-8')
