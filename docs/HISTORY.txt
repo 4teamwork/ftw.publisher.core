@@ -5,6 +5,11 @@ Changelog
 2.5.1 (unreleased)
 ------------------
 
+- Blocks of ftw.contentpage will no longer published directly
+  after deleting.
+  Backport for ftw.contentpage of functionality provided for ftw.simplelayout:
+  [elioschmutz]
+
 - Publish visible state on portlets.
   [lknoepfel]
 

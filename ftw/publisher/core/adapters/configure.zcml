@@ -112,13 +112,26 @@
             name="simplelayout_block" />
     </configure>
 
-    <!-- Teaser datacollector adapter for ftw.publisher -->
+    <!-- ftw.contentpage -->
     <configure zcml:condition="installed ftw.contentpage">
+        <!-- Teaser datacollector adapter for ftw.publisher -->
         <adapter
             for="ftw.contentpage.interfaces.ITeaser"
             provides="ftw.publisher.core.interfaces.IDataCollector"
             factory=".simplelayout_blocks.SimplelayoutBlockDataCollector"
             name="teaser_data_collector" />
+
+        <adapter
+            for="simplelayout.base.interfaces.ISimpleLayoutBlock"
+            provides="ftw.publisher.core.interfaces.IDataCollector"
+            factory=".simplelayout_utils.RemoveDeletedSLContentishChildren"
+            name="ftw.simplelayout:RemoveDeletedSLContentishChildren" />
+
+        <adapter
+            for="ftw.contentpage.interfaces.IContentPage"
+            provides="ftw.publisher.core.interfaces.IDataCollector"
+            factory=".simplelayout_utils.RemoveDeletedSLContentishChildren"
+            name="ftw.simplelayout:RemoveDeletedSLContentishChildren" />
     </configure>
 
     <!-- plonetheme.onegov custom styles -->
@@ -147,13 +160,13 @@
         <adapter
             for="ftw.simplelayout.interfaces.ISimplelayoutBlock"
             provides="ftw.publisher.core.interfaces.IDataCollector"
-            factory=".ftw_simplelayout.RemoveDeletedSLContentishChildren"
+            factory=".simplelayout_utils.RemoveDeletedSLContentishChildren"
             name="ftw.simplelayout:RemoveDeletedSLContentishChildren" />
 
         <adapter
             for="ftw.simplelayout.interfaces.ISimplelayout"
             provides="ftw.publisher.core.interfaces.IDataCollector"
-            factory=".ftw_simplelayout.RemoveDeletedSLContentishChildren"
+            factory=".simplelayout_utils.RemoveDeletedSLContentishChildren"
             name="ftw.simplelayout:RemoveDeletedSLContentishChildren" />
     </configure>
 

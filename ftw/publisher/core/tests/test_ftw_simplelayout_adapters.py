@@ -1,6 +1,6 @@
 from ftw.builder import Builder
 from ftw.builder import create
-from ftw.publisher.core.adapters.ftw_simplelayout import is_sl_contentish
+from ftw.publisher.core.adapters.simplelayout_utils import is_sl_contentish
 from ftw.publisher.core.interfaces import IDataCollector
 from ftw.publisher.core.testing import PUBLISHER_CORE_INTEGRATION_TESTING
 from ftw.simplelayout.interfaces import IBlockConfiguration

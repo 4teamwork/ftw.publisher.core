@@ -1,5 +1,5 @@
 from ftw.contentpage.interfaces import ITeaser
-from ftw.publisher.core.tests import test_simplelayout_adapter as sl_adapter
+from ftw.publisher.core.tests import test_ftw_contentpage_adapters as sl_adapter
 from simplelayout.base.interfaces import IBlockConfig
 
 

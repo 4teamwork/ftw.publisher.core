@@ -1,22 +1,28 @@
-from Acquisition import aq_inner, aq_parent
+from Acquisition import aq_inner
+from Acquisition import aq_parent
 from ftw.builder.testing import BUILDER_LAYER
 from ftw.testing.layer import ComponentRegistryLayer
 from plone.app.portlets import portlets
 from plone.app.portlets.portlets import navigation
 from plone.app.testing import applyProfile
 from plone.app.testing import IntegrationTesting
+from plone.app.testing import login
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
-from plone.app.testing import setRoles, TEST_USER_ID, TEST_USER_NAME, login
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
 from plone.portlet.collection import collection
 from plone.portlet.static import static
 from plone.portlets.interfaces import IPortletAssignmentMapping
 from plone.portlets.interfaces import IPortletManager
+from plone.testing import z2
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.configuration import xmlconfig
 from zope.interface import alsoProvides
 from zope.interface import Interface
+import ftw.contentpage.tests.builders
 import ftw.simplelayout.tests.builders
 import pkg_resources
 
@@ -75,9 +81,12 @@ class PublisherCoreLayer(PloneSandboxLayer):
             xmlconfig.file('configure.zcml', plonetheme.onegov,
                            context=configurationContext)
 
+        z2.installProduct(app, 'ftw.contentpage')
+
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'plone.app.relationfield:default')
         applyProfile(portal, 'ftw.simplelayout.contenttypes:default')
+        applyProfile(portal, 'ftw.contentpage:default')
 
 
 PUBLISHER_CORE_FIXTURE = PublisherCoreLayer()
