@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.5.1 (unreleased)
+2.6.0 (2015-12-23)
 ------------------
 
 - Blocks of ftw.contentpage will no longer published directly
