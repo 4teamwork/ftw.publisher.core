@@ -170,4 +170,21 @@
             name="ftw.simplelayout:RemoveDeletedSLContentishChildren" />
     </configure>
 
+    <!-- ftw.servicenavigation -->
+    <configure zcml:condition="installed ftw.servicenavigation">
+        <adapter
+            for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+            provides="ftw.publisher.core.interfaces.IDataCollector"
+            factory=".ftw_servicenavigation.ServiceNavigationDataCollector"
+            name="ftw.servicenavigation" />
+
+        <!-- ftw.servicenavigation + ftw.subsite -->
+        <adapter
+            zcml:condition="installed ftw.subsite"
+            for="ftw.subsite.interfaces.ISubsite"
+            provides="ftw.publisher.core.interfaces.IDataCollector"
+            factory=".ftw_servicenavigation.ServiceNavigationDataCollector"
+            name="ftw.servicenavigation" />
+    </configure>
+
 </configure>

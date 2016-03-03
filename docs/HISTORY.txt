@@ -5,7 +5,7 @@ Changelog
 2.6.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add data collector for ftw.servicenavigation data. [jone]
 
 
 2.6.0 (2015-12-23)
