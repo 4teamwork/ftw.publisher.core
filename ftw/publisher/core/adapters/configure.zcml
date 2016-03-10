@@ -143,6 +143,15 @@
             name="custom_style_adapter" />
     </configure>
 
+    <!-- Products.PloneFormGen -->
+    <configure zcml:condition="installed Products.PloneFormGen">
+        <adapter
+            for="Products.PloneFormGen.interfaces.IPloneFormGenField"
+            provides="ftw.publisher.core.interfaces.IDataCollector"
+            factory=".plone_form_gen_fg_field_data.PloneFormGenFGFieldDataCollector"
+            name="plone_form_gen_fg_field_adapter" />
+    </configure>
+
     <!-- ftw.simplelayout -->
     <configure zcml:condition="installed ftw.simplelayout">
         <adapter
