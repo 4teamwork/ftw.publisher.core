@@ -14,6 +14,7 @@ extras_require['tests'] = tests_require = [
 
     'Acquisition',
     'Plone',
+    'Products.PloneFormGen',
     'collective.geo.contentlocations',
     'collective.geo.geographer',
     'collective.testcaselayer',
