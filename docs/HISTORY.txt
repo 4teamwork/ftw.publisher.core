@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.6.1 (unreleased)
+2.7.0 (2016-03-30)
 ------------------
 
 - Add data collector for Products.PloneFormGen fields.
