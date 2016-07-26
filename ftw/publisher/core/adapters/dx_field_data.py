@@ -176,7 +176,7 @@ class DexterityFieldData(object):
             return ['raw', None]
 
         if isinstance(value, RelationValue):
-            if value.isBroken():
+            if value.isBroken() or not value.to_path:
                 return ['raw', None]
 
             return ['RelationValue',
