@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.7.1 (unreleased)
+2.7.1 (2016-07-26)
 ------------------
 
 - Fix error when publishing DX relation with no target. [jone]
