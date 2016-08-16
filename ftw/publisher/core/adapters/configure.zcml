@@ -169,6 +169,12 @@
         <adapter
             for="ftw.simplelayout.interfaces.ISimplelayoutBlock"
             provides="ftw.publisher.core.interfaces.IDataCollector"
+            factory=".ftw_simplelayout.SimplelayoutBlockProperties"
+            name="ftw.simplelayout:SimplelayoutBlockProperties" />
+
+        <adapter
+            for="ftw.simplelayout.interfaces.ISimplelayoutBlock"
+            provides="ftw.publisher.core.interfaces.IDataCollector"
             factory=".simplelayout_utils.RemoveDeletedSLContentishChildren"
             name="ftw.simplelayout:RemoveDeletedSLContentishChildren" />
 

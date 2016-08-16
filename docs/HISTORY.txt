@@ -5,7 +5,9 @@ Changelog
 2.7.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Implement ftw.simplelayout block properties support.
+  Allow setting a different view name.
+  [mathias.leimgruber]
 
 
 2.7.1 (2016-07-26)
