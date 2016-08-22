@@ -45,14 +45,15 @@ class PropertiesData(object):
         @rtype:     list
         """
 
-        if IPloneSiteRoot.providedBy(self.object):
-            return None
-
         properties = []
         for prop in self.object._propertyMap():
             # create a copy (we dont want to change the effective property)
             prop = prop.copy()
             # add the value
+
+            if IPloneSiteRoot.providedBy(self.object) and prop['id'] != 'layout':
+                continue
+
             prop['value'] = self.object.getProperty(prop['id'])
             properties.append(prop)
 
@@ -80,9 +81,6 @@ class PropertiesData(object):
         @return:            None
         """
 
-        if IPloneSiteRoot.providedBy(self.object):
-            return
-
         # plone root implementation
         root_path = '/'.join(self.object.getPhysicalPath())
         uid = hasattr(self.object, 'UID') and self.object.UID() or root_path
@@ -97,9 +95,14 @@ class PropertiesData(object):
         # delete old properties
         propertiesToDelete = [id for id in currentProperties if id not
                               in propertiesToUpdateOrCreate]
-        self.object.manage_delProperties(propertiesToDelete)
-        # get cleaned up list of properties
 
+        if not IPloneSiteRoot.providedBy(self.object):
+            self.object.manage_delProperties(propertiesToDelete)
+        else:
+            # Delete layout property anyway - this supports removing the prop.
+            self.object.manage_delProperties(['layout', ])
+
+        # get cleaned up list of properties
         currentProperties = self.object.propertyIds()
         # update or create properites
         for prop in properties:
