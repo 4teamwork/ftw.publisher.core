@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.7.3 (unreleased)
+2.7.3 (2016-09-26)
 ------------------
 
 - Publish layout property on plone root. But do not touch other properties.
