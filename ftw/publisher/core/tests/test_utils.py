@@ -9,6 +9,7 @@ from persistent.list import PersistentList
 from persistent.mapping import PersistentMapping
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from pytz import timezone
 from unittest2 import TestCase
 import json
 
@@ -140,13 +141,25 @@ class TestEncodeDecodeJson(MockTestCase):
         self.assertEqual(type(output), type(input))
 
     def test_python_datetime(self):
-        input = datetime.now()
+        input = datetime(2010, 1, 2, 3, 4, tzinfo=None)
+        output = self.transport(input)
+        self.assertEqual(input, output)
+        self.assertEqual(type(input), type(output))
+
+    def test_python_datetime_with_timezone(self):
+        input = datetime(2010, 1, 2, 3, 4, tzinfo=timezone('UTC'))
         output = self.transport(input)
         self.assertEqual(input, output)
         self.assertEqual(type(input), type(output))
 
     def test_zope_datetime(self):
         input = DateTime()
+        output = self.transport(input)
+        self.assertEqual(input, output)
+        self.assertEqual(type(input), type(output))
+
+    def test_zope_datetime_with_timezone(self):
+        input = DateTime('2010/01/02 10:35:17.012346 UTC')
         output = self.transport(input)
         self.assertEqual(input, output)
         self.assertEqual(type(input), type(output))

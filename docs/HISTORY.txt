@@ -5,7 +5,7 @@ Changelog
 2.7.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Support timezones. [jone]
 
 
 2.7.3 (2016-09-26)
