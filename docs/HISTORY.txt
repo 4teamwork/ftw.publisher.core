@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.7.4 (unreleased)
+2.7.4 (2016-10-21)
 ------------------
 
 - Fix plone.app.event timezone problems. [jone]
