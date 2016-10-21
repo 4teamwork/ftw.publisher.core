@@ -5,6 +5,7 @@ from datetime import datetime
 from persistent.list import PersistentList
 from persistent.mapping import PersistentMapping
 from plone.portlets.settings import PortletAssignmentSettings
+from pytz import timezone
 from ZConfig.components.logger import loghandler
 from zope.component import getUtility
 from zope.component.hooks import getSite
@@ -188,7 +189,8 @@ def decode_for_json(value, additional_encodings=[]):
     elif isinstance(value, datetime):
         return {'publisher-wrapper': True,
                 'type': 'datetime',
-                'value': value.strftime(ISOFORMAT)}
+                'timetuple': value.timetuple()[:6],
+                'tzinfo': value.tzinfo and value.tzinfo.zone}
 
     # zope datetime
     elif isinstance(value, DateTime):
@@ -251,7 +253,11 @@ def encode_after_json(value):
     elif isinstance(value, dict) and \
             value.get('publisher-wrapper', False) \
             and value.get('type', None) == 'datetime':
-        return datetime.strptime(value.get('value'), ISOFORMAT)
+        if value['tzinfo']:
+            tzinfo = timezone(value['tzinfo'])
+        else:
+            tzinfo = None
+        return datetime(*value['timetuple'], tzinfo=tzinfo)
 
     # zope datetime
     elif isinstance(value, dict) and \
