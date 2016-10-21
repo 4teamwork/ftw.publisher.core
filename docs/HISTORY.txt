@@ -5,6 +5,8 @@ Changelog
 2.7.4 (unreleased)
 ------------------
 
+- Fix plone.app.event timezone problems. [jone]
+
 - Support timezones. [jone]
 
 
