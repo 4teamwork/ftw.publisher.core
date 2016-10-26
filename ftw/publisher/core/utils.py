@@ -4,6 +4,7 @@ from DateTime import DateTime
 from datetime import datetime
 from persistent.list import PersistentList
 from persistent.mapping import PersistentMapping
+from plone.app.textfield.value import RichTextValue
 from plone.portlets.settings import PortletAssignmentSettings
 from pytz import timezone
 from ZConfig.components.logger import loghandler
@@ -140,6 +141,15 @@ def decode_for_json(value, additional_encodings=[]):
                  'type': 'PortletAssignmentSettings',
                  'value': dict(value.data)}
 
+    # RichTextValue
+    if isinstance(value, RichTextValue):
+        value = {'publisher-wrapper': True,
+                 'type': 'RichTextValue',
+                 'value': {'raw': value.raw,
+                           'mimeType': value.mimeType,
+                           'outputMimeType': value.outputMimeType,
+                           'encoding': value.encoding}}
+
     # unicode
     if isinstance(value, unicode):
         return u'unicode:' + value
@@ -264,6 +274,10 @@ def encode_after_json(value):
             value.get('publisher-wrapper', False) \
             and value.get('type', None) == 'DateTime':
         return DateTime(value.get('value'))
+
+    elif isinstance(value, dict) and value.get('utf8:publisher-wrapper', False) \
+            and value.get('utf8:type', None) == 'utf8:RichTextValue':
+        return RichTextValue(**encode_after_json(value['utf8:value']))
 
     # dicts
     elif isinstance(value, dict):
