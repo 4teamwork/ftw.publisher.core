@@ -5,7 +5,8 @@ Changelog
 2.7.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Generally support RichTextValue as value type.
+  [mathias.leimgruber]
 
 
 2.7.4 (2016-10-21)

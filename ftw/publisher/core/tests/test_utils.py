@@ -9,6 +9,7 @@ from persistent.list import PersistentList
 from persistent.mapping import PersistentMapping
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from plone.app.textfield.value import RichTextValue
 from pytz import timezone
 from unittest2 import TestCase
 import json
@@ -163,6 +164,17 @@ class TestEncodeDecodeJson(MockTestCase):
         output = self.transport(input)
         self.assertEqual(input, output)
         self.assertEqual(type(input), type(output))
+
+    def test_richtextvalue(self):
+        value = {'raw': u'<p>hall\xf6chen</p>'.encode('utf-8'),
+                 'mimeType': 'text/html',
+                 'outputMimeType': 'html/safe-html',
+                 'encoding': 'utf-8'}
+
+        input = RichTextValue(**value)
+        output = self.transport(input)
+        self.assertEqual(type(input), type(output), output)
+        self.assertEqual(vars(input), vars(output))
 
 
 class TestPathFunctions(TestCase):
