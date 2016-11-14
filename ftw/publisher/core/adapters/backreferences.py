@@ -65,6 +65,9 @@ class Backreferences(object):
         for ref in references:
             # get source object
             src = ref.getSourceObject()
+            if src is None:
+                continue
+
             suid = src.UID()
 
             if suid not in data.keys():
