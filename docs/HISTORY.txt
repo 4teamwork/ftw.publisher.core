@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.8.1 (unreleased)
+2.8.1 (2016-11-14)
 ------------------
 
 - Backreferences: awoid error with broken references. [jone]
