@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.8.2 (unreleased)
+2.8.2 (2016-11-16)
 ------------------
 
 - Fix daylight savings issue in p.a.events' start / end. [jone]
