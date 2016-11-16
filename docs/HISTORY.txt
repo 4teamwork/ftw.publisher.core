@@ -5,7 +5,7 @@ Changelog
 2.8.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix daylight savings issue in p.a.events' start / end. [jone]
 
 
 2.8.1 (2016-11-14)

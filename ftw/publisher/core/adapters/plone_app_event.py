@@ -1,19 +1,17 @@
 from AccessControl.SecurityInfo import ClassSecurityInformation
-from plone.app.event.dx.behaviors import data_postprocessing
+from DateTime import DateTime
+from plone.app.event.dx.interfaces import IDXEvent
 
 
 class FixEventTimezones(object):
     """
-    plone.app.event's IEventBasic stores temporarily FakeZone objects
-    as tzinfo of start and end dates.
-    This is cleaned up by data_postprocessing when the modification event is fired.
-    But the publisher does not fire the modification event.
-    Because we do not want to have side effects by introducing firing the modification
-    event we trigger the post processing manually.
+    Because plone.app.event's IEventBasic has a separate timezone field,
+    it does some strange things with FakeZone on start / end.
+    This leads to problems when publishing with the regulare publisher
+    field adapter.
 
-    The data collector adapters are executed in order of their names.
-    This adapter should be executed after the dx_field_data_adapter, so we prefix
-    the name of the adapter with zzz_.
+    In order to fix to those issues we handle start / end dates in this
+    adapter explicitly, so that we have full control.
     """
     security = ClassSecurityInformation()
 
@@ -21,7 +19,11 @@ class FixEventTimezones(object):
         self.context = context
 
     def getData(self):
-        return None
+        event = IDXEvent(self.context)
+        return {'start': DateTime(event.start),
+                'end': DateTime(event.end)}
 
     def setData(self, data, metadata):
-        data_postprocessing(self.context, None)
+        event = IDXEvent(self.context)
+        event.start = data['start'].asdatetime()
+        event.end = data['end'].asdatetime()
