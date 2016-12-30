@@ -5,7 +5,8 @@ Changelog
 2.8.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add support for publishing the category ranks of categorizable
+  content types from "ftw.shop". [mbaechtold]
 
 
 2.8.2 (2016-11-16)

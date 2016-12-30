@@ -23,7 +23,7 @@ extras_require['tests'] = tests_require = [
     'ftw.servicenavigation',
     'ftw.shop',
     'ftw.simplelayout [contenttypes]',
-    'ftw.testing',
+    'ftw.testing [splinter]',
     'plone.app.blob',
     'plone.app.relationfield',
     'plone.app.testing',

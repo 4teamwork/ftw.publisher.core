@@ -1,18 +1,30 @@
+from decimal import Decimal
+from ftw.builder import Builder
+from ftw.builder import create
+from ftw.publisher.core import utils
+from ftw.publisher.core.adapters.ftw_shop import deserialize_decimals
+from ftw.publisher.core.adapters.ftw_shop import make_persistent
+from ftw.publisher.core.adapters.ftw_shop import make_serializable
+from ftw.publisher.core.adapters.ftw_shop import serialize_decimals
 from ftw.publisher.core.interfaces import IDataCollector
+from ftw.publisher.core.testing import PUBLISHER_CORE_INTEGRATION_TESTING
 from ftw.publisher.core.testing import ZCML_LAYER
 from ftw.shop.interfaces import IShopItem
 from ftw.shop.interfaces import IVariationConfig
 from ftw.testing import MockTestCase
+from ftw.testing import staticuid
 from persistent.list import PersistentList
 from persistent.mapping import PersistentMapping
+from plone import api
+from plone.app.testing import login
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
+from unittest2 import TestCase
 from zope.annotation import IAttributeAnnotatable
 from zope.component import getAdapter
 from zope.component import queryAdapter
-from ftw.publisher.core.adapters.shop_items import make_serializable
-from ftw.publisher.core.adapters.shop_items import make_persistent
-from ftw.publisher.core.adapters.shop_items import serialize_decimals
-from ftw.publisher.core.adapters.shop_items import deserialize_decimals
-from decimal import Decimal
+import json
 
 
 TEST_DATA = PersistentMapping(
@@ -44,7 +56,7 @@ class TestShopItemVariationsAdapter(MockTestCase):
         self.replay()
 
         component = getAdapter(self.obj, IDataCollector,
-                               name='shop_item_adapter')
+                               name='shop_item_variations_adapter')
         self.assertTrue(IDataCollector.providedBy(component),
                         'ShopItem adapter is not registered properly')
 
@@ -52,7 +64,7 @@ class TestShopItemVariationsAdapter(MockTestCase):
         self.replay()
 
         component = getAdapter(self.obj, IDataCollector,
-                               name='shop_item_adapter')
+                               name='shop_item_variations_adapter')
 
         self.assertEquals(PersistentMapping(), component.getData())
 
@@ -60,7 +72,7 @@ class TestShopItemVariationsAdapter(MockTestCase):
         self.replay()
 
         component = getAdapter(self.obj, IDataCollector,
-                               name='shop_item_adapter')
+                               name='shop_item_variations_adapter')
 
         variation_config = queryAdapter(self.obj, IVariationConfig)
         variation_config.updateVariationConfig(TEST_DATA)
@@ -71,7 +83,7 @@ class TestShopItemVariationsAdapter(MockTestCase):
         self.replay()
 
         component = getAdapter(self.obj, IDataCollector,
-                               name='shop_item_adapter')
+                               name='shop_item_variations_adapter')
 
         component.setData(TEST_DATA, {})
         variation_config = queryAdapter(self.obj, IVariationConfig)
@@ -169,3 +181,99 @@ class TestDecimalsSerialization(MockTestCase):
         deserialized = deserialize_decimals(serialized)
         self.assertEquals(deserialized, expected)
         self.assertEquals(hash(deserialized), hash(expected))
+
+
+class TestShopCategorizableReferences(TestCase):
+    layer = PUBLISHER_CORE_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        login(self.portal, TEST_USER_NAME)
+
+        fti = api.portal.get().portal_types.get('Folder')
+        allowed_content_types = list(fti.allowed_content_types)
+        allowed_content_types += ['ShopCategory']
+        fti.allowed_content_types = tuple(set(allowed_content_types))
+
+    @staticuid('staticuid')
+    def test_shop_item_categories(self):
+        folder = create(Builder('folder'))
+        category_1 = create(Builder('shop category')
+                            .titled('Category 1')
+                            .within(folder))
+        category_2 = create(Builder('shop category')
+                            .titled('Category 2')
+                            .within(folder))
+        shop_item_1 = create(Builder('shop item')
+                             .titled('Raindrops')
+                             .within(category_1))
+        shop_item_1.addToCategory(category_1)
+        shop_item_1.addToCategory(category_2)
+
+        adapter_shop_item_1 = getAdapter(shop_item_1, IDataCollector,
+                                         name='shop_categorizable_references_adapter')
+
+        shop_item_2 = create(Builder('shop item')
+                             .titled('Snowflakes')
+                             .within(category_1))
+        adapter_shop_item_2 = getAdapter(shop_item_2, IDataCollector,
+                                         name='shop_categorizable_references_adapter')
+
+        self.assertNotEqual(
+            adapter_shop_item_1.getData(),
+            adapter_shop_item_2.getData(),
+        )
+
+        getter_data = adapter_shop_item_1.getData()
+        getter_json = json.dumps(utils.decode_for_json(getter_data))
+        setter_data = utils.encode_after_json(json.loads(getter_json))
+        adapter_shop_item_2.setData(setter_data, None)
+
+        self.assertEqual(
+            adapter_shop_item_1.getData(),
+            adapter_shop_item_2.getData(),
+        )
+
+    @staticuid('staticuid')
+    def test_shop_item_ranks(self):
+        folder = create(Builder('folder'))
+        category_1 = create(Builder('shop category')
+                            .titled('Category 1')
+                            .within(folder))
+        category_2 = create(Builder('shop category')
+                            .titled('Category 2')
+                            .within(folder))
+
+        shop_item_1 = create(Builder('shop item')
+                             .titled('Raindrops')
+                             .within(category_1))
+        shop_item_1.addToCategory(category_1)
+        shop_item_1.setRankForCategory(category_1, 5)
+        shop_item_1.addToCategory(category_2)
+        shop_item_1.setRankForCategory(category_2, 55)
+        adapter_shop_item_1 = getAdapter(shop_item_1, IDataCollector,
+                                         name='shop_categorizable_ranks_adapter')
+
+        shop_item_2 = create(Builder('shop item')
+                             .titled('Snowflakes')
+                             .within(category_1))
+        adapter_shop_item_2 = getAdapter(shop_item_2, IDataCollector,
+                                         name='shop_categorizable_ranks_adapter')
+
+        self.assertNotEqual(
+            adapter_shop_item_1.getData(),
+            adapter_shop_item_2.getData(),
+        )
+
+        getter_data = adapter_shop_item_1.getData()
+        getter_json = json.dumps(utils.decode_for_json(getter_data))
+        setter_data = utils.encode_after_json(json.loads(getter_json))
+        adapter_shop_item_2.setData(setter_data, None)
+
+        self.assertEqual(
+            adapter_shop_item_1.getData(),
+            adapter_shop_item_2.getData(),
+        )
+
+

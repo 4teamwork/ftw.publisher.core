@@ -6,6 +6,7 @@ from ftw.publisher.core.interfaces import IDataCollector
 from ftw.shop.interfaces import IVariationConfig
 from persistent.list import PersistentList
 from persistent.mapping import PersistentMapping
+from Products.CMFCore.utils import getToolByName
 from zope.component import queryAdapter
 from zope.interface import implements
 
@@ -122,3 +123,61 @@ class ShopItemVariations(object):
             variations_config.purge_dict()
         else:
             variations_config.updateVariationConfig(data)
+
+
+class ShopCategorizableReferences(object):
+    """DataCollector adapter for the category references of the categorizable shop types.
+    """
+
+    implements(IDataCollector)
+    logger = getLogger()
+    security = ClassSecurityInformation()
+
+    def __init__(self, obj):
+        self.object = obj
+
+    security.declarePrivate('getData')
+    def getData(self):
+        return [reference.UID() for reference in self.object.listCategories()]
+
+    security.declarePrivate('setData')
+    def setData(self, data, metadata):
+        self.logger.info('Updating shop item category references (UID %s)' %
+                         (self.object.UID()))
+
+        uid_catalog = getToolByName(self.object, 'uid_catalog')
+
+        # Add categories available on source.
+        for category_uid in data:
+            brains = uid_catalog(UID=category_uid)
+            if brains:
+                self.object.addToCategory(brains[0].getObject())
+
+        # Remove categories no longer available on the source.
+        existing_categories = [reference.UID() for reference in self.object.listCategories()]
+        categories_to_be_removed = set(existing_categories) - set(data)
+        for category in categories_to_be_removed:
+            self.object.removeFromCategory(category)
+
+
+class ShopCategorizableRanks(object):
+    """DataCollector adapter for the (category) ranks of the categorizable shop types.
+    """
+
+    implements(IDataCollector)
+    logger = getLogger()
+    security = ClassSecurityInformation()
+
+    def __init__(self, obj):
+        self.object = obj
+
+    security.declarePrivate('getData')
+    def getData(self):
+        return getattr(self.object, '_categoryRanks', PersistentMapping())
+
+    security.declarePrivate('setData')
+    def setData(self, data, metadata):
+        self.logger.info('Updating shop item ranks (UID %s)' %
+                         (self.object.UID()))
+
+        self.object._categoryRanks = data
