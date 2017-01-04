@@ -23,6 +23,7 @@ from zope.configuration import xmlconfig
 from zope.interface import alsoProvides
 from zope.interface import Interface
 import ftw.contentpage.tests.builders
+import ftw.shop.tests.builders
 import ftw.simplelayout.tests.builders
 import pkg_resources
 
@@ -82,11 +83,13 @@ class PublisherCoreLayer(PloneSandboxLayer):
                            context=configurationContext)
 
         z2.installProduct(app, 'ftw.contentpage')
+        z2.installProduct(app, 'ftw.shop')
 
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'plone.app.relationfield:default')
         applyProfile(portal, 'ftw.simplelayout.contenttypes:default')
         applyProfile(portal, 'ftw.contentpage:default')
+        applyProfile(portal, 'ftw.shop:default')
 
 
 PUBLISHER_CORE_FIXTURE = PublisherCoreLayer()

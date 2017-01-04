@@ -100,8 +100,18 @@
         <adapter
               for="ftw.shop.interfaces.IShopItem"
               provides="ftw.publisher.core.interfaces.IDataCollector"
-              factory="ftw.publisher.core.adapters.shop_items.ShopItemVariations"
-              name="shop_item_adapter" />
+              factory="ftw.publisher.core.adapters.ftw_shop.ShopItemVariations"
+              name="shop_item_variations_adapter" />
+        <adapter
+              for="ftw.shop.content.categorizeable.Categorizeable"
+              provides="ftw.publisher.core.interfaces.IDataCollector"
+              factory="ftw.publisher.core.adapters.ftw_shop.ShopCategorizableReferences"
+              name="shop_categorizable_references_adapter" />
+        <adapter
+              for="ftw.shop.content.categorizeable.Categorizeable"
+              provides="ftw.publisher.core.interfaces.IDataCollector"
+              factory="ftw.publisher.core.adapters.ftw_shop.ShopCategorizableRanks"
+              name="shop_categorizable_ranks_adapter" />
     </configure>
 
     <configure zcml:condition="installed simplelayout.base">
