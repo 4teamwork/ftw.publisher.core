@@ -22,6 +22,7 @@ except pkg_resources.DistributionNotFound:
 else:
     HAS_RELATIONS = True
     from z3c.relationfield import RelationValue
+    from z3c.relationfield.event import addRelations
     from z3c.relationfield.interfaces import IRelation
     from z3c.relationfield.interfaces import IRelationChoice
     from z3c.relationfield.interfaces import IRelationList
@@ -89,6 +90,9 @@ class DexterityFieldData(object):
                     value = u''
 
                 setattr(repr, name, value)
+
+        if HAS_RELATIONS:
+            addRelations(self.context, None)
 
     def pack(self, name, field, value):
         """Packs the field data and makes it ready for transportation with

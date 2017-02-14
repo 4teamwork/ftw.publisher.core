@@ -1,9 +1,11 @@
+from Acquisition import aq_inner
 from ftw.publisher.core import utils
 from ftw.publisher.core.interfaces import IDataCollector
 from ftw.publisher.core.testing import PUBLISHER_EXAMPLE_CONTENT_FIXTURE
 from ftw.publisher.core.tests.interfaces import ITextSchema
 from json import dumps
 from json import loads
+from plone import api
 from plone.app.relationfield.behavior import IRelatedItems
 from plone.app.testing import applyProfile
 from plone.app.testing import IntegrationTesting
@@ -15,8 +17,11 @@ from plone.namedfile.file import NamedImage
 from Products.CMFPlone.utils import getFSVersionTuple
 from unittest2 import TestCase
 from z3c.relationfield import RelationValue
+from zc.relation.interfaces import ICatalog
 from zope.component import getAdapter
+from zope.component import getUtility
 from zope.configuration import xmlconfig
+from zope.intid.interfaces import IIntIds
 
 
 class DexterityLayer(PloneSandboxLayer):
@@ -168,6 +173,24 @@ class TestDexterityFieldData(TestCase):
 
         relation, = target.relatedItems
         self.assertEquals(foo, relation.to_object)
+
+        # Test that the relation is in the catalog.
+        catalog = getUtility(ICatalog)
+        intids = getUtility(IIntIds)
+
+        target_id = intids.getId(aq_inner(target))
+        foo_id = intids.getId(aq_inner(foo))
+
+        relations = tuple(catalog.findRelations({'from_id': target_id, 'to_id': foo_id}))
+        self.assertEqual(1, len(relations))
+        self.assertEqual(
+            target,
+            intids.queryObject(relations[0].from_id)
+        )
+        self.assertEqual(
+            foo,
+            intids.queryObject(relations[0].to_id)
+        )
 
     def test_relation_is_None(self):
         foo = createContentInContainer(self.portal, 'ExampleDxType', title=u'Foo')
