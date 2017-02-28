@@ -5,7 +5,6 @@ from ftw.publisher.core.testing import PUBLISHER_EXAMPLE_CONTENT_FIXTURE
 from ftw.publisher.core.tests.interfaces import ITextSchema
 from json import dumps
 from json import loads
-from plone import api
 from plone.app.relationfield.behavior import IRelatedItems
 from plone.app.testing import applyProfile
 from plone.app.testing import IntegrationTesting
@@ -170,6 +169,10 @@ class TestDexterityFieldData(TestCase):
         self._set_field_data(target, data, json=True)
         self.assertEquals(1, len(target.relatedItems),
                           'Relation missing')
+
+        self._set_field_data(target, data, json=True)
+        self.assertEquals(1, len(target.relatedItems),
+                          'Publishing twice should not add more relations.')
 
         relation, = target.relatedItems
         self.assertEquals(foo, relation.to_object)
