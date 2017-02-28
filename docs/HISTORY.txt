@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.9.1 (unreleased)
+2.9.1 (2017-02-28)
 ------------------
 
 - Fix publishing objects having backward relations. [mbaechtold]
