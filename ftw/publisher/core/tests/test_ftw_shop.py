@@ -230,7 +230,7 @@ class TestShopCategorizableReferences(TestCase):
         setter_data = utils.encode_after_json(json.loads(getter_json))
         adapter_shop_item_2.setData(setter_data, None)
 
-        self.assertEqual(
+        self.assertItemsEqual(
             adapter_shop_item_1.getData(),
             adapter_shop_item_2.getData(),
         )
