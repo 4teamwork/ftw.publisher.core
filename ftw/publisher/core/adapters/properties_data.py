@@ -98,7 +98,7 @@ class PropertiesData(object):
 
         if not IPloneSiteRoot.providedBy(self.object):
             self.object.manage_delProperties(propertiesToDelete)
-        else:
+        elif 'layout' in currentProperties:
             # Delete layout property anyway - this supports removing the prop.
             self.object.manage_delProperties(['layout', ])
 

@@ -5,7 +5,8 @@ Changelog
 2.9.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Improve publishing the layout property on plone site
+  root (introduced in 2.7.3). [mbaechtold]
 
 
 2.9.1 (2017-02-28)

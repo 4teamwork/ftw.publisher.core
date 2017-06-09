@@ -98,3 +98,27 @@ class TestPortletAdapter(TestCase):
 
         # Other properties should be untouched
         self.assertEqual(cached_title, portal.Title())
+
+    def test_remove_non_existing_layout_property_on_root(self):
+        """
+        Removing an non existing layout property on the plone site root
+        must not fail.
+        """
+        portal = self.layer['portal']
+        portal.setLayout('folder_contents')
+        portal.manage_delProperties(['layout', ])
+        adapter = getAdapter(portal, IDataCollector,
+                             name="properties_data_adapter")
+
+        data = adapter.getData()
+        self.assertFalse(data, 'Expect an empty list')
+
+        cached_title = portal.Title()
+        adapter.setData(data, {})
+
+        self.assertNotIn('layout',
+                         portal.propertyIds(),
+                         'Property layout should be removed')
+
+        # Other properties should be untouched
+        self.assertEqual(cached_title, portal.Title())
