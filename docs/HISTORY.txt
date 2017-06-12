@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.9.2 (unreleased)
+2.9.2 (2017-06-12)
 ------------------
 
 - Improve publishing the layout property on plone site
