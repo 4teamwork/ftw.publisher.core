@@ -5,7 +5,7 @@ Changelog
 2.9.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- No longer install "splinter" extra from "ftw.testing". [mbaechtold]
 
 
 2.9.2 (2017-06-12)
