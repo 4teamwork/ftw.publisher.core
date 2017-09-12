@@ -12,17 +12,21 @@ from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
+from plone.dexterity.content import Container
 from plone.portlet.collection import collection
 from plone.portlet.static import static
 from plone.portlets.interfaces import IPortletAssignmentMapping
 from plone.portlets.interfaces import IPortletManager
+from plone.supermodel import model
 from plone.testing import z2
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.configuration import xmlconfig
 from zope.interface import alsoProvides
+from zope.interface import implements
 from zope.interface import Interface
 import ftw.contentpage.tests.builders
+import ftw.publisher.core.tests.builders
 import ftw.shop.tests.builders
 import ftw.simplelayout.tests.builders
 import pkg_resources
@@ -46,6 +50,17 @@ class IDummyIface2(Interface):
 
 class IDummyIface3(Interface):
     """This is a dummy interface"""
+
+class ISampleContentSchema(model.Schema):
+    pass
+
+
+class ISampleContententMarker(Interface):
+    pass
+
+
+class SampleContent(Container):
+    implements(ISampleContententMarker)
 
 
 class ZCMLLayer(ComponentRegistryLayer):
@@ -73,6 +88,7 @@ class PublisherCoreLayer(PloneSandboxLayer):
             '  <include package="z3c.autoinclude" file="meta.zcml" />'
             '  <includePlugins package="plone" />'
             '  <includePluginsOverrides package="plone" />'
+            '  <include package="ftw.publisher.core.tests" file="behaviors.zcml" />'
             '</configure>',
             context=configurationContext)
 
@@ -90,6 +106,7 @@ class PublisherCoreLayer(PloneSandboxLayer):
         applyProfile(portal, 'ftw.simplelayout.contenttypes:default')
         applyProfile(portal, 'ftw.contentpage:default')
         applyProfile(portal, 'ftw.shop:default')
+        applyProfile(portal, 'collective.z3cform.datagridfield:default')
 
 
 PUBLISHER_CORE_FIXTURE = PublisherCoreLayer()

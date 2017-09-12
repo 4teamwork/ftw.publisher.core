@@ -18,6 +18,7 @@ extras_require['tests'] = tests_require = [
     'collective.geo.contentlocations',
     'collective.geo.geographer',
     'collective.testcaselayer',
+    'collective.z3cform.datagridfield',
     'ftw.builder',
     'ftw.contentpage',
     'ftw.servicenavigation',
