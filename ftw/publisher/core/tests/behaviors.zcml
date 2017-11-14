@@ -1,0 +1,13 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone">
+
+    <!-- Register behaviors for testing -->
+    <plone:behavior
+        title="Data grid field demo behavior"
+        description="Adds the ability to a data grid rows"
+        provides=".behaviors.IDataGridFieldExample"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        />
+
+</configure>

@@ -15,6 +15,18 @@ import os.path
 import pkg_resources
 
 
+try:
+    pkg_resources.get_distribution('z3c.relationfield')
+
+except pkg_resources.DistributionNotFound:
+    HAS_RELATIONS = False
+
+else:
+    HAS_RELATIONS = True
+    from z3c.relationfield import RelationValue
+    from zope.intid.interfaces import IIntIds
+
+
 """
 @var LOG_FORMAT:        Logging Format (see python logging module)
 """
@@ -150,6 +162,15 @@ def decode_for_json(value, additional_encodings=[]):
                            'outputMimeType': value.outputMimeType,
                            'encoding': value.encoding}}
 
+    if HAS_RELATIONS and isinstance(value, RelationValue):
+        if value.isBroken() or not value.to_path:
+            value = None
+
+        else:
+            value = {'publisher-wrapper': True,
+                     'type': 'RelationValue',
+                     'value': make_path_relative(value.to_path)}
+
     # unicode
     if isinstance(value, unicode):
         return u'unicode:' + value
@@ -275,9 +296,18 @@ def encode_after_json(value):
             and value.get('type', None) == 'DateTime':
         return DateTime(value.get('value'))
 
+    # RichTextValue
     elif isinstance(value, dict) and value.get('utf8:publisher-wrapper', False) \
             and value.get('utf8:type', None) == 'utf8:RichTextValue':
         return RichTextValue(**encode_after_json(value['utf8:value']))
+
+    elif isinstance(value, dict) and value.get('utf8:publisher-wrapper', False) \
+            and value.get('utf8:type', None) == 'utf8:RelationValue':
+
+        obj = get_obj_by_relative_path(encode_after_json(value['utf8:value']))
+        if not obj:
+            return None
+        return create_relation_for(obj)
 
     # dicts
     elif isinstance(value, dict):
@@ -329,20 +359,17 @@ def get_obj_by_relative_path(relative_path):
     return obj
 
 
-try:
-    pkg_resources.get_distribution('z3c.relationfield')
 
-except pkg_resources.DistributionNotFound:
-    def create_relation_for(obj):
-        # Relations cannot be created since z3c.relationfield is not
-        # available. Lets raise an ImportError
-        import z3c.relationfield
-
-else:
-    from z3c.relationfield import RelationValue
-    from zope.intid.interfaces import IIntIds
+if HAS_RELATIONS:
 
     def create_relation_for(obj):
         intids = getUtility(IIntIds)
         intid = intids.getId(aq_base(obj))
         return RelationValue(intid)
+
+else:
+
+    def create_relation_for(obj):
+        # Relations cannot be created since z3c.relationfield is not
+        # available. Lets raise an ImportError
+        import z3c.relationfield
