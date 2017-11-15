@@ -188,6 +188,16 @@ class TestPathFunctions(TestCase):
             'the-folder/the-page',
             utils.make_path_relative('/plone/the-folder/the-page'))
 
+    def test_make_path_absolute(self):
+        self.assertEquals(
+            '/plone/the-folder/the-page',
+            utils.make_path_absolute('the-folder/the-page'))
+
+    def test_make_path_absolute_removes_extra_slash(self):
+        self.assertEquals(
+            '/plone/the-folder/the-page',
+            utils.make_path_absolute('/the-folder/the-page'))
+
     def test_get_relative_path(self):
         folder = create(Builder('folder').titled('The Folder'))
         page = create(Builder('page').titled('The Page').within(folder))
