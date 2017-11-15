@@ -334,6 +334,13 @@ def make_path_relative(path):
     return path[len(site_path + '/'):]
 
 
+def make_path_absolute(path):
+    """Make a relative path absolute by adding the site root.
+    """
+    site_path = '/'.join(getSite().getPhysicalPath())
+    return '/'.join([site_path, path.lstrip('/')])
+
+
 def get_relative_path(obj):
     """Returns the path to an object relative to the site root.
     """
