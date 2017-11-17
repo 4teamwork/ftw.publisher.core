@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.10.1 (unreleased)
+2.10.1 (2017-11-17)
 -------------------
 
 - Add utils function to make a relative path absolute. [raphael-s]
