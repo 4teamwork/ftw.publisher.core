@@ -5,7 +5,7 @@ Changelog
 2.10.2 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Handle broken relations properly. [jone, mbaechtold]
 
 
 2.10.1 (2017-11-17)

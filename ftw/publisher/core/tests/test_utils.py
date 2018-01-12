@@ -7,11 +7,15 @@ from ftw.publisher.core.testing import PUBLISHER_CORE_INTEGRATION_TESTING
 from ftw.testing import MockTestCase
 from persistent.list import PersistentList
 from persistent.mapping import PersistentMapping
+from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.textfield.value import RichTextValue
 from pytz import timezone
 from unittest2 import TestCase
+from z3c.relationfield import RelationValue
+from zope.component import getUtility
+from zope.intid import IIntIds
 import json
 
 
@@ -175,6 +179,58 @@ class TestEncodeDecodeJson(MockTestCase):
         output = self.transport(input)
         self.assertEqual(type(input), type(output), output)
         self.assertEqual(vars(input), vars(output))
+
+
+class TestEncodeDecodeJsonBuilder(TestCase):
+
+    layer = PUBLISHER_CORE_INTEGRATION_TESTING
+
+    def setUp(self):
+        setRoles(self.layer['portal'], TEST_USER_ID, ['Manager'])
+
+    def transport(self, data, additional_encodings=None):
+        """Converts data so that it can be transported and converts it back.
+        It should be equally to the original data afterwards.
+        """
+
+        transport_data = json.dumps(utils.decode_for_json(data))
+        result_data = utils.encode_after_json(json.loads(transport_data))
+        return result_data
+
+    def test_relation_value(self):
+        folder = create(Builder('folder').titled('The Folder'))
+        intids = getUtility(IIntIds)
+        folder_intid = intids.getId(folder)
+
+        input_relation_value = RelationValue(folder_intid)
+        input_relation_value.from_attribute = 'bar'
+
+        input = [
+            {
+                'foo': input_relation_value,
+            }
+        ]
+        output = self.transport(input)
+        self.assertEqual(RelationValue, type(output[0]['foo']))
+        self.assertEqual(folder_intid, output[0]['foo'].to_id)
+        self.assertEqual('bar', output[0]['foo'].from_attribute)
+
+    def test_broken_relation(self):
+        folder = create(Builder('folder').titled('The Folder'))
+        intids = getUtility(IIntIds)
+        folder_intid = intids.getId(folder)
+
+        input_relation_value = RelationValue(folder_intid)
+        input_relation_value.from_attribute = 'bar'
+
+        input = [
+            {
+                'foo': input_relation_value,
+            }
+        ]
+        api.content.delete(folder)
+        output = self.transport(input)
+        self.assertEqual([{'foo': None}], output)
 
 
 class TestPathFunctions(TestCase):

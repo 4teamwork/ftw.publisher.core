@@ -162,14 +162,19 @@ def decode_for_json(value, additional_encodings=[]):
                            'outputMimeType': value.outputMimeType,
                            'encoding': value.encoding}}
 
+    # RelationValue
     if HAS_RELATIONS and isinstance(value, RelationValue):
-        if value.isBroken() or not value.to_path:
-            value = None
-
-        else:
-            value = {'publisher-wrapper': True,
-                     'type': 'RelationValue',
-                     'value': make_path_relative(value.to_path)}
+        if value.isBroken() or not value.to_path or not value.to_object:
+            # The relation is broken: the target does not exist. This is not fixable.
+            return None
+        value = {
+            'publisher-wrapper': True,
+            'type': 'RelationValue',
+            'data': {
+                'to_path': make_path_relative(value.to_path),
+                'from_attribute': value.from_attribute,
+            },
+        }
 
     # unicode
     if isinstance(value, unicode):
@@ -301,13 +306,22 @@ def encode_after_json(value):
             and value.get('utf8:type', None) == 'utf8:RichTextValue':
         return RichTextValue(**encode_after_json(value['utf8:value']))
 
+    # RelationValue
     elif isinstance(value, dict) and value.get('utf8:publisher-wrapper', False) \
             and value.get('utf8:type', None) == 'utf8:RelationValue':
 
-        obj = get_obj_by_relative_path(encode_after_json(value['utf8:value']))
+        data = encode_after_json(value['utf8:data'])
+
+        obj = get_obj_by_relative_path(data['to_path'])
         if not obj:
+            # The target object does not exist on the receiver side.
+            # We cannot make a relation at this point.
             return None
-        return create_relation_for(obj)
+
+        rel = create_relation_for(obj)
+        rel.from_attribute = data['from_attribute']
+
+        return rel
 
     # dicts
     elif isinstance(value, dict):
