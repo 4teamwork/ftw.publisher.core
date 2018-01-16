@@ -12,7 +12,7 @@ Changelog
 -------------------
 
 - Handle broken relations properly. [jone, mbaechtold]
-
+- Add support for Plone 5.1. [Nachtalb]
 
 2.10.1 (2017-11-17)
 -------------------
