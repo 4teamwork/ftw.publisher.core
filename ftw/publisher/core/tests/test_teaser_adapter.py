@@ -1,8 +1,13 @@
-from ftw.contentpage.interfaces import ITeaser
 from ftw.publisher.core.tests import test_ftw_contentpage_adapters as sl_adapter
-from simplelayout.base.interfaces import IBlockConfig
+from ftw.publisher.core.utils import IS_PLONE_5
+from unittest2 import skipIf
+
+if not IS_PLONE_5:
+    from ftw.contentpage.interfaces import ITeaser
+    from simplelayout.base.interfaces import IBlockConfig
 
 
+@skipIf(IS_PLONE_5, 'simplelayout.base is not available for plone 5')
 class TestTeaserDataCollector(sl_adapter.TestSimplelayoutDataCollector):
 
     def setUp(self):

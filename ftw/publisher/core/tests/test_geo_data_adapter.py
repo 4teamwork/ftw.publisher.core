@@ -1,13 +1,19 @@
-from collective.geo.contentlocations.interfaces import IGeoManager
-from collective.geo.geographer.interfaces import IGeoreferenceable
+from unittest2 import skipIf
+
 from ftw.publisher.core.interfaces import IDataCollector
 from ftw.publisher.core.testing import ZCML_LAYER
 from ftw.testing import MockTestCase
+from ftw.publisher.core.utils import IS_PLONE_5
 from zope.annotation import IAttributeAnnotatable
 from zope.component import getAdapter
 from zope.component import queryAdapter
 
+if not IS_PLONE_5:
+    from collective.geo.contentlocations.interfaces import IGeoManager
+    from collective.geo.geographer.interfaces import IGeoreferenceable
 
+
+@skipIf(IS_PLONE_5, 'ftw.shop is not available for plone 5')
 class TestGeoDataAdapter(MockTestCase):
 
     layer = ZCML_LAYER

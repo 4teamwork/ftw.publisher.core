@@ -2,16 +2,11 @@ from decimal import Decimal
 from ftw.builder import Builder
 from ftw.builder import create
 from ftw.publisher.core import utils
-from ftw.publisher.core.adapters.ftw_shop import deserialize_decimals
-from ftw.publisher.core.adapters.ftw_shop import make_persistent
-from ftw.publisher.core.adapters.ftw_shop import make_serializable
-from ftw.publisher.core.adapters.ftw_shop import serialize_decimals
 from ftw.publisher.core.interfaces import IDataCollector
 from ftw.publisher.core.testing import PUBLISHER_CORE_INTEGRATION_TESTING
 from ftw.publisher.core.testing import ZCML_LAYER
-from ftw.shop.interfaces import IShopItem
-from ftw.shop.interfaces import IVariationConfig
 from ftw.testing import MockTestCase
+from ftw.publisher.core.utils import IS_PLONE_5
 from ftw.testing import staticuid
 from persistent.list import PersistentList
 from persistent.mapping import PersistentMapping
@@ -21,10 +16,19 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from unittest2 import TestCase
+from unittest2 import skipIf
 from zope.annotation import IAttributeAnnotatable
 from zope.component import getAdapter
 from zope.component import queryAdapter
 import json
+
+if not IS_PLONE_5:
+    from ftw.publisher.core.adapters.ftw_shop import deserialize_decimals
+    from ftw.publisher.core.adapters.ftw_shop import make_persistent
+    from ftw.publisher.core.adapters.ftw_shop import make_serializable
+    from ftw.publisher.core.adapters.ftw_shop import serialize_decimals
+    from ftw.shop.interfaces import IShopItem
+    from ftw.shop.interfaces import IVariationConfig
 
 
 TEST_DATA = PersistentMapping(
@@ -41,6 +45,7 @@ TEST_DATA = PersistentMapping(
      })
 
 
+@skipIf(IS_PLONE_5, 'ftw.shop is not available for plone 5')
 class TestShopItemVariationsAdapter(MockTestCase):
 
     layer = ZCML_LAYER
@@ -91,6 +96,7 @@ class TestShopItemVariationsAdapter(MockTestCase):
         self.assertEquals(TEST_DATA, variation_config.getVariationDict())
 
 
+@skipIf(IS_PLONE_5, 'ftw.shop is not available for plone 5')
 class TestPersistenceSerialization(MockTestCase):
 
     layer = ZCML_LAYER
@@ -127,6 +133,7 @@ class TestPersistenceSerialization(MockTestCase):
         self.assertEquals(test_data, resulting_data)
 
 
+@skipIf(IS_PLONE_5, 'ftw.shop is not available for plone 5')
 class TestDecimalsSerialization(MockTestCase):
 
     layer = ZCML_LAYER
@@ -183,6 +190,7 @@ class TestDecimalsSerialization(MockTestCase):
         self.assertEquals(hash(deserialized), hash(expected))
 
 
+@skipIf(IS_PLONE_5, 'ftw.shop is not available for plone 5')
 class TestShopCategorizableReferences(TestCase):
     layer = PUBLISHER_CORE_INTEGRATION_TESTING
 

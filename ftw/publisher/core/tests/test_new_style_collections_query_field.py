@@ -28,8 +28,8 @@ class TestNewStyleCollection(TestCase):
 
     def test_getData_collection_query(self):
         collection = create(Builder('collection')
-                            .titled('New style collection')
-                            .from_query({'Title': 'Collection Test Page'}))
+                            .titled(u'New style collection')
+                            .from_query({'Title': u'Collection Test Page'}))
 
         component = getAdapter(collection, IDataCollector,
                                name='field_data_adapter')
@@ -39,13 +39,13 @@ class TestNewStyleCollection(TestCase):
 
     def test_setData_collection_query(self):
         source = create(Builder('collection')
-                        .titled('New style collection')
-                        .from_query({'Title': 'Collection Test Page'}))
+                        .titled(u'New style collection')
+                        .from_query({'Title': u'Collection Test Page'}))
         source_component = getAdapter(source, IDataCollector,
                                       name='field_data_adapter')
 
         destination = create(Builder('collection')
-                             .titled('New style collection 2'))
+                             .titled(u'New style collection 2'))
         destination_component = getAdapter(destination, IDataCollector,
                                            name='field_data_adapter')
 
