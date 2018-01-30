@@ -1,6 +1,7 @@
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 from ftw.builder.testing import BUILDER_LAYER
+from ftw.publisher.core.utils import IS_PLONE_5
 from ftw.testing.layer import ComponentRegistryLayer
 from plone.app.portlets import portlets
 from plone.app.portlets.portlets import navigation
@@ -25,12 +26,13 @@ from zope.configuration import xmlconfig
 from zope.interface import alsoProvides
 from zope.interface import implements
 from zope.interface import Interface
-import ftw.contentpage.tests.builders
 import ftw.publisher.core.tests.builders
-import ftw.shop.tests.builders
 import ftw.simplelayout.tests.builders
 import pkg_resources
 
+if not IS_PLONE_5:
+    import ftw.contentpage.tests.builders
+    import ftw.shop.tests.builders
 
 try:
     pkg_resources.get_distribution('plonetheme.onegov')
@@ -97,16 +99,18 @@ class PublisherCoreLayer(PloneSandboxLayer):
             import plonetheme.onegov
             xmlconfig.file('configure.zcml', plonetheme.onegov,
                            context=configurationContext)
-
-        z2.installProduct(app, 'ftw.contentpage')
-        z2.installProduct(app, 'ftw.shop')
+        if not IS_PLONE_5:
+            z2.installProduct(app, 'ftw.contentpage')
+            z2.installProduct(app, 'ftw.shop')
 
     def setUpPloneSite(self, portal):
+        applyProfile(portal, 'plone.app.contenttypes:default')
         applyProfile(portal, 'plone.app.relationfield:default')
         applyProfile(portal, 'ftw.simplelayout.contenttypes:default')
-        applyProfile(portal, 'ftw.contentpage:default')
-        applyProfile(portal, 'ftw.shop:default')
         applyProfile(portal, 'collective.z3cform.datagridfield:default')
+        if not IS_PLONE_5:
+            applyProfile(portal, 'ftw.contentpage:default')
+            applyProfile(portal, 'ftw.shop:default')
 
 
 PUBLISHER_CORE_FIXTURE = PublisherCoreLayer()
@@ -119,6 +123,8 @@ class PublisherExampleContentLayer(PloneSandboxLayer):
     defaultBases = (PUBLISHER_CORE_INTEGRATION_TESTING,)
 
     def setUpPloneSite(self, portal):
+        applyProfile(portal, 'plone.app.contenttypes:default')
+
         setRoles(portal, TEST_USER_ID, ['Manager'])
         login(portal, TEST_USER_NAME)
 
@@ -135,9 +141,10 @@ class PublisherExampleContentLayer(PloneSandboxLayer):
         testdoc2id = self['folder1'].invokeFactory('Document', 'test-doc-2')
         self['testdoc2'] = getattr(self['folder1'], testdoc2id, None)
         # create a topic
-        topicid = self.folder.manage_addProduct['ATContentTypes'].addATTopic(
-            id='atopic', title='A topic')
-        self.topic = getattr(self.folder, topicid, None)
+        if not IS_PLONE_5:
+            topicid = self.folder.manage_addProduct['ATContentTypes'].addATTopic(
+                id='atopic', title='A topic')
+            self.topic = getattr(self.folder, topicid, None)
 
         # set some custom properties
         self['testdoc1'].manage_addProperty(id='bool', value=True,

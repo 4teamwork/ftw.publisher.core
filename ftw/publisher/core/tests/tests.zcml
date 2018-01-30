@@ -1,4 +1,5 @@
 <configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:zcml="http://namespaces.zope.org/zcml"
            i18n_domain="Five">
 
     <include package="Products.Five" file="meta.zcml" />
@@ -9,21 +10,24 @@
 
 
     <!-- Manually register the necessary c.geo adapters -->
-    <adapter
-        for="collective.geo.geographer.interfaces.IGeoreferenceable"
-        provides="collective.geo.contentlocations.interfaces.IGeoManager"
-        factory="collective.geo.contentlocations.geomanager.GeoManager" />
+    <configure zcml:condition="installed collective.geo.geographer">
+        <adapter
+            for="collective.geo.geographer.interfaces.IGeoreferenceable"
+            provides="collective.geo.contentlocations.interfaces.IGeoManager"
+            factory="collective.geo.contentlocations.geomanager.GeoManager" />
 
-    <adapter
-        factory="collective.geo.geographer.geo.GeoreferencingAnnotator"
-        provides="collective.geo.geographer.interfaces.IWriteGeoreferenced"
-        trusted="true"
-        />
+        <adapter
+            factory="collective.geo.geographer.geo.GeoreferencingAnnotator"
+            provides="collective.geo.geographer.interfaces.IWriteGeoreferenced"
+            trusted="true"
+            />
+    </configure>
 
     <!-- Manually register the necessary ftw.shop adapters -->
-    <adapter
-        for="ftw.shop.interfaces.IShopItem"
-        provides="ftw.shop.interfaces.IVariationConfig"
-        factory="ftw.shop.content.variations.VariationConfig" />
-
+    <configure zcml:condition="installed ftw.shop">
+        <adapter
+            for="ftw.shop.interfaces.IShopItem"
+            provides="ftw.shop.interfaces.IVariationConfig"
+            factory="ftw.shop.content.variations.VariationConfig" />
+    </configure>
 </configure>
