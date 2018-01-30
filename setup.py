@@ -18,7 +18,6 @@ extras_require = {
 
 
 extras_require['tests'] = tests_require = [
-
     'Acquisition',
     'Plone',
     'Products.PloneFormGen',
@@ -29,6 +28,7 @@ extras_require['tests'] = tests_require = [
     'ftw.simplelayout [contenttypes]',
     'ftw.testing',
     'plone.app.blob',
+    'plone.app.contenttypes',
     'plone.app.relationfield',
     'plone.app.testing',
     'plone.directives.form',
@@ -37,8 +37,7 @@ extras_require['tests'] = tests_require = [
     'unittest2',
     'zope.annotation',
     'zope.configuration',
-
-    ] + reduce(list.__add__, extras_require.values())
+] + extras_require['dexterity']
 
 
 setup(name='ftw.publisher.core',
