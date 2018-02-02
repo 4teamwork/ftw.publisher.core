@@ -2,6 +2,7 @@ from BTrees.OOBTree import OOBTree
 from ftw.publisher.core import utils
 from ftw.publisher.core.interfaces import IDataCollector
 from ftw.publisher.core.testing import PUBLISHER_EXAMPLE_CONTENT_INTEGRATION
+from ftw.publisher.core.utils import IS_PLONE_5
 from persistent.mapping import PersistentMapping
 from plone.portlet.static import static
 from plone.portlets.constants import ASSIGNMENT_SETTINGS_KEY
@@ -96,18 +97,19 @@ class TestPortletAdapter(TestCase):
         self.assertEquals(title2.text, right['title2']['text'])
         self.assertEquals(title2.omit_border, right['title2']['omit_border'])
         # check collection portlet
-        collection_portlet = self.layer['right_portlets'].get(
-            'collection', False)
-        self.assertEquals(bool(collection_portlet), True)
-        self.assertEquals(collection_portlet.header,
-                          right['collection']['header'])
-        self.assertEquals(collection_portlet.limit,
-                          right['collection']['limit'])
-        self.assertEquals(collection_portlet.random,
-                          right['collection']['random'])
-        self.assertEquals(collection_portlet.header,
-                          right['collection']['header'])
-        # more is not necessary, cause we tested enought boolean fields
+        if not IS_PLONE_5:
+            collection_portlet = self.layer['right_portlets'].get(
+                'collection', False)
+            self.assertEquals(bool(collection_portlet), True)
+            self.assertEquals(collection_portlet.header,
+                              right['collection']['header'])
+            self.assertEquals(collection_portlet.limit,
+                              right['collection']['limit'])
+            self.assertEquals(collection_portlet.random,
+                              right['collection']['random'])
+            self.assertEquals(collection_portlet.header,
+                              right['collection']['header'])
+            # more is not necessary, cause we tested enought boolean fields
 
     def test_portlets_adapter_setter(self):
         #getter
@@ -126,12 +128,13 @@ class TestPortletAdapter(TestCase):
         self.assertEquals(title2.header, "Title2")
         self.assertEquals(title2.text, "some text")
 
-        collection = self.layer['right_portlets2'].get('collection', False)
-        self.assertEquals(bool(collection), True)
-        self.assertEquals(collection.header, "My collection")
-        self.assertEquals(collection.target_collection,
-                          "/plone/testing_example_data/atopic")
-        self.assertEquals(collection.random, False)
+        if not IS_PLONE_5:
+            collection = self.layer['right_portlets2'].get('collection', False)
+            self.assertEquals(bool(collection), True)
+            self.assertEquals(collection.header, "My collection")
+            self.assertEquals(collection.target_collection,
+                              "/plone/testing_example_data/atopic")
+            self.assertEquals(collection.random, False)
 
         #check left portlets
         title1 = self.layer['left_portlets2'].get('title1', False)
@@ -144,8 +147,11 @@ class TestPortletAdapter(TestCase):
         self.assertEquals(navi.root, "/plone/testing_example_data")
 
         #check order
+        correct_order = ['title2', 'blubb', 'news', 'search']
+        if not IS_PLONE_5:
+            correct_order.append('collection')
         self.assertEquals(
-            ['title2', 'blubb', 'news', 'search', 'collection'],
+            correct_order,
             self.layer['right_portlets']._order)
 
     def test_portlets_adapter_sync(self):

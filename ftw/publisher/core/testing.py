@@ -202,14 +202,15 @@ class PublisherExampleContentLayer(PloneSandboxLayer):
         self['right_portlets']['news'] = portlets.news.Assignment()
         self['right_portlets']['search'] = portlets.search.Assignment()
         # collection portlet on the right
-        self['right_portlets']['collection'] = collection.Assignment(
-            header="My collection",
-            target_collection='/'.join(self.topic.getPhysicalPath()),
-            limit="5",
-            random=False,
-            show_more=False,
-            show_dates=True,
-            )
+        if not IS_PLONE_5:
+            self['right_portlets']['collection'] = collection.Assignment(
+                header="My collection",
+                target_collection='/'.join(self.topic.getPhysicalPath()),
+                limit="5",
+                random=False,
+                show_more=False,
+                show_dates=True,
+                )
 
         # custom Navigation portlet on the left side
         self['left_portlets']['custom_navigation'] = navigation.Assignment(
