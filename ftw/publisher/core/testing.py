@@ -212,11 +212,19 @@ class PublisherExampleContentLayer(PloneSandboxLayer):
                 show_dates=True,
                 )
 
+        if IS_PLONE_5:
+            root = 'root_uid'
+        else:
+            root = 'root'
+        custom_navi_portlet = {
+            'name': 'custom Navigation',
+            root: '/'.join(self.folder.getPhysicalPath())
+        }
+
         # custom Navigation portlet on the left side
         self['left_portlets']['custom_navigation'] = navigation.Assignment(
-            name="custom Navigation",
-            root='/'.join(self.folder.getPhysicalPath()),
-            )
+            **custom_navi_portlet
+        )
 
         # set dummy interfaces
         alsoProvides(self['testdoc1'], IDummyIface)

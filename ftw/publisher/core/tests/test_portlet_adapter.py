@@ -84,7 +84,10 @@ class TestPortletAdapter(TestCase):
         #custom navigation portlet
         navi = self.layer['left_portlets'].get('custom_navigation', False)
         self.assertEquals(bool(navi), True)
-        self.assertEquals(navi.root, left['custom_navigation']['root'])
+        if IS_PLONE_5:
+            self.assertEquals(navi.root_uid, left['custom_navigation']['root_uid'])
+        else:
+            self.assertEquals(navi.root, left['custom_navigation']['root'])
         #check only for given path
 
         # right portlets
