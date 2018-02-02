@@ -104,13 +104,14 @@ class PublisherCoreLayer(PloneSandboxLayer):
             z2.installProduct(app, 'ftw.shop')
 
     def setUpPloneSite(self, portal):
-        applyProfile(portal, 'plone.app.contenttypes:default')
         applyProfile(portal, 'plone.app.relationfield:default')
         applyProfile(portal, 'ftw.simplelayout.contenttypes:default')
         applyProfile(portal, 'collective.z3cform.datagridfield:default')
         if not IS_PLONE_5:
             applyProfile(portal, 'ftw.contentpage:default')
             applyProfile(portal, 'ftw.shop:default')
+        else:
+            applyProfile(portal, 'plone.app.contenttypes:default')
 
 
 PUBLISHER_CORE_FIXTURE = PublisherCoreLayer()
@@ -123,7 +124,8 @@ class PublisherExampleContentLayer(PloneSandboxLayer):
     defaultBases = (PUBLISHER_CORE_INTEGRATION_TESTING,)
 
     def setUpPloneSite(self, portal):
-        applyProfile(portal, 'plone.app.contenttypes:default')
+        if IS_PLONE_5:
+            applyProfile(portal, 'plone.app.contenttypes:default')
 
         setRoles(portal, TEST_USER_ID, ['Manager'])
         login(portal, TEST_USER_NAME)
