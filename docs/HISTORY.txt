@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.10.2 (unreleased)
+2.10.2 (2018-02-06)
 -------------------
 
 - Handle broken relations properly. [jone, mbaechtold]
