@@ -76,8 +76,10 @@ class DexterityFieldData(object):
         """
         for schemata in iterSchemata(self.context):
             repr = schemata(self.context)
-            subdata = data[schemata.getName()]
+            subdata = data.get(schemata.getName(), {})
             for name, field in schema.getFieldsInOrder(schemata):
+                if name not in subdata:
+                    continue
                 value = subdata[name]
                 value = self.unpack(name, field, value)
                 if value == _marker:
