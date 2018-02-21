@@ -9,10 +9,13 @@ from plone.portlets.constants import ASSIGNMENT_SETTINGS_KEY
 from plone.portlets.constants import CONTENT_TYPE_CATEGORY, CONTEXT_CATEGORY
 from plone.portlets.constants import USER_CATEGORY, GROUP_CATEGORY
 from plone.portlets.interfaces import ILocalPortletAssignmentManager
+from plone.portlets.interfaces import IPortletAssignmentMapping
 from plone.portlets.interfaces import IPortletAssignmentSettings
+from plone.portlets.interfaces import IPortletManager
 from unittest2 import TestCase
 from zope.component import getAdapter
 from zope.component import getMultiAdapter
+from zope.component import getUtility
 import json
 
 
@@ -125,14 +128,17 @@ class TestPortletAdapter(TestCase):
                               name="portlet_data_adapter")
         adapter2.setData(data, metadata=None)
 
+        right_assignments = self.get_right_assignments(self.layer['folder2'])
+        left_assignments = self.get_left_assignments(self.layer['folder2'])
+
         # check right portlets
-        title2 = self.layer['right_portlets2'].get('title2', False)
+        title2 = right_assignments.get('title2', False)
         self.assertEquals(bool(title2), True)
         self.assertEquals(title2.header, "Title2")
         self.assertEquals(title2.text, "some text")
 
         if not IS_PLONE_5:
-            collection = self.layer['right_portlets2'].get('collection', False)
+            collection = right_assignments.get('collection', False)
             self.assertEquals(bool(collection), True)
             self.assertEquals(collection.header, "My collection")
             self.assertEquals(collection.target_collection,
@@ -140,14 +146,18 @@ class TestPortletAdapter(TestCase):
             self.assertEquals(collection.random, False)
 
         #check left portlets
-        title1 = self.layer['left_portlets2'].get('title1', False)
+        title1 = left_assignments.get('title1', False)
         self.assertEquals(bool(title1), True)
         self.assertEquals(title1.header, "Title1")
         self.assertEquals(title1.text, "some text")
 
-        navi = self.layer['left_portlets2'].get('custom_navigation', False)
+        navi = left_assignments.get('custom_navigation', False)
         self.assertEquals(bool(navi), True)
-        self.assertEquals(navi.root, "/plone/testing_example_data")
+        if IS_PLONE_5:
+            self.assertEquals(navi.root_uid, "/plone/testing_example_data")
+        else:
+            self.assertEquals(navi.root, "/plone/testing_example_data")
+
 
         #check order
         correct_order = ['title2', 'blubb', 'news', 'search']
@@ -246,3 +256,13 @@ class TestPortletAdapter(TestCase):
         self.assertEqual(
             settings,
             IPortletAssignmentSettings(new_assignment).data)
+
+    def get_right_assignments(self, context):
+        return self.get_assignments(context, u'plone.rightcolumn')
+
+    def get_left_assignments(self, context):
+        return self.get_assignments(context, u'plone.leftcolumn')
+
+    def get_assignments(self, context, column_name):
+        column = getUtility(IPortletManager, name=column_name)
+        return getMultiAdapter((context, column), IPortletAssignmentMapping)

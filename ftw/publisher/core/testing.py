@@ -184,15 +184,9 @@ class PublisherExampleContentLayer(PloneSandboxLayer):
             (self['folder1'], self['left_column'],),
             IPortletAssignmentMapping, context=self['folder1'])
 
-        self['left_portlets2'] = getMultiAdapter(
-            (self['folder1'], self['left_column'],),
-            IPortletAssignmentMapping, context=self['folder2'])
         self['right_portlets'] = getMultiAdapter(
             (self['folder1'], self['right_column'],),
             IPortletAssignmentMapping, context=self['folder1'])
-        self['right_portlets2'] = getMultiAdapter(
-            (self['folder1'], self['right_column'],),
-            IPortletAssignmentMapping, context=self['folder2'])
 
         # static-text-portlets on right and left column
         self['left_portlets']['title1'] = static.Assignment(
