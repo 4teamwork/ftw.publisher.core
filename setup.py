@@ -8,7 +8,7 @@ extras_require = {
     'dexterity': [
         'plone.app.dexterity',
         ],
-    'plone4': [
+    'tests_plone4': [
         'collective.geo.contentlocations',
         'ftw.contentpage',
         'ftw.shop',
