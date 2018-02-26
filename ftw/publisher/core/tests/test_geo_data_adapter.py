@@ -13,7 +13,7 @@ if not IS_PLONE_5:
     from collective.geo.geographer.interfaces import IGeoreferenceable
 
 
-@skipIf(IS_PLONE_5, 'ftw.shop is not available for plone 5')
+@skipIf(IS_PLONE_5, 'colelctive.geo is not available for plone 5')
 class TestGeoDataAdapter(MockTestCase):
 
     layer = ZCML_LAYER
