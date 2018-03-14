@@ -7,36 +7,37 @@ maintainer = 'Jonas Baumann'
 extras_require = {
     'dexterity': [
         'plone.app.dexterity',
-        ]}
+        ],
+    'tests_plone4': [
+        'collective.geo.contentlocations',
+        'ftw.contentpage',
+        'ftw.shop',
+        'simplelayout.base',
+    ]
+}
 
 
 extras_require['tests'] = tests_require = [
-
     'Acquisition',
     'Plone',
     'Products.PloneFormGen',
-    'collective.geo.contentlocations',
-    'collective.geo.geographer',
     'collective.testcaselayer',
     'collective.z3cform.datagridfield',
     'ftw.builder',
-    'ftw.contentpage',
     'ftw.servicenavigation',
-    'ftw.shop',
     'ftw.simplelayout [contenttypes]',
     'ftw.testing',
     'plone.app.blob',
+    'plone.app.contenttypes',
     'plone.app.relationfield',
     'plone.app.testing',
     'plone.directives.form',
     'plone.namedfile',
     'pytz',
-    'simplelayout.base',
     'unittest2',
     'zope.annotation',
     'zope.configuration',
-
-    ] + reduce(list.__add__, extras_require.values())
+] + extras_require['dexterity']
 
 
 setup(name='ftw.publisher.core',
@@ -51,6 +52,7 @@ setup(name='ftw.publisher.core',
       classifiers=[
         'Framework :: Plone',
         'Framework :: Plone :: 4.3',
+        'Framework :: Plone :: 5.1',
         'Programming Language :: Python',
         'Topic :: Software Development :: Libraries :: Python Modules',
         ],

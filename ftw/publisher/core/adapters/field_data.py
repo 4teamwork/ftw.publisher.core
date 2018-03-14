@@ -1,7 +1,7 @@
 from AccessControl.SecurityInfo import ClassSecurityInformation
-from archetypes.querywidget.field import QueryField
 from ftw.publisher.core import getLogger
 from ftw.publisher.core.interfaces import IDataCollector
+from ftw.publisher.core.utils import IS_PLONE_5
 from OFS.Image import File
 from Products.Archetypes.Field import ComputedField
 from Products.Archetypes.Field import DateTimeField
@@ -11,6 +11,11 @@ import base64
 import pkg_resources
 import StringIO
 
+
+if IS_PLONE_5:
+    from plone.app.collection.field import QueryField
+else:
+    from archetypes.querywidget.field import QueryField
 
 try:
     pkg_resources.get_distribution('plone.app.blob')

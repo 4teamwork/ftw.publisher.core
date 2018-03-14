@@ -15,6 +15,8 @@ import os.path
 import pkg_resources
 
 
+IS_PLONE_5 = pkg_resources.get_distribution('Plone').version >= '5'
+
 try:
     pkg_resources.get_distribution('z3c.relationfield')
 

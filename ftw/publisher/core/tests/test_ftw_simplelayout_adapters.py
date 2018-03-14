@@ -3,6 +3,8 @@ from ftw.builder import create
 from ftw.publisher.core.adapters.simplelayout_utils import is_sl_contentish
 from ftw.publisher.core.interfaces import IDataCollector
 from ftw.publisher.core.testing import PUBLISHER_CORE_INTEGRATION_TESTING
+from ftw.publisher.core.tests.helpers import add_behaviors
+from ftw.publisher.core.utils import IS_PLONE_5
 from ftw.simplelayout.browser.blocks.base import BaseBlock
 from ftw.simplelayout.interfaces import IBlockConfiguration
 from ftw.simplelayout.interfaces import IBlockProperties
@@ -19,6 +21,7 @@ from zope.component import queryMultiAdapter
 from zope.interface import Interface
 from zope.publisher.interfaces.browser import IBrowserView
 import json
+
 
 
 class TestSimplelayoutContentish(TestCase):
@@ -171,6 +174,9 @@ class TestRemoveDeletedSLContentishChildren(TestCase):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
 
+        if IS_PLONE_5:
+            add_behaviors('File', 'plone.app.content.interfaces.INameFromTitle')
+
     @staticuid('staticuid')
     def test_getter_on_page_returns_contentish_block_uids(self):
         page = create(Builder('sl content page').titled(u'Page'))
@@ -276,12 +282,12 @@ class TestRemoveDeletedSLContentishChildren(TestCase):
         page = create(Builder('sl content page').titled(u'Page'))
         listing = create(Builder('sl listingblock').titled(
             u'Listing').within(page))
+
         create(Builder('file').titled(u'Foo').within(listing))
         create(Builder('file').titled(u'Bar').within(listing))
 
         component = getAdapter(listing, IDataCollector,
                                name='ftw.simplelayout:RemoveDeletedSLContentishChildren')
-
         self.assertEquals(['foo', 'bar'], listing.objectIds())
         component.setData([u'staticuid00000000000000000000003'], {})
         self.assertEquals(['foo'], listing.objectIds())

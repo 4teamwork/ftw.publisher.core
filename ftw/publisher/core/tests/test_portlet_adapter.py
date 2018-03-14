@@ -2,16 +2,20 @@ from BTrees.OOBTree import OOBTree
 from ftw.publisher.core import utils
 from ftw.publisher.core.interfaces import IDataCollector
 from ftw.publisher.core.testing import PUBLISHER_EXAMPLE_CONTENT_INTEGRATION
+from ftw.publisher.core.utils import IS_PLONE_5
 from persistent.mapping import PersistentMapping
 from plone.portlet.static import static
 from plone.portlets.constants import ASSIGNMENT_SETTINGS_KEY
 from plone.portlets.constants import CONTENT_TYPE_CATEGORY, CONTEXT_CATEGORY
 from plone.portlets.constants import USER_CATEGORY, GROUP_CATEGORY
 from plone.portlets.interfaces import ILocalPortletAssignmentManager
+from plone.portlets.interfaces import IPortletAssignmentMapping
 from plone.portlets.interfaces import IPortletAssignmentSettings
+from plone.portlets.interfaces import IPortletManager
 from unittest2 import TestCase
 from zope.component import getAdapter
 from zope.component import getMultiAdapter
+from zope.component import getUtility
 import json
 
 
@@ -83,7 +87,10 @@ class TestPortletAdapter(TestCase):
         #custom navigation portlet
         navi = self.layer['left_portlets'].get('custom_navigation', False)
         self.assertEquals(bool(navi), True)
-        self.assertEquals(navi.root, left['custom_navigation']['root'])
+        if IS_PLONE_5:
+            self.assertEquals(navi.root_uid, left['custom_navigation']['root_uid'])
+        else:
+            self.assertEquals(navi.root, left['custom_navigation']['root'])
         #check only for given path
 
         # right portlets
@@ -96,18 +103,19 @@ class TestPortletAdapter(TestCase):
         self.assertEquals(title2.text, right['title2']['text'])
         self.assertEquals(title2.omit_border, right['title2']['omit_border'])
         # check collection portlet
-        collection_portlet = self.layer['right_portlets'].get(
-            'collection', False)
-        self.assertEquals(bool(collection_portlet), True)
-        self.assertEquals(collection_portlet.header,
-                          right['collection']['header'])
-        self.assertEquals(collection_portlet.limit,
-                          right['collection']['limit'])
-        self.assertEquals(collection_portlet.random,
-                          right['collection']['random'])
-        self.assertEquals(collection_portlet.header,
-                          right['collection']['header'])
-        # more is not necessary, cause we tested enought boolean fields
+        if not IS_PLONE_5:
+            collection_portlet = self.layer['right_portlets'].get(
+                'collection', False)
+            self.assertEquals(bool(collection_portlet), True)
+            self.assertEquals(collection_portlet.header,
+                              right['collection']['header'])
+            self.assertEquals(collection_portlet.limit,
+                              right['collection']['limit'])
+            self.assertEquals(collection_portlet.random,
+                              right['collection']['random'])
+            self.assertEquals(collection_portlet.header,
+                              right['collection']['header'])
+            # more is not necessary, cause we tested enought boolean fields
 
     def test_portlets_adapter_setter(self):
         #getter
@@ -120,32 +128,43 @@ class TestPortletAdapter(TestCase):
                               name="portlet_data_adapter")
         adapter2.setData(data, metadata=None)
 
+        right_assignments = self.get_right_assignments(self.layer['folder2'])
+        left_assignments = self.get_left_assignments(self.layer['folder2'])
+
         # check right portlets
-        title2 = self.layer['right_portlets2'].get('title2', False)
+        title2 = right_assignments.get('title2', False)
         self.assertEquals(bool(title2), True)
         self.assertEquals(title2.header, "Title2")
         self.assertEquals(title2.text, "some text")
 
-        collection = self.layer['right_portlets2'].get('collection', False)
-        self.assertEquals(bool(collection), True)
-        self.assertEquals(collection.header, "My collection")
-        self.assertEquals(collection.target_collection,
-                          "/plone/testing_example_data/atopic")
-        self.assertEquals(collection.random, False)
+        if not IS_PLONE_5:
+            collection = right_assignments.get('collection', False)
+            self.assertEquals(bool(collection), True)
+            self.assertEquals(collection.header, "My collection")
+            self.assertEquals(collection.target_collection,
+                              "/plone/testing_example_data/atopic")
+            self.assertEquals(collection.random, False)
 
         #check left portlets
-        title1 = self.layer['left_portlets2'].get('title1', False)
+        title1 = left_assignments.get('title1', False)
         self.assertEquals(bool(title1), True)
         self.assertEquals(title1.header, "Title1")
         self.assertEquals(title1.text, "some text")
 
-        navi = self.layer['left_portlets2'].get('custom_navigation', False)
+        navi = left_assignments.get('custom_navigation', False)
         self.assertEquals(bool(navi), True)
-        self.assertEquals(navi.root, "/plone/testing_example_data")
+        if IS_PLONE_5:
+            self.assertEquals(navi.root_uid, "/plone/testing_example_data")
+        else:
+            self.assertEquals(navi.root, "/plone/testing_example_data")
+
 
         #check order
+        correct_order = ['title2', 'blubb', 'news', 'search']
+        if not IS_PLONE_5:
+            correct_order.append('collection')
         self.assertEquals(
-            ['title2', 'blubb', 'news', 'search', 'collection'],
+            correct_order,
             self.layer['right_portlets']._order)
 
     def test_portlets_adapter_sync(self):
@@ -237,3 +256,13 @@ class TestPortletAdapter(TestCase):
         self.assertEqual(
             settings,
             IPortletAssignmentSettings(new_assignment).data)
+
+    def get_right_assignments(self, context):
+        return self.get_assignments(context, u'plone.rightcolumn')
+
+    def get_left_assignments(self, context):
+        return self.get_assignments(context, u'plone.leftcolumn')
+
+    def get_assignments(self, context, column_name):
+        column = getUtility(IPortletManager, name=column_name)
+        return getMultiAdapter((context, column), IPortletAssignmentMapping)

@@ -1,22 +1,27 @@
 from ftw.builder import Builder
 from ftw.builder import create
-from ftw.publisher.core.adapters import simplelayout_blocks
-from ftw.publisher.core.adapters.simplelayout_utils import is_sl_contentish
 from ftw.publisher.core.interfaces import IDataCollector
 from ftw.publisher.core.testing import PUBLISHER_CORE_INTEGRATION_TESTING
 from ftw.testing import MockTestCase
 from ftw.testing import staticuid
+from ftw.publisher.core.utils import IS_PLONE_5
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from Products.CMFCore.utils import getToolByName
-from simplelayout.base.interfaces import IBlockConfig
-from simplelayout.base.interfaces import ISimpleLayoutBlock
+from unittest2 import skipIf
 from unittest2 import TestCase
 from zope.component import getAdapter
 import json
 
+if not IS_PLONE_5:
+    from simplelayout.base.interfaces import IBlockConfig
+    from simplelayout.base.interfaces import ISimpleLayoutBlock
+    from ftw.publisher.core.adapters import simplelayout_blocks
+    from ftw.publisher.core.adapters.simplelayout_utils import is_sl_contentish
 
+
+@skipIf(IS_PLONE_5, 'ftw.contentpage is not available for plone 5')
 class TestContentpageContentish(TestCase):
     layer = PUBLISHER_CORE_INTEGRATION_TESTING
 
@@ -63,6 +68,7 @@ class TestContentpageContentish(TestCase):
         self.assertFalse(is_sl_contentish(document))
 
 
+@skipIf(IS_PLONE_5, 'ftw.contentpage is not available for plone 5')
 class TestRemoveDeletedContentpageSLContentishChildren(TestCase):
     layer = PUBLISHER_CORE_INTEGRATION_TESTING
 
@@ -178,6 +184,7 @@ class TestRemoveDeletedContentpageSLContentishChildren(TestCase):
         self.assertEquals(['foo'], listing.objectIds())
 
 
+@skipIf(IS_PLONE_5, 'ftw.contentpage is not available for plone 5')
 class TestSimplelayoutDataCollector(MockTestCase):
 
     def setUp(self):

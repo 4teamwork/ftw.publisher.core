@@ -5,14 +5,13 @@ Changelog
 2.10.3 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add support for Plone 5.1. [Nachtalb, jone, mbaechtold]
 
 
 2.10.2 (2018-02-06)
 -------------------
 
 - Handle broken relations properly. [jone, mbaechtold]
-
 
 2.10.1 (2017-11-17)
 -------------------

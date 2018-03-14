@@ -198,7 +198,7 @@ class TestEncodeDecodeJsonBuilder(TestCase):
         return result_data
 
     def test_relation_value(self):
-        folder = create(Builder('folder').titled('The Folder'))
+        folder = create(Builder('folder').titled(u'The Folder'))
         intids = getUtility(IIntIds)
         folder_intid = intids.getId(folder)
 
@@ -216,7 +216,7 @@ class TestEncodeDecodeJsonBuilder(TestCase):
         self.assertEqual('bar', output[0]['foo'].from_attribute)
 
     def test_broken_relation(self):
-        folder = create(Builder('folder').titled('The Folder'))
+        folder = create(Builder('folder').titled(u'The Folder'))
         intids = getUtility(IIntIds)
         folder_intid = intids.getId(folder)
 
@@ -255,15 +255,15 @@ class TestPathFunctions(TestCase):
             utils.make_path_absolute('/the-folder/the-page'))
 
     def test_get_relative_path(self):
-        folder = create(Builder('folder').titled('The Folder'))
-        page = create(Builder('page').titled('The Page').within(folder))
+        folder = create(Builder('folder').titled(u'The Folder'))
+        page = create(Builder('page').titled(u'The Page').within(folder))
         self.assertEquals(
             'the-folder/the-page',
             utils.get_relative_path(page))
 
     def test_get_obj_by_relative_path(self):
-        folder = create(Builder('folder').titled('The Folder'))
-        page = create(Builder('page').titled('The Page').within(folder))
+        folder = create(Builder('folder').titled(u'The Folder'))
+        page = create(Builder('page').titled(u'The Page').within(folder))
         self.assertEquals(
             page,
             utils.get_obj_by_relative_path('the-folder/the-page'))
