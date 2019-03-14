@@ -10,6 +10,7 @@ extras_require = {
         ],
     'tests_plone4': [
         'collective.geo.contentlocations',
+        'collective.z3cform.datagridfield < 1.4.0',
         'ftw.contentpage',
         'ftw.shop',
         'simplelayout.base',
