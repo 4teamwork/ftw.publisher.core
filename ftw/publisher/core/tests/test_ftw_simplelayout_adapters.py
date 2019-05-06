@@ -10,6 +10,7 @@ from ftw.simplelayout.interfaces import IBlockConfiguration
 from ftw.simplelayout.interfaces import IBlockProperties
 from ftw.simplelayout.interfaces import IPageConfiguration
 from ftw.testing import staticuid
+from ftw.trash.trasher import Trasher
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.uuid.interfaces import IUUID
@@ -21,7 +22,6 @@ from zope.component import queryMultiAdapter
 from zope.interface import Interface
 from zope.publisher.interfaces.browser import IBrowserView
 import json
-
 
 
 class TestSimplelayoutContentish(TestCase):
@@ -42,6 +42,13 @@ class TestSimplelayoutContentish(TestCase):
         block = create(Builder('sl textblock')
                        .within(create(Builder('sl content page'))))
         self.assertTrue(is_sl_contentish(block))
+
+    def test_trashed_textblock_is_not_sl_contentish(self):
+        block = create(Builder('sl textblock')
+                       .within(create(Builder('sl content page'))))
+        trasher = Trasher(block)
+        trasher.trash()
+        self.assertFalse(is_sl_contentish(block))
 
     def test_textblock_with_workflow_is_not_contentish(self):
         wftool = getToolByName(self.portal, 'portal_workflow')
