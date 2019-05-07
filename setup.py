@@ -26,7 +26,7 @@ extras_require['tests'] = tests_require = [
     'collective.z3cform.datagridfield',
     'ftw.builder',
     'ftw.servicenavigation',
-    'ftw.simplelayout [contenttypes]',
+    'ftw.simplelayout [contenttypes, trash]',
     'ftw.testing',
     'plone.app.blob',
     'plone.app.contenttypes',

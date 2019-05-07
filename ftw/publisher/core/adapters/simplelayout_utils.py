@@ -37,6 +37,14 @@ except pkg_resources.DistributionNotFound:
     pass
 
 
+try:
+    pkg_resources.get_distribution('ftw.trash')
+    from ftw.trash.interfaces import ITrashed
+    HAS_FTW_TRASH = True
+except pkg_resources.DistributionNotFound:
+    HAS_FTW_TRASH = False
+
+
 marker = object()
 
 
@@ -60,6 +68,9 @@ def is_sl_contentish(context):
     """
     if IPloneSiteRoot.providedBy(context):
         # Abort recursion when site root reached.
+        return False
+
+    if HAS_FTW_TRASH and ITrashed.providedBy(context):
         return False
 
     if filter(lambda x, c=context: x.providedBy(c), sl_pages):
