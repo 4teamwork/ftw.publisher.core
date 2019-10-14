@@ -8,7 +8,6 @@ from ftw.publisher.core.utils import IS_PLONE_5
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
-from Products.CMFCore.utils import getToolByName
 from unittest2 import skipIf
 from unittest2 import TestCase
 from zope.component import getAdapter
@@ -18,54 +17,6 @@ if not IS_PLONE_5:
     from simplelayout.base.interfaces import IBlockConfig
     from simplelayout.base.interfaces import ISimpleLayoutBlock
     from ftw.publisher.core.adapters import simplelayout_blocks
-    from ftw.publisher.core.adapters.simplelayout_utils import is_sl_contentish
-
-
-@skipIf(IS_PLONE_5, 'ftw.contentpage is not available for plone 5')
-class TestContentpageContentish(TestCase):
-    layer = PUBLISHER_CORE_INTEGRATION_TESTING
-
-    def setUp(self):
-        self.portal = self.layer['portal']
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
-
-    def test_plone_site_is_not_sl_contentish(self):
-        self.assertFalse(is_sl_contentish(self.portal))
-
-    def test_content_page_is_not_sl_contentish(self):
-        page = create(Builder('content page').titled(u'The Page'))
-        self.assertFalse(is_sl_contentish(page))
-
-    def test_textblock_is_contentish(self):
-        block = create(Builder('text block')
-                       .within(create(Builder('content page'))))
-        self.assertTrue(is_sl_contentish(block))
-
-    def test_textblock_with_workflow_is_not_contentish(self):
-        wftool = getToolByName(self.portal, 'portal_workflow')
-        wftool.setChainForPortalTypes(['TextBlock'], 'plone_workflow')
-        block = create(Builder('text block')
-                       .within(create(Builder('content page'))))
-        self.assertFalse(is_sl_contentish(block))
-
-    def test_listingblock_is_contentish(self):
-        block = create(Builder('listing block')
-                       .within(create(Builder('content page'))))
-        self.assertTrue(is_sl_contentish(block))
-
-    def test_file_in_listingblock_is_contentish(self):
-        document = create(Builder('file')
-                          .within(create(Builder('listing block')
-                                         .within(create(Builder('content page'))))))
-        self.assertTrue(is_sl_contentish(document))
-
-    def test_file_with_workflow_in_listingblock_is_not_contentish(self):
-        wftool = getToolByName(self.portal, 'portal_workflow')
-        wftool.setChainForPortalTypes(['File'], 'plone_workflow')
-        document = create(Builder('file')
-                          .within(create(Builder('listing block')
-                                         .within(create(Builder('content page'))))))
-        self.assertFalse(is_sl_contentish(document))
 
 
 @skipIf(IS_PLONE_5, 'ftw.contentpage is not available for plone 5')
