@@ -1,12 +1,7 @@
-from AccessControl.SecurityInfo import ClassSecurityInformation
 from Acquisition import aq_inner
 from Acquisition import aq_parent
-from ftw.publisher.core.interfaces import IDataCollector
-from operator import methodcaller
-from plone.uuid.interfaces import IUUID
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
-from zope.interface import implements
 import pkg_resources
 
 sl_pages = []
@@ -92,32 +87,3 @@ def is_sl_contentish(context):
     # It is not considered sl contentish when it is directly in the page.
     parent = aq_parent(aq_inner(context))
     return is_sl_contentish(parent)
-
-
-class RemoveDeletedSLContentishChildren(object):
-    implements(IDataCollector)
-    security = ClassSecurityInformation()
-
-    def __init__(self, context):
-        self.context = context
-
-    security.declarePrivate('getData')
-    def getData(self):
-        return self._get_contentish_children_uuids()
-
-    security.declarePrivate('setData')
-    def setData(self, data, metadata):
-        sender_uuids = data
-        receiver_uuids = self._get_contentish_children_uuids()
-        uuids_to_delete = set(receiver_uuids) - set(sender_uuids)
-        children_to_delete = self._get_children_by_uuids(uuids_to_delete)
-        self.context.manage_delObjects(map(methodcaller('getId'),
-                                           children_to_delete))
-
-    def _get_contentish_children_uuids(self):
-        return map(IUUID, filter(is_sl_contentish,
-                                 self.context.objectValues()))
-
-    def _get_children_by_uuids(self, uuids):
-        return filter(lambda obj: IUUID(obj, marker) in uuids,
-                      self.context.objectValues())

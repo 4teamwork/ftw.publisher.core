@@ -87,7 +87,7 @@ class TestRemoveDeletedContentpageSLContentishChildren(TestCase):
         create(Builder('content page').titled(u'SubPage').within(page))
 
         component = getAdapter(page, IDataCollector,
-                               name='ftw.simplelayout:RemoveDeletedSLContentishChildren')
+                               name='remove_children')
         self.assertEquals([u'staticuid00000000000000000000002',
                            u'staticuid00000000000000000000003'],
                           json.loads(json.dumps(component.getData())))
@@ -100,7 +100,7 @@ class TestRemoveDeletedContentpageSLContentishChildren(TestCase):
         create(Builder('content page').titled(u'SubPage').within(page))
 
         component = getAdapter(page, IDataCollector,
-                               name='ftw.simplelayout:RemoveDeletedSLContentishChildren')
+                               name='remove_children')
 
         self.assertEquals(['textblock', 'listing', 'subpage'], page.objectIds())
         component.setData([u'staticuid00000000000000000000002'], {})
@@ -113,7 +113,7 @@ class TestRemoveDeletedContentpageSLContentishChildren(TestCase):
         create(Builder('content page').titled(u'SubPage').within(self.portal))
 
         component = getAdapter(self.portal, IDataCollector,
-                               name='ftw.simplelayout:RemoveDeletedSLContentishChildren')
+                               name='remove_children')
         self.assertEquals([u'staticuid00000000000000000000001',
                            u'staticuid00000000000000000000002'],
                           json.loads(json.dumps(component.getData())))
@@ -125,7 +125,7 @@ class TestRemoveDeletedContentpageSLContentishChildren(TestCase):
         create(Builder('content page').titled(u'SubPage').within(self.portal))
 
         component = getAdapter(self.portal, IDataCollector,
-                               name='ftw.simplelayout:RemoveDeletedSLContentishChildren')
+                               name='remove_children')
 
         self.assertIn('textblock', self.portal.objectIds())
         self.assertIn('listing', self.portal.objectIds())
@@ -138,25 +138,6 @@ class TestRemoveDeletedContentpageSLContentishChildren(TestCase):
         self.assertIn('subpage', self.portal.objectIds())
 
     @staticuid('staticuid')
-    def test_getter_on_textblock_returns_empyt_list(self):
-        page = create(Builder('content page').titled(u'Page'))
-        block = create(Builder('text block').titled(u'TextBlock').within(page))
-
-        component = getAdapter(block, IDataCollector,
-                               name='ftw.simplelayout:RemoveDeletedSLContentishChildren')
-        self.assertEquals([],
-                          json.loads(json.dumps(component.getData())))
-
-    @staticuid('staticuid')
-    def test_setter_on_textblock_does_not_break(self):
-        page = create(Builder('content page').titled(u'Page'))
-        block = create(Builder('text block').titled(u'TextBlock').within(page))
-
-        component = getAdapter(block, IDataCollector,
-                               name='ftw.simplelayout:RemoveDeletedSLContentishChildren')
-        component.setData([], {})
-
-    @staticuid('staticuid')
     def test_getter_on_folderish_block_returns_children_uuids(self):
         page = create(Builder('content page').titled(u'Page'))
         listing = create(Builder('listing block').titled(u'Listing').within(page))
@@ -164,7 +145,7 @@ class TestRemoveDeletedContentpageSLContentishChildren(TestCase):
         create(Builder('file').titled(u'Bar').within(listing))
 
         component = getAdapter(listing, IDataCollector,
-                               name='ftw.simplelayout:RemoveDeletedSLContentishChildren')
+                               name='remove_children')
         self.assertEquals([u'staticuid00000000000000000000003',
                            u'staticuid00000000000000000000004'],
                           json.loads(json.dumps(component.getData())))
@@ -177,7 +158,7 @@ class TestRemoveDeletedContentpageSLContentishChildren(TestCase):
         create(Builder('file').titled(u'Bar').within(listing))
 
         component = getAdapter(listing, IDataCollector,
-                               name='ftw.simplelayout:RemoveDeletedSLContentishChildren')
+                               name='remove_children')
 
         self.assertEquals(['foo', 'bar'], listing.objectIds())
         component.setData([u'staticuid00000000000000000000003'], {})
