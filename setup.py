@@ -22,7 +22,6 @@ extras_require['tests'] = tests_require = [
     'Acquisition',
     'Plone',
     'Products.PloneFormGen',
-    'collective.testcaselayer',
     'collective.z3cform.datagridfield',
     'ftw.builder',
     'ftw.servicenavigation',
