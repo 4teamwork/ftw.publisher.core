@@ -32,7 +32,8 @@ class TopicCriteraData(object):
 
         """
         criterias = {}
-        for criteria in self.object.objectValues():
+        # Use contentValues for implicit ftw.trash compatibility.
+        for criteria in self.object.contentValues():
             field_data_adapter = queryAdapter(criteria, IDataCollector,
                                               name="field_data_adapter")
             # this adapter must be available, otherwise we cannot go ahead

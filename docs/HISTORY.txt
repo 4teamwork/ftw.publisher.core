@@ -5,7 +5,16 @@ Changelog
 2.11.2 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Replace "is_sl_contentish" function with "belongs_to_parent".
+  This requires an update of `ftw.publisher.sender` to the compatible
+  version. The new implementation is more generic. [jone]
+
+- Replace the Simplelayout-specific "RemoveDeletedSLContentishChildren"
+  adapter with a generic "RemoveChildren" adapter so that it also works
+  for other kind of content, such as PloneFormGen. [jone]
+
+- Improve ``ftw.trash`` integration regarding deleted content. [jone]
+
 
 
 2.11.1 (2019-05-07)

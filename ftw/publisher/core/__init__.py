@@ -1,3 +1,4 @@
+from ftw.publisher.core.belongs_to_parent import belongs_to_parent
 from ftw.publisher.core.utils import getPublisherLogger
 from zope.i18nmessageid import MessageFactory
 

@@ -33,6 +33,11 @@
           factory="ftw.publisher.core.adapters.backreferences.Backreferences"
           name="backreferences_adapter" />
 
+    <adapter
+          for="OFS.interfaces.IOrderedContainer"
+          factory="ftw.publisher.core.adapters.children.RemoveChildren"
+          name="remove_children" />
+
     <!-- special adapter for topics criterias -->
     <adapter
           for="Products.ATContentTypes.interface.topic.IATTopic"
@@ -130,18 +135,6 @@
             provides="ftw.publisher.core.interfaces.IDataCollector"
             factory=".simplelayout_blocks.SimplelayoutBlockDataCollector"
             name="teaser_data_collector" />
-
-        <adapter
-            for="simplelayout.base.interfaces.ISimpleLayoutBlock"
-            provides="ftw.publisher.core.interfaces.IDataCollector"
-            factory=".simplelayout_utils.RemoveDeletedSLContentishChildren"
-            name="ftw.simplelayout:RemoveDeletedSLContentishChildren" />
-
-        <adapter
-            for="ftw.contentpage.interfaces.IContentPage"
-            provides="ftw.publisher.core.interfaces.IDataCollector"
-            factory=".simplelayout_utils.RemoveDeletedSLContentishChildren"
-            name="ftw.simplelayout:RemoveDeletedSLContentishChildren" />
     </configure>
 
     <!-- plonetheme.onegov custom styles -->
@@ -181,18 +174,6 @@
             provides="ftw.publisher.core.interfaces.IDataCollector"
             factory=".ftw_simplelayout.SimplelayoutBlockProperties"
             name="ftw.simplelayout:SimplelayoutBlockProperties" />
-
-        <adapter
-            for="ftw.simplelayout.interfaces.ISimplelayoutBlock"
-            provides="ftw.publisher.core.interfaces.IDataCollector"
-            factory=".simplelayout_utils.RemoveDeletedSLContentishChildren"
-            name="ftw.simplelayout:RemoveDeletedSLContentishChildren" />
-
-        <adapter
-            for="ftw.simplelayout.interfaces.ISimplelayout"
-            provides="ftw.publisher.core.interfaces.IDataCollector"
-            factory=".simplelayout_utils.RemoveDeletedSLContentishChildren"
-            name="ftw.simplelayout:RemoveDeletedSLContentishChildren" />
     </configure>
 
     <!-- ftw.servicenavigation -->

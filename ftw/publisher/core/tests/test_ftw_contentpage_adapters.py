@@ -8,7 +8,6 @@ from ftw.publisher.core.utils import IS_PLONE_5
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
-from Products.CMFCore.utils import getToolByName
 from unittest2 import skipIf
 from unittest2 import TestCase
 from zope.component import getAdapter
@@ -18,54 +17,6 @@ if not IS_PLONE_5:
     from simplelayout.base.interfaces import IBlockConfig
     from simplelayout.base.interfaces import ISimpleLayoutBlock
     from ftw.publisher.core.adapters import simplelayout_blocks
-    from ftw.publisher.core.adapters.simplelayout_utils import is_sl_contentish
-
-
-@skipIf(IS_PLONE_5, 'ftw.contentpage is not available for plone 5')
-class TestContentpageContentish(TestCase):
-    layer = PUBLISHER_CORE_INTEGRATION_TESTING
-
-    def setUp(self):
-        self.portal = self.layer['portal']
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
-
-    def test_plone_site_is_not_sl_contentish(self):
-        self.assertFalse(is_sl_contentish(self.portal))
-
-    def test_content_page_is_not_sl_contentish(self):
-        page = create(Builder('content page').titled(u'The Page'))
-        self.assertFalse(is_sl_contentish(page))
-
-    def test_textblock_is_contentish(self):
-        block = create(Builder('text block')
-                       .within(create(Builder('content page'))))
-        self.assertTrue(is_sl_contentish(block))
-
-    def test_textblock_with_workflow_is_not_contentish(self):
-        wftool = getToolByName(self.portal, 'portal_workflow')
-        wftool.setChainForPortalTypes(['TextBlock'], 'plone_workflow')
-        block = create(Builder('text block')
-                       .within(create(Builder('content page'))))
-        self.assertFalse(is_sl_contentish(block))
-
-    def test_listingblock_is_contentish(self):
-        block = create(Builder('listing block')
-                       .within(create(Builder('content page'))))
-        self.assertTrue(is_sl_contentish(block))
-
-    def test_file_in_listingblock_is_contentish(self):
-        document = create(Builder('file')
-                          .within(create(Builder('listing block')
-                                         .within(create(Builder('content page'))))))
-        self.assertTrue(is_sl_contentish(document))
-
-    def test_file_with_workflow_in_listingblock_is_not_contentish(self):
-        wftool = getToolByName(self.portal, 'portal_workflow')
-        wftool.setChainForPortalTypes(['File'], 'plone_workflow')
-        document = create(Builder('file')
-                          .within(create(Builder('listing block')
-                                         .within(create(Builder('content page'))))))
-        self.assertFalse(is_sl_contentish(document))
 
 
 @skipIf(IS_PLONE_5, 'ftw.contentpage is not available for plone 5')
@@ -87,7 +38,7 @@ class TestRemoveDeletedContentpageSLContentishChildren(TestCase):
         create(Builder('content page').titled(u'SubPage').within(page))
 
         component = getAdapter(page, IDataCollector,
-                               name='ftw.simplelayout:RemoveDeletedSLContentishChildren')
+                               name='remove_children')
         self.assertEquals([u'staticuid00000000000000000000002',
                            u'staticuid00000000000000000000003'],
                           json.loads(json.dumps(component.getData())))
@@ -100,7 +51,7 @@ class TestRemoveDeletedContentpageSLContentishChildren(TestCase):
         create(Builder('content page').titled(u'SubPage').within(page))
 
         component = getAdapter(page, IDataCollector,
-                               name='ftw.simplelayout:RemoveDeletedSLContentishChildren')
+                               name='remove_children')
 
         self.assertEquals(['textblock', 'listing', 'subpage'], page.objectIds())
         component.setData([u'staticuid00000000000000000000002'], {})
@@ -113,7 +64,7 @@ class TestRemoveDeletedContentpageSLContentishChildren(TestCase):
         create(Builder('content page').titled(u'SubPage').within(self.portal))
 
         component = getAdapter(self.portal, IDataCollector,
-                               name='ftw.simplelayout:RemoveDeletedSLContentishChildren')
+                               name='remove_children')
         self.assertEquals([u'staticuid00000000000000000000001',
                            u'staticuid00000000000000000000002'],
                           json.loads(json.dumps(component.getData())))
@@ -125,7 +76,7 @@ class TestRemoveDeletedContentpageSLContentishChildren(TestCase):
         create(Builder('content page').titled(u'SubPage').within(self.portal))
 
         component = getAdapter(self.portal, IDataCollector,
-                               name='ftw.simplelayout:RemoveDeletedSLContentishChildren')
+                               name='remove_children')
 
         self.assertIn('textblock', self.portal.objectIds())
         self.assertIn('listing', self.portal.objectIds())
@@ -138,25 +89,6 @@ class TestRemoveDeletedContentpageSLContentishChildren(TestCase):
         self.assertIn('subpage', self.portal.objectIds())
 
     @staticuid('staticuid')
-    def test_getter_on_textblock_returns_empyt_list(self):
-        page = create(Builder('content page').titled(u'Page'))
-        block = create(Builder('text block').titled(u'TextBlock').within(page))
-
-        component = getAdapter(block, IDataCollector,
-                               name='ftw.simplelayout:RemoveDeletedSLContentishChildren')
-        self.assertEquals([],
-                          json.loads(json.dumps(component.getData())))
-
-    @staticuid('staticuid')
-    def test_setter_on_textblock_does_not_break(self):
-        page = create(Builder('content page').titled(u'Page'))
-        block = create(Builder('text block').titled(u'TextBlock').within(page))
-
-        component = getAdapter(block, IDataCollector,
-                               name='ftw.simplelayout:RemoveDeletedSLContentishChildren')
-        component.setData([], {})
-
-    @staticuid('staticuid')
     def test_getter_on_folderish_block_returns_children_uuids(self):
         page = create(Builder('content page').titled(u'Page'))
         listing = create(Builder('listing block').titled(u'Listing').within(page))
@@ -164,7 +96,7 @@ class TestRemoveDeletedContentpageSLContentishChildren(TestCase):
         create(Builder('file').titled(u'Bar').within(listing))
 
         component = getAdapter(listing, IDataCollector,
-                               name='ftw.simplelayout:RemoveDeletedSLContentishChildren')
+                               name='remove_children')
         self.assertEquals([u'staticuid00000000000000000000003',
                            u'staticuid00000000000000000000004'],
                           json.loads(json.dumps(component.getData())))
@@ -177,7 +109,7 @@ class TestRemoveDeletedContentpageSLContentishChildren(TestCase):
         create(Builder('file').titled(u'Bar').within(listing))
 
         component = getAdapter(listing, IDataCollector,
-                               name='ftw.simplelayout:RemoveDeletedSLContentishChildren')
+                               name='remove_children')
 
         self.assertEquals(['foo', 'bar'], listing.objectIds())
         component.setData([u'staticuid00000000000000000000003'], {})
