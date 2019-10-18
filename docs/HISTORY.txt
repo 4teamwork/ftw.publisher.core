@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.11.2 (unreleased)
+2.12.0 (2019-10-18)
 -------------------
 
 - Replace "is_sl_contentish" function with "belongs_to_parent".
