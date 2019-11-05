@@ -6,6 +6,7 @@ Changelog
 -------------------
 
 - Use plone.app.uuid to resolve uuids to support plone 5 [Nachtalb]
+- Fix publishing of types with IShortName behaviour [Nachtalb]
 
 
 2.12.0 (2019-10-18)
