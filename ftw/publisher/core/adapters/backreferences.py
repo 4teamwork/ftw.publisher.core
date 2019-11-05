@@ -1,13 +1,13 @@
-from AccessControl.SecurityInfo import ClassSecurityInformation
 from AccessControl import getSecurityManager
+from AccessControl.SecurityInfo import ClassSecurityInformation
+from AccessControl.SecurityManagement import SpecialUsers
 from AccessControl.SecurityManagement import newSecurityManager
 from AccessControl.SecurityManagement import setSecurityManager
-from AccessControl.SecurityManagement import SpecialUsers
 from Acquisition import aq_base
 from Products.Archetypes.interfaces.referenceable import IReferenceable
-from Products.CMFCore.utils import getToolByName
 from ftw.publisher.core import getLogger
 from ftw.publisher.core.interfaces import IDataCollector
+from plone.app.uuid.utils import uuidToObject
 from zope.interface import implements
 
 
@@ -91,10 +91,9 @@ class Backreferences(object):
         self.logger.info('Updating backreferences (UID %s)' %
                          metadata['UID'])
         cuid = self.context.UID()
-        reference_catalog = getToolByName(self.context, 'reference_catalog')
 
         for suid, mapping in data.items():
-            sobj = reference_catalog.lookupObject(suid)
+            sobj = uuidToObject(suid)
             if not sobj:
                 # source object is not published
                 continue
