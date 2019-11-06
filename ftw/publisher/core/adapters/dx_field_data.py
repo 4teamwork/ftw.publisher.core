@@ -12,6 +12,12 @@ import base64
 import DateTime
 import pkg_resources
 
+try:
+    # Since plone.app.dexterity 2.1.0
+    from plone.app.dexterity.behaviors.id import IShortName
+    HAS_ISHORT = True
+except ImportError:
+    HAS_ISHORT = False
 
 try:
     pkg_resources.get_distribution('z3c.relationfield')
@@ -56,6 +62,9 @@ class DexterityFieldData(object):
         data = {}
 
         for schemata in iterSchemata(self.context):
+            if HAS_ISHORT and schemata == IShortName:
+                continue
+
             subdata = {}
             repr = schemata(self.context)
             for name, field in schema.getFieldsInOrder(schemata):
