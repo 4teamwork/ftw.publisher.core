@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.12.1 (unreleased)
+2.12.1 (2019-11-11)
 -------------------
 
 - Use plone.app.uuid to resolve uuids to support plone 5 [Nachtalb]
