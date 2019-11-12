@@ -6,11 +6,11 @@ from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import login
 from plone.app.testing import setRoles
 from zope.component import getAdapter
-import unittest2
+import unittest
 
 
 
-class TestCustomStyling(unittest2.TestCase):
+class TestCustomStyling(unittest.TestCase):
 
     layer = PUBLISHER_CORE_INTEGRATION_TESTING
 
@@ -25,7 +25,7 @@ class TestCustomStyling(unittest2.TestCase):
             self.input_ = {'css.body-background': 'red'}
             self.custom.set_styles(self.input_)
 
-    @unittest2.skipUnless(ONEGOV_THEME_INSTALLED,
+    @unittest.skipUnless(ONEGOV_THEME_INSTALLED,
                           'plonetheme.onegov not installed')
     def test_custom_style_getter(self):
         component = getAdapter(self.portal, IDataCollector,
@@ -34,7 +34,7 @@ class TestCustomStyling(unittest2.TestCase):
         data = component.getData()
         self.assertEquals(self.input_, data)
 
-    @unittest2.skipUnless(ONEGOV_THEME_INSTALLED,
+    @unittest.skipUnless(ONEGOV_THEME_INSTALLED,
                           'plonetheme.onegov not installed')
     def test_custom_style_setter(self):
         self.custom.set_styles({})

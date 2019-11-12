@@ -1,4 +1,4 @@
-from unittest2 import skipIf
+from unittest import skipIf
 
 from ftw.publisher.core.interfaces import IDataCollector
 from ftw.publisher.core.testing import ZCML_LAYER

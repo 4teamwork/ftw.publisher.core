@@ -4,7 +4,7 @@ from ftw.publisher.core import belongs_to_parent
 from ftw.publisher.core.tests import IntegrationTestCase
 from ftw.publisher.core.utils import IS_PLONE_5
 from Products.CMFCore.utils import getToolByName
-from unittest2 import skipIf
+from unittest import skipIf
 
 
 class TestBelongsToParent(IntegrationTestCase):

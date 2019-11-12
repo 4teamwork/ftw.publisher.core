@@ -1,6 +1,6 @@
 from ftw.publisher.core.tests import test_ftw_contentpage_adapters as sl_adapter
 from ftw.publisher.core.utils import IS_PLONE_5
-from unittest2 import skipIf
+from unittest import skipIf
 
 if not IS_PLONE_5:
     from ftw.contentpage.interfaces import ITeaser

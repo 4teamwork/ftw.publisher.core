@@ -12,8 +12,8 @@ from ftw.testing import staticuid
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.uuid.interfaces import IUUID
-from unittest2 import skipIf
-from unittest2 import TestCase
+from unittest import skipIf
+from unittest import TestCase
 from zope.component import getAdapter
 from zope.component import provideAdapter
 from zope.component import queryMultiAdapter

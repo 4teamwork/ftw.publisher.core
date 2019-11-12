@@ -12,7 +12,7 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.textfield.value import RichTextValue
 from pytz import timezone
-from unittest2 import TestCase
+from unittest import TestCase
 from z3c.relationfield import RelationValue
 from zope.component import getUtility
 from zope.intid import IIntIds

@@ -6,7 +6,7 @@ from ftw.publisher.core.utils import encode_after_json
 from persistent import Persistent
 from persistent.list import PersistentList
 from persistent.mapping import PersistentMapping
-from unittest2 import TestCase
+from unittest import TestCase
 from zope.annotation import IAnnotations
 from zope.component import getAdapter
 

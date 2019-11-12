@@ -26,7 +26,7 @@ extras_require['tests'] = tests_require = [
     'ftw.builder',
     'ftw.servicenavigation',
     'ftw.simplelayout [contenttypes, trash]',
-    'ftw.testing',
+    'ftw.testing<2a',
     'plone.app.blob',
     'plone.app.contenttypes',
     'plone.app.relationfield',
@@ -34,7 +34,6 @@ extras_require['tests'] = tests_require = [
     'plone.directives.form',
     'plone.namedfile',
     'pytz',
-    'unittest2',
     'zope.annotation',
     'zope.configuration',
 ] + extras_require['dexterity']

@@ -14,7 +14,7 @@ from plone.dexterity.utils import createContentInContainer
 from plone.namedfile.file import NamedFile
 from plone.namedfile.file import NamedImage
 from Products.CMFPlone.utils import getFSVersionTuple
-from unittest2 import TestCase
+from unittest import TestCase
 from z3c.relationfield import RelationValue
 from zc.relation.interfaces import ICatalog
 from zope.component import getAdapter
