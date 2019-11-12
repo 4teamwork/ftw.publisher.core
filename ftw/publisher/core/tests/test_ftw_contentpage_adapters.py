@@ -8,8 +8,8 @@ from ftw.publisher.core.utils import IS_PLONE_5
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
-from unittest2 import skipIf
-from unittest2 import TestCase
+from unittest import skipIf
+from unittest import TestCase
 from zope.component import getAdapter
 import json
 

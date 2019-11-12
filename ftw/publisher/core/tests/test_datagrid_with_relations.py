@@ -8,7 +8,7 @@ from ftw.publisher.core.utils import create_relation_for
 from json import dumps
 from json import loads
 from plone.dexterity.fti import DexterityFTI
-from unittest2 import TestCase
+from unittest import TestCase
 from zope.component import getAdapter
 
 

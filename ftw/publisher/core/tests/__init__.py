@@ -2,10 +2,10 @@ from ftw.publisher.core.testing import PUBLISHER_CORE_INTEGRATION_TESTING
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from Products.CMFCore.utils import getToolByName
-import unittest2
+import unittest
 
 
-class IntegrationTestCase(unittest2.TestCase):
+class IntegrationTestCase(unittest.TestCase):
     layer = PUBLISHER_CORE_INTEGRATION_TESTING
 
     def setUp(self):

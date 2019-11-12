@@ -34,7 +34,6 @@ extras_require['tests'] = tests_require = [
     'plone.directives.form',
     'plone.namedfile',
     'pytz',
-    'unittest2',
     'zope.annotation',
     'zope.configuration',
 ] + extras_require['dexterity']

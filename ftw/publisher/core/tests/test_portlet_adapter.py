@@ -12,7 +12,7 @@ from plone.portlets.interfaces import ILocalPortletAssignmentManager
 from plone.portlets.interfaces import IPortletAssignmentMapping
 from plone.portlets.interfaces import IPortletAssignmentSettings
 from plone.portlets.interfaces import IPortletManager
-from unittest2 import TestCase
+from unittest import TestCase
 from zope.component import getAdapter
 from zope.component import getMultiAdapter
 from zope.component import getUtility
