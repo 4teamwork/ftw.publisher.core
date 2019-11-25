@@ -21,16 +21,12 @@ class TestInterfaceDataAdapter(MockTestCase):
 
     def test_component_registered_and_implements_interface(self):
         context = self.providing_stub(IBaseObject)
-        self.replay()
-
         component = getAdapter(context, IDataCollector,
                                name='interface_data_adapter')
         self.assertTrue(IDataCollector.providedBy(component))
 
     def test_getData(self):
         context = self.providing_stub([IBaseObject, IDummy1])
-        self.replay()
-
         component = getAdapter(context, IDataCollector,
                                name='interface_data_adapter')
 
