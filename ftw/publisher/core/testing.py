@@ -31,8 +31,7 @@ import ftw.simplelayout.tests.builders
 import pkg_resources
 
 if not IS_PLONE_5:
-    import ftw.contentpage.tests.builders
-    import ftw.shop.tests.builders
+    import ftw.shop.tests.builders  # noqa
 
 try:
     pkg_resources.get_distribution('plonetheme.onegov')
@@ -100,7 +99,6 @@ class PublisherCoreLayer(PloneSandboxLayer):
             xmlconfig.file('configure.zcml', plonetheme.onegov,
                            context=configurationContext)
         if not IS_PLONE_5:
-            z2.installProduct(app, 'ftw.contentpage')
             z2.installProduct(app, 'ftw.shop')
 
     def setUpPloneSite(self, portal):
@@ -108,7 +106,6 @@ class PublisherCoreLayer(PloneSandboxLayer):
         applyProfile(portal, 'ftw.simplelayout.contenttypes:default')
         applyProfile(portal, 'collective.z3cform.datagridfield:default')
         if not IS_PLONE_5:
-            applyProfile(portal, 'ftw.contentpage:default')
             applyProfile(portal, 'ftw.shop:default')
         else:
             applyProfile(portal, 'plone.app.contenttypes:default')

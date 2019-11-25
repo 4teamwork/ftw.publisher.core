@@ -13,7 +13,6 @@ and only removed when the parent is published again.
 BELONGS_TO_PARENT_CANDIDATES = [
     # ('pkg name', 'dottedname of interfaces'),
     ('ftw.simplelayout', 'ftw.simplelayout.interfaces.ISimplelayoutBlock'),
-    ('simplelayout.base', 'simplelayout.base.interfaces.ISimpleLayoutBlock'),
     ('ftw.file', 'ftw.file.interfaces.IFile'),
     ('plone.app.blob', 'plone.app.blob.interfaces.IATBlobFile'),
     ('plone.app.blob', 'plone.app.blob.interfaces.IATBlobImage'),

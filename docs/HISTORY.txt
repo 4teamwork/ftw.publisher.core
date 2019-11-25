@@ -2,10 +2,10 @@ Changelog
 =========
 
 
-2.12.2 (unreleased)
+2.13.0 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Drop ftw.contentpage support. Make sure to not have ftw.contentpage installed when updating. [jone]
 
 
 2.12.1 (2019-11-11)
