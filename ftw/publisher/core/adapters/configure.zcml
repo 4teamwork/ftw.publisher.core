@@ -119,24 +119,6 @@
               name="shop_categorizable_ranks_adapter" />
     </configure>
 
-    <configure zcml:condition="installed simplelayout.base">
-        <adapter
-            for="simplelayout.base.interfaces.ISimpleLayoutBlock"
-            provides="ftw.publisher.core.interfaces.IDataCollector"
-            factory=".simplelayout_blocks.SimplelayoutBlockDataCollector"
-            name="simplelayout_block" />
-    </configure>
-
-    <!-- ftw.contentpage -->
-    <configure zcml:condition="installed ftw.contentpage">
-        <!-- Teaser datacollector adapter for ftw.publisher -->
-        <adapter
-            for="ftw.contentpage.interfaces.ITeaser"
-            provides="ftw.publisher.core.interfaces.IDataCollector"
-            factory=".simplelayout_blocks.SimplelayoutBlockDataCollector"
-            name="teaser_data_collector" />
-    </configure>
-
     <!-- plonetheme.onegov custom styles -->
     <configure zcml:condition="installed plonetheme.onegov">
         <adapter

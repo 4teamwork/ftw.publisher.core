@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '2.12.2.dev0'
+version = '2.13.0.dev0'
 maintainer = 'Jonas Baumann'
 
 extras_require = {
@@ -11,9 +11,7 @@ extras_require = {
     'tests_plone4': [
         'collective.geo.contentlocations',
         'collective.z3cform.datagridfield < 1.4.0',
-        'ftw.contentpage',
         'ftw.shop',
-        'simplelayout.base',
     ]
 }
 
