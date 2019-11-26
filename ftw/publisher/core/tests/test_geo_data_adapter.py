@@ -25,24 +25,18 @@ class TestGeoDataAdapter(MockTestCase):
             [IGeoreferenceable, IAttributeAnnotatable])
 
     def test_component_registered_and_implements_interface(self):
-        self.replay()
-
         component = getAdapter(self.obj, IDataCollector,
                                name='geo_data_adapter')
         self.assertTrue(IDataCollector.providedBy(component),
                         'geo Adapter is not registered properly')
 
     def test_getData_no_coordinates(self):
-        self.replay()
-
         component = getAdapter(self.obj, IDataCollector,
                                name='geo_data_adapter')
 
         self.assertEquals((None, None), component.getData())
 
     def test_getData_with_coordinates(self):
-        self.replay()
-
         data = 'Point', (0.222, 0.111)
         component = getAdapter(self.obj, IDataCollector,
                                name='geo_data_adapter')
@@ -53,7 +47,6 @@ class TestGeoDataAdapter(MockTestCase):
         self.assertEquals(data, component.getData())
 
     def test_setData(self):
-        self.replay()
         setattr(self.obj, 'UID', lambda: 'test-uid')
 
         data = 'Point', (0.222, 0.111)

@@ -1,7 +1,6 @@
 from ftw.publisher.core.interfaces import IDataCollector
 from ftw.publisher.core.testing import ZCML_LAYER
 from ftw.testing import MockTestCase
-from persistent.mapping import PersistentMapping
 from Products.PloneFormGen.content.fields import HtmlTextField
 from Products.PloneFormGen.interfaces import IPloneFormGenField
 from zope.component import getAdapter
@@ -16,11 +15,9 @@ class TestPloneFormGenFGFieldAdapter(MockTestCase):
 
         self.obj = self.providing_stub(
             [IPloneFormGenField])
-        self.expect(self.obj.UID()).result('some-uid')
+        self.obj.UID().return_value = 'some-uid'
 
     def test_component_registered_and_implements_interface(self):
-        self.replay()
-
         component = getAdapter(self.obj, IDataCollector,
                                name='plone_form_gen_fg_field_adapter')
 
@@ -28,21 +25,11 @@ class TestPloneFormGenFGFieldAdapter(MockTestCase):
             IDataCollector.providedBy(component),
             'PloneFormGen field adapter is not registered properly')
 
-    def test_getData_without_attribute(self):
-        self.replay()
-
-        component = getAdapter(self.obj, IDataCollector,
-                               name='plone_form_gen_fg_field_adapter')
-
-        self.assertEquals(PersistentMapping(), component.getData())
-
     def test_getData(self):
         field = HtmlTextField()
         field.default = "<div>some html</div>"
 
-        self.expect(self.obj.fgField).result(field)
-        self.replay()
-
+        self.obj.fgField = field
         component = getAdapter(self.obj, IDataCollector,
                                name='plone_form_gen_fg_field_adapter')
 
@@ -50,23 +37,11 @@ class TestPloneFormGenFGFieldAdapter(MockTestCase):
             {'fgField': '<div>some html</div>'},
             component.getData())
 
-    def test_setData_without_attribute(self):
-        self.replay()
-
-        component = getAdapter(self.obj, IDataCollector,
-                               name='plone_form_gen_fg_field_adapter')
-
-        component.setData({}, {})
-
-        self.assertFalse(hasattr(self.obj, 'fgField'))
-
     def test_setData(self):
         field = HtmlTextField()
         field.default = "<div>some html</div>"
 
-        self.expect(self.obj.fgField).result(field)
-        self.replay()
-
+        self.obj.fgField.side_effect = field
         component = getAdapter(self.obj, IDataCollector,
                                name='plone_form_gen_fg_field_adapter')
 

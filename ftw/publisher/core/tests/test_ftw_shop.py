@@ -55,27 +55,21 @@ class TestShopItemVariationsAdapter(MockTestCase):
 
         self.obj = self.providing_stub(
             [IShopItem, IVariationConfig, IAttributeAnnotatable])
-        self.expect(self.obj.UID()).result('some-uid')
+        self.obj.UID().return_value = 'some-uid'
 
     def test_component_registered_and_implements_interface(self):
-        self.replay()
-
         component = getAdapter(self.obj, IDataCollector,
                                name='shop_item_variations_adapter')
         self.assertTrue(IDataCollector.providedBy(component),
                         'ShopItem adapter is not registered properly')
 
     def test_getData_no_variations(self):
-        self.replay()
-
         component = getAdapter(self.obj, IDataCollector,
                                name='shop_item_variations_adapter')
 
         self.assertEquals(PersistentMapping(), component.getData())
 
     def test_getData_with_variations(self):
-        self.replay()
-
         component = getAdapter(self.obj, IDataCollector,
                                name='shop_item_variations_adapter')
 
@@ -85,8 +79,6 @@ class TestShopItemVariationsAdapter(MockTestCase):
         self.assertEquals(TEST_DATA, component.getData())
 
     def test_setData(self):
-        self.replay()
-
         component = getAdapter(self.obj, IDataCollector,
                                name='shop_item_variations_adapter')
 
@@ -102,7 +94,6 @@ class TestPersistenceSerialization(MockTestCase):
     layer = ZCML_LAYER
 
     def test_make_serializable(self):
-        self.replay()
         data = PersistentMapping(
             {'foo': PersistentList(
                 ['bar', PersistentList(
@@ -114,7 +105,6 @@ class TestPersistenceSerialization(MockTestCase):
         self.assertEquals(actual, expected)
 
     def test_make_persistent(self):
-        self.replay()
         test_data = {'foo': ['bar', [1, 2, 3, 4, 5]]}
         actual = make_persistent(test_data)
         expected = PersistentMapping(
@@ -126,7 +116,6 @@ class TestPersistenceSerialization(MockTestCase):
         self.assertEquals(actual, expected)
 
     def test_make_persistent_make_serializable_is_idempotent(self):
-        self.replay()
         test_data = {'foo': ['bar', [1, 2, 3, 4, 5]]}
         persistent_data = make_persistent(test_data)
         resulting_data = make_serializable(persistent_data)
@@ -139,7 +128,6 @@ class TestDecimalsSerialization(MockTestCase):
     layer = ZCML_LAYER
 
     def test_serialized_structure(self):
-        self.replay()
         dec = Decimal('1.01')
         result = serialize_decimals(dec)
         self.assertEquals(result['__ftw_publisher_serialized_obj__'], True)
@@ -147,7 +135,6 @@ class TestDecimalsSerialization(MockTestCase):
         self.assertEquals(result['value_str'], '1.01')
 
     def test_values_representable_as_floats(self):
-        self.replay()
         value = Decimal('1.00')
         serialized = serialize_decimals(value)
         deserialized = deserialize_decimals(serialized)
@@ -155,7 +142,6 @@ class TestDecimalsSerialization(MockTestCase):
         self.assertEquals(hash(deserialized), hash(value))
 
     def test_values_not_representable_as_floats(self):
-        self.replay()
         # 1.55 can't be precisely represented as a float, that's why we use
         # this value here
         value = Decimal('1.55')
@@ -165,14 +151,12 @@ class TestDecimalsSerialization(MockTestCase):
         self.assertEquals(hash(deserialized), hash(value))
 
     def test_serializing_recurses(self):
-        self.replay()
         data = [Decimal('1.55'), {'foo': [Decimal('1.0')]}]
         result = serialize_decimals(data)
         self.assertIsInstance(result[0], dict)
         self.assertIsInstance(result[1]['foo'][0], dict)
 
     def test_deserialize_decimals(self):
-        self.replay()
         expected = Decimal('1.55')
         data = {'__ftw_publisher_serialized_obj__': True,
                 '__type__': 'Decimal',
@@ -182,7 +166,6 @@ class TestDecimalsSerialization(MockTestCase):
         self.assertEquals(hash(result), hash(expected))
 
     def test_serialize_deserialize_is_idempotent(self):
-        self.replay()
         expected = Decimal('7.50')
         serialized = serialize_decimals(expected)
         deserialized = deserialize_decimals(serialized)
@@ -283,5 +266,3 @@ class TestShopCategorizableReferences(TestCase):
             adapter_shop_item_1.getData(),
             adapter_shop_item_2.getData(),
         )
-
-
