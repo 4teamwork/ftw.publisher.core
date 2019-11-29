@@ -31,4 +31,4 @@ class RemoveChildren(object):
             # When ftw.trash is installed, immediately delete the working copy.
             self.context.manage_immediatelyDeleteObjects(ids_to_delete)
         else:
-            self.context.working_copy.manage_delObjects(ids_to_delete)
+            self.context.manage_delObjects(ids_to_delete)
