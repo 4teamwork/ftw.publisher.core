@@ -5,7 +5,7 @@ Changelog
 2.13.1 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix bug when deleting children without ``ftw.trash`` installed. [jone]
 
 
 2.13.0 (2019-11-26)
