@@ -177,11 +177,13 @@
 
     <!-- plone.app.event 1.1.x -->
     <configure zcml:condition="installed plone.app.event">
+      <configure zcml:condition="not-have plone-5">
         <adapter
             for="plone.app.event.dx.interfaces.IDXEvent"
             provides="ftw.publisher.core.interfaces.IDataCollector"
             factory=".plone_app_event.FixEventTimezones"
             name="zzz_plone_app_event_fix_timezones" />
+      </configure>
     </configure>
 
 </configure>
