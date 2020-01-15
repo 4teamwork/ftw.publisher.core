@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '2.13.2'
+version = '2.13.3.dev0'
 maintainer = 'Jonas Baumann'
 
 extras_require = {
