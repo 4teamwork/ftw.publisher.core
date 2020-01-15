@@ -5,7 +5,7 @@ Changelog
 2.13.2 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Disable plone.app.event fix for Plone 5. [jone]
 
 
 2.13.1 (2019-11-29)
