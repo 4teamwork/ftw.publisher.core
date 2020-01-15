@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.13.2 (unreleased)
+2.13.2 (2020-01-15)
 -------------------
 
 - Disable plone.app.event fix for Plone 5. [jone]
