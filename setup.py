@@ -12,6 +12,7 @@ extras_require = {
         'collective.geo.contentlocations',
         'collective.z3cform.datagridfield < 1.4.0',
         'ftw.shop',
+        'plonetheme.onegov < 4.0.0'
     ]
 }
 
