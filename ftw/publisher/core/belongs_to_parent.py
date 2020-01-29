@@ -1,3 +1,5 @@
+from Acquisition import aq_chain
+from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from zope.dottedname.resolve import resolve
 import pkg_resources
@@ -52,3 +54,9 @@ def belongs_to_parent(context):
         return False
 
     return True
+
+
+def get_main_obj_belonging_to(obj):
+    for obj_or_parent in aq_chain(aq_inner(obj)):
+        if not belongs_to_parent(obj_or_parent):
+            return obj_or_parent

@@ -6,6 +6,7 @@ Changelog
 -------------------
 
 - Fix Plone4 test setup [Nachtalb]
+- Add API endpoint to get parent belonging to child (recursively) [Nachtalb]
 
 
 2.13.2 (2020-01-15)
