@@ -5,7 +5,7 @@ Changelog
 2.13.3 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix Plone4 test setup [Nachtalb]
 
 
 2.13.2 (2020-01-15)
