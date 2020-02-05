@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.14.1 (unreleased)
+2.14.1 (2020-02-05)
 -------------------
 
 - "_order" Attribute on portlet manager needs to be a persistent list. [mathias.leimgruber]
