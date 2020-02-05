@@ -2,6 +2,7 @@ from AccessControl.SecurityInfo import ClassSecurityInformation
 from ftw.publisher.core import getLogger
 from ftw.publisher.core.interfaces import IDataCollector
 from OFS.Image import Image as OFSImage
+from persistent.list import PersistentList
 from plone.portlets.constants import CONTENT_TYPE_CATEGORY, CONTEXT_CATEGORY
 from plone.portlets.constants import USER_CATEGORY, GROUP_CATEGORY
 from plone.portlets.interfaces import ILocalPortletAssignmentManager
@@ -248,4 +249,4 @@ class PortletsData(object):
                 IPortletAssignmentSettings(portlet_assignment).data = settings
 
             # set new order afterwards
-            portlets._order = order
+            portlets._order = PersistentList(order)

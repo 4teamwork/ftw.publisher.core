@@ -2,6 +2,7 @@ from BTrees.OOBTree import OOBTree
 from ftw.publisher.core import utils
 from ftw.publisher.core.interfaces import IDataCollector
 from ftw.publisher.core.testing import PUBLISHER_EXAMPLE_CONTENT_INTEGRATION
+from persistent.list import PersistentList
 from persistent.mapping import PersistentMapping
 from plone.portlet.static import static
 from plone.portlets.constants import ASSIGNMENT_SETTINGS_KEY
@@ -13,7 +14,6 @@ from unittest2 import TestCase
 from zope.component import getAdapter
 from zope.component import getMultiAdapter
 import json
-
 
 
 class TestPortletAdapter(TestCase):
@@ -237,3 +237,28 @@ class TestPortletAdapter(TestCase):
         self.assertEqual(
             settings,
             IPortletAssignmentSettings(new_assignment).data)
+
+    def test_order_attr_is_persitence_list(self):
+        #getter
+        adapter = getAdapter(self.layer['folder1'], IDataCollector,
+                             name="portlet_data_adapter")
+        data = adapter.getData()
+
+        #setter - on folder2
+        adapter2 = getAdapter(self.layer['folder2'], IDataCollector,
+                              name="portlet_data_adapter")
+        adapter2.setData(data, metadata=None)
+        right_assignments = self.get_right_assignments(self.layer['folder2'])
+        
+        self.assertTrue(isinstance(right_assignments._order, PersistentList),
+                        'The _order needs to be a persistence list')
+
+    def get_right_assignments(self, context):
+        return self.get_assignments(context, u'plone.rightcolumn')
+
+    def get_left_assignments(self, context):
+        return self.get_assignments(context, u'plone.leftcolumn')
+
+    def get_assignments(self, context, column_name):
+        column = getUtility(IPortletManager, name=column_name)
+        return getMultiAdapter((context, column), IPortletAssignmentMapping)
