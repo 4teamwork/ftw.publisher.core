@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.14.2 (unreleased)
+2.14.2 (2020-02-26)
 -------------------
 
 - Add constrain types adapter. [tinagerber]
