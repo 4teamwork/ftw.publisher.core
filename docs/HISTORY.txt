@@ -5,7 +5,8 @@ Changelog
 2.14.3 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix transfer of date and time objects [Nachtalb]
+- Fix timezone transfer of datetime and time objects [Nachtalb]
 
 
 2.14.2 (2020-02-26)
