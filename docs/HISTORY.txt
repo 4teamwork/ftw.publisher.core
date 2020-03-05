@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.14.3 (unreleased)
+2.14.3 (2020-03-05)
 -------------------
 
 - Fix transfer of date and time objects [Nachtalb]
