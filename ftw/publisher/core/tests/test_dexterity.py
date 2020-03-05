@@ -1,4 +1,9 @@
 from Acquisition import aq_inner
+from DateTime import DateTime
+from Products.CMFPlone.utils import getFSVersionTuple
+from datetime import date
+from datetime import datetime
+from datetime import time
 from ftw.publisher.core import utils
 from ftw.publisher.core.interfaces import IDataCollector
 from ftw.publisher.core.testing import PUBLISHER_EXAMPLE_CONTENT_FIXTURE
@@ -6,14 +11,13 @@ from ftw.publisher.core.tests.interfaces import ITextSchema
 from json import dumps
 from json import loads
 from plone.app.relationfield.behavior import IRelatedItems
-from plone.app.testing import applyProfile
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
+from plone.app.testing import applyProfile
 from plone.app.textfield.value import RichTextValue
 from plone.dexterity.utils import createContentInContainer
 from plone.namedfile.file import NamedFile
 from plone.namedfile.file import NamedImage
-from Products.CMFPlone.utils import getFSVersionTuple
 from unittest import TestCase
 from z3c.relationfield import RelationValue
 from zc.relation.interfaces import ICatalog
@@ -21,6 +25,7 @@ from zope.component import getAdapter
 from zope.component import getUtility
 from zope.configuration import xmlconfig
 from zope.intid.interfaces import IIntIds
+import pytz
 
 
 class DexterityLayer(PloneSandboxLayer):
@@ -148,6 +153,35 @@ class TestDexterityFieldData(TestCase):
 
         self.assertEquals(RichTextValue, type(target.text))
         self.assertEquals(textdata, target.text.raw)
+
+    def test_date_and_time_fields(self):
+        source = createContentInContainer(self.portal, 'DXDateAndTime',
+                                          title=u'DateTime')
+
+        zone = pytz.timezone('Europe/Zurich')
+        our_datetime = zone.localize(datetime(2020, 2, 29, 12, 00))
+        our_date, our_time = our_datetime.date(), our_datetime.time()
+
+        source.zope_datetime = DateTime(our_datetime)
+        source.datetime = our_datetime
+        source.date = our_date
+        source.time = our_time
+
+        data = self._get_field_data(source, json=True)
+
+        target = createContentInContainer(self.portal, 'DXDateAndTime')
+        self._set_field_data(target, data, json=True)
+
+        # We always want python datetimes even when the source was a zope DateTime
+        self.assertEquals(datetime, type(target.zope_datetime))
+        self.assertEquals(datetime, type(target.datetime))
+        self.assertEquals(date, type(target.date))
+        self.assertEquals(time, type(target.time))
+
+        self.assertEquals(our_datetime, target.zope_datetime)
+        self.assertEquals(our_datetime, target.datetime)
+        self.assertEquals(our_date, target.date)
+        self.assertEquals(our_time, target.time)
 
     def test_relations_when_target_is_available(self):
         foo = createContentInContainer(self.portal, 'ExampleDxType', title=u'Foo')

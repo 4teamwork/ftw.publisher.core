@@ -1,4 +1,5 @@
 from AccessControl.SecurityInfo import ClassSecurityInformation
+from DateTime import DateTime
 from ftw.publisher.core import utils
 from ftw.publisher.core.interfaces import IDataCollector
 from plone.app.textfield.interfaces import IRichText
@@ -9,8 +10,10 @@ from zope import schema
 from zope.component import adapts
 from zope.interface import implements
 import base64
-import DateTime
+import datetime as dt
+import dateutil
 import pkg_resources
+import pytz
 
 try:
     # Since plone.app.dexterity 2.1.0
@@ -115,7 +118,18 @@ class DexterityFieldData(object):
                 schema.interfaces.IDatetime,
                 ]):
             if value:
-                return str(value)
+                if isinstance(value, DateTime):
+                    value = value.asdatetime()
+
+                stripped, zone = value, None
+                if isinstance(value, (dt.datetime, dt.time)):
+                    stripped = value.replace(tzinfo=None)
+                    zone = value.tzinfo
+
+                return {
+                    'date_or_time': stripped.isoformat(),
+                    'zone': str(zone or ''),
+                }
 
         elif HAS_NAMEDFILE and self._provided_by_one_of(field, [
                 INamedFileField,
@@ -151,8 +165,21 @@ class DexterityFieldData(object):
                 schema.interfaces.ITime,
                 schema.interfaces.IDatetime,
                 ]):
-            if value:
-                return DateTime.DateTime(value).asdatetime()
+            if value and value.get('date_or_time'):
+                # Expect ISO-8601 datetime/time/date where zone was stripped (not recalculated)
+                date_or_time = dateutil.parser.parse(value['date_or_time'])
+                zone_str = value.get('zone')
+
+                if schema.interfaces.IDate.providedBy(field):
+                    return date_or_time.date()
+
+                if zone_str:
+                    date_or_time = pytz.timezone(zone_str).localize(date_or_time)
+
+                if schema.interfaces.ITime.providedBy(field):
+                    time = date_or_time.time()
+                    return time.replace(tzinfo=date_or_time.tzinfo)
+                return date_or_time
 
         if HAS_NAMEDFILE and self._provided_by_one_of(
             field, [INamedFileField, INamedImageField]):
