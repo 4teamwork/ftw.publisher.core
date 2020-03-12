@@ -6,6 +6,7 @@ Changelog
 -------------------
 
 - Extend tests of constrained types adapter. [djowett-ftw]
+- Abbreviate extraction of constrained_types when not ENABLED. [djowett-ftw]
 
 
 2.14.3 (2020-03-05)

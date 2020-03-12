@@ -45,13 +45,11 @@ class TestConstrainTypesAdapter(TestCase):
         self.assertEquals(expected_data, adapter.getData())
 
         constrain_types.setConstrainTypesMode(DISABLED)
-        expected_data = {'mode': DISABLED, 'locally_allowed': self.standard_types,
-                         'immediately_addable': self.standard_types}
+        expected_data = {'mode': DISABLED}
         self.assertEquals(expected_data, adapter.getData())
 
         constrain_types.setConstrainTypesMode(ACQUIRE)
-        expected_data = {'mode': ACQUIRE, 'locally_allowed': self.standard_types,
-                         'immediately_addable': self.standard_types}
+        expected_data = {'mode': ACQUIRE}
         self.assertEquals(expected_data, adapter.getData())
 
     def test_data_setter(self):

@@ -1,3 +1,4 @@
+from plone.app.dexterity.behaviors.constrains import ENABLED
 from Products.CMFPlone.interfaces.constrains import ISelectableConstrainTypes
 from zope.component import queryAdapter
 
@@ -11,12 +12,14 @@ class ConstrainTypesDataCollector(object):
         data = {}
         if self.constrains:
             data['mode'] = self.constrains.getConstrainTypesMode()
-            data['locally_allowed'] = self.constrains.getLocallyAllowedTypes()
-            data['immediately_addable'] = self.constrains.getImmediatelyAddableTypes()
+            if data['mode'] == ENABLED:
+                data['locally_allowed'] = self.constrains.getLocallyAllowedTypes()
+                data['immediately_addable'] = self.constrains.getImmediatelyAddableTypes()
         return data
 
     def setData(self, data, metadata):
         if data:
             self.constrains.setConstrainTypesMode(data['mode'])
-            self.constrains.setLocallyAllowedTypes(data['locally_allowed'])
-            self.constrains.setImmediatelyAddableTypes(data['immediately_addable'])
+            if data['mode'] == ENABLED:
+                self.constrains.setLocallyAllowedTypes(data['locally_allowed'])
+                self.constrains.setImmediatelyAddableTypes(data['immediately_addable'])
