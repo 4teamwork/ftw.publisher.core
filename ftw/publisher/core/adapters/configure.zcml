@@ -188,7 +188,7 @@
 
     <configure zcml:condition="have plone-5">
       <adapter
-        for="plone.dexterity.interfaces.IDexterityContent"
+        for="Products.CMFPlone.interfaces.constrains.ISelectableConstrainTypes"
         provides="ftw.publisher.core.interfaces.IDataCollector"
         factory="ftw.publisher.core.adapters.constrain_types.ConstrainTypesDataCollector"
         name="constrain_types_adapter" />
