@@ -194,4 +194,14 @@
         name="constrain_types_adapter" />
     </configure>
 
+    <!-- ftw.logo -->
+    <configure zcml:condition="installed ftw.logo">
+      <configure zcml:condition="installed ftw.publisher.receiver">
+        <subscriber
+          for="ftw.logo.manual_override.IManualOverrides
+               ftw.publisher.receiver.interfaces.IAfterUpdatedEvent"
+          handler=".ftw_logo.trigger_modified" />
+        </configure>
+    </configure>
+
 </configure>
