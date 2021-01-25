@@ -36,7 +36,7 @@ extras_require['tests'] = tests_require = [
     'zope.annotation',
     'zope.configuration',
 
-    ] + reduce(list.__add__, extras_require.values())
+    ] + extras_require['dexterity']
 
 
 setup(name='ftw.publisher.core',
