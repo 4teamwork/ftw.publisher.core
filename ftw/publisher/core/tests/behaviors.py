@@ -1,5 +1,5 @@
-from collective.z3cform.datagridfield import DataGridFieldFactory
-from collective.z3cform.datagridfield import DictRow
+from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
+from collective.z3cform.datagridfield.row import DictRow
 from ftw.referencewidget.sources import ReferenceObjSourceBinder
 from ftw.referencewidget.widget import ReferenceWidgetFactory
 from plone.autoform import directives
