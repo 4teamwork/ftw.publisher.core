@@ -135,6 +135,7 @@ class PublisherExampleContentLayer(PloneSandboxLayer):
         self['testdoc1'] = getattr(self.folder, testdoc1id, None)
         folder1id = self.folder.invokeFactory('Folder', 'test-folder-1')
         self['folder1'] = getattr(self.folder, folder1id, None)
+        self['newfolder'] = getattr(self['folder1'], self['folder1'].invokeFactory('Folder', 'newfolder'))
         folderid2 = self.folder.invokeFactory('Folder', 'test-folder-2')
         self['folder2'] = getattr(self.folder, folderid2, None)
         testdoc2id = self['folder1'].invokeFactory('Document', 'test-doc-2')

@@ -58,15 +58,24 @@ class PortletsData(object):
         """
 
         data = {}
+        plone_portlet_manager = []
         # gets all portlet managers used on this object
         annotations = getattr(self.object, '__annotations__', None)
         if not annotations:
             return data
-        if 'plone.portlets.contextassignments' not in annotations:
+
+        has_portlets = 'plone.portlets.contextassignments' in annotations
+        has_blacklist = 'plone.portlets.categoryblackliststatus' in annotations
+        if not has_portlets and not has_blacklist:
             return data
 
-        plone_portlet_manager = self.object.__annotations__[
-            'plone.portlets.contextassignments'].keys()
+        if has_portlets:
+            plone_portlet_manager += self.object.__annotations__[
+                'plone.portlets.contextassignments'].keys()
+        if has_blacklist:
+            plone_portlet_manager += self.object.__annotations__[
+                'plone.portlets.categoryblackliststatus'].keys()
+
         EXCLUDED_FIELDS = ['__name__', '__parent__']
         # XXX this is a static list, replace by a configlet option
         # the list contains all not serializable portlets (__module__)
@@ -186,6 +195,7 @@ class PortletsData(object):
                 USER_CATEGORY, blacklistdata[USER_CATEGORY])
             blacklist.setBlacklistStatus(
                 CONTENT_TYPE_CATEGORY, blacklistdata[CONTENT_TYPE_CATEGORY])
+
             blacklist.setBlacklistStatus(
                 CONTEXT_CATEGORY, blacklistdata[CONTEXT_CATEGORY])
 
