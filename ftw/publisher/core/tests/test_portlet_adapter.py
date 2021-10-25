@@ -5,6 +5,10 @@ from ftw.publisher.core.testing import PUBLISHER_EXAMPLE_CONTENT_INTEGRATION
 from ftw.publisher.core.utils import IS_PLONE_5
 from persistent.list import PersistentList
 from persistent.mapping import PersistentMapping
+from plone.app.testing import login
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
 from plone.portlet.static import static
 from plone.portlets.constants import ASSIGNMENT_SETTINGS_KEY
 from plone.portlets.constants import CONTENT_TYPE_CATEGORY, CONTEXT_CATEGORY
@@ -17,6 +21,7 @@ from unittest import TestCase
 from zope.component import getAdapter
 from zope.component import getMultiAdapter
 from zope.component import getUtility
+from zope.component import queryUtility
 import json
 
 
@@ -25,7 +30,7 @@ class TestPortletAdapter(TestCase):
     layer = PUBLISHER_EXAMPLE_CONTENT_INTEGRATION
 
     def test_portlets_adapter_getter(self):
-        #getter
+        # getter
         adapter = getAdapter(self.layer['folder1'], IDataCollector,
                              name="portlet_data_adapter")
         getterdata = adapter.getData()
@@ -37,7 +42,7 @@ class TestPortletAdapter(TestCase):
         left = getterdata[u'plone.leftcolumn']
         right = getterdata[u'plone.rightcolumn']
 
-        #check blacklist state
+        # check blacklist state
         blacklist_left = getMultiAdapter(
             (self.layer['folder1'], self.layer['left_column']),
             ILocalPortletAssignmentManager)
@@ -51,7 +56,7 @@ class TestPortletAdapter(TestCase):
              'group': blacklist_left.getBlacklistStatus(GROUP_CATEGORY),
              'user': blacklist_left.getBlacklistStatus(USER_CATEGORY),
              'content_type': blacklist_left.getBlacklistStatus(
-                    CONTENT_TYPE_CATEGORY)},)
+                CONTENT_TYPE_CATEGORY)},)
 
         self.assertEquals(
             right['blackliststatus'],
@@ -59,15 +64,15 @@ class TestPortletAdapter(TestCase):
              'group': blacklist_right.getBlacklistStatus(GROUP_CATEGORY),
              'user': blacklist_right.getBlacklistStatus(USER_CATEGORY),
              'content_type': blacklist_right.getBlacklistStatus(
-                    CONTENT_TYPE_CATEGORY)},)
+                CONTENT_TYPE_CATEGORY)},)
 
-        #check order of portlets
+        # check order of portlets
         self.assertEquals(left['order'].split(','),
                           self.layer['left_portlets']._order)
         self.assertEquals(right['order'].split(','),
                           self.layer['right_portlets']._order)
 
-        #clean up for portlets tests
+        # clean up for portlets tests
         del left['blackliststatus']
         del right['blackliststatus']
         del left['order']
@@ -77,28 +82,28 @@ class TestPortletAdapter(TestCase):
 
         # left column
 
-        #static text portlet 1
+        # static text portlet 1
         title1 = self.layer['left_portlets'].get('title1', False)
         self.assertEquals(bool(title1), True)
-        #check given data
+        # check given data
         self.assertEquals(title1.header, left['title1']['header'])
         self.assertEquals(title1.text, left['title1']['text'])
         self.assertEquals(title1.omit_border, left['title1']['omit_border'])
-        #custom navigation portlet
+        # custom navigation portlet
         navi = self.layer['left_portlets'].get('custom_navigation', False)
         self.assertEquals(bool(navi), True)
         if IS_PLONE_5:
             self.assertEquals(navi.root_uid, left['custom_navigation']['root_uid'])
         else:
             self.assertEquals(navi.root, left['custom_navigation']['root'])
-        #check only for given path
+        # check only for given path
 
         # right portlets
 
-        #static text portlet 2
+        # static text portlet 2
         title2 = self.layer['right_portlets'].get('title2', False)
         self.assertEquals(bool(title2), True)
-        #check given data
+        # check given data
         self.assertEquals(title2.header, right['title2']['header'])
         self.assertEquals(title2.text, right['title2']['text'])
         self.assertEquals(title2.omit_border, right['title2']['omit_border'])
@@ -118,12 +123,12 @@ class TestPortletAdapter(TestCase):
             # more is not necessary, cause we tested enought boolean fields
 
     def test_portlets_adapter_setter(self):
-        #getter
+        # getter
         adapter = getAdapter(self.layer['folder1'], IDataCollector,
                              name="portlet_data_adapter")
         data = adapter.getData()
 
-        #setter - on folder2
+        # setter - on folder2
         adapter2 = getAdapter(self.layer['folder2'], IDataCollector,
                               name="portlet_data_adapter")
         adapter2.setData(data, metadata=None)
@@ -145,7 +150,7 @@ class TestPortletAdapter(TestCase):
                               "/plone/testing_example_data/atopic")
             self.assertEquals(collection.random, False)
 
-        #check left portlets
+        # check left portlets
         title1 = left_assignments.get('title1', False)
         self.assertEquals(bool(title1), True)
         self.assertEquals(title1.header, "Title1")
@@ -158,8 +163,7 @@ class TestPortletAdapter(TestCase):
         else:
             self.assertEquals(navi.root, "/plone/testing_example_data")
 
-
-        #check order
+        # check order
         correct_order = ['title2', 'blubb', 'news', 'search']
         if not IS_PLONE_5:
             correct_order.append('collection')
@@ -168,12 +172,12 @@ class TestPortletAdapter(TestCase):
             self.layer['right_portlets']._order)
 
     def test_portlets_adapter_sync(self):
-        #getter
+        # getter
         adapter = getAdapter(self.layer['folder1'], IDataCollector,
                              name="portlet_data_adapter")
         data = adapter.getData()
 
-        #setter - on folder2
+        # setter - on folder2
         adapter2 = getAdapter(self.layer['folder2'], IDataCollector,
                               name="portlet_data_adapter")
         adapter2.setData(data, metadata=None)
@@ -188,7 +192,7 @@ class TestPortletAdapter(TestCase):
             name="portlet_data_adapter")
         data2 = adapter3.getData()
 
-        #and sync
+        # and sync
         adapter4 = getAdapter(self.layer['folder2'], IDataCollector,
                               name="portlet_data_adapter")
         adapter4.setData(data2, metadata=None)
@@ -258,17 +262,17 @@ class TestPortletAdapter(TestCase):
             IPortletAssignmentSettings(new_assignment).data)
 
     def test_order_attr_is_persitence_list(self):
-        #getter
+        # getter
         adapter = getAdapter(self.layer['folder1'], IDataCollector,
                              name="portlet_data_adapter")
         data = adapter.getData()
 
-        #setter - on folder2
+        # setter - on folder2
         adapter2 = getAdapter(self.layer['folder2'], IDataCollector,
                               name="portlet_data_adapter")
         adapter2.setData(data, metadata=None)
         right_assignments = self.get_right_assignments(self.layer['folder2'])
-        
+
         self.assertTrue(isinstance(right_assignments._order, PersistentList),
                         'The _order needs to be a persistence list')
 
@@ -281,3 +285,26 @@ class TestPortletAdapter(TestCase):
     def get_assignments(self, context, column_name):
         column = getUtility(IPortletManager, name=column_name)
         return getMultiAdapter((context, column), IPortletAssignmentMapping)
+
+    def test_get_blacklist_without_assignments(self):
+        newfolder = self.layer['newfolder']
+        column = queryUtility(IPortletManager, name=u'plone.leftcolumn')
+        blacklist = getMultiAdapter((newfolder, column),
+                                    ILocalPortletAssignmentManager)
+
+        blacklist.setBlacklistStatus(CONTEXT_CATEGORY, True)
+
+        adapter = getAdapter(newfolder, IDataCollector,
+                             name="portlet_data_adapter")
+        getterdata = adapter.getData()
+
+        self.assertIn(u'plone.leftcolumn', getterdata)
+        left = getterdata[u'plone.leftcolumn']
+
+        self.assertEquals(
+            left['blackliststatus'],
+            {'context': blacklist.getBlacklistStatus(CONTEXT_CATEGORY),
+             'group': blacklist.getBlacklistStatus(GROUP_CATEGORY),
+             'user': blacklist.getBlacklistStatus(USER_CATEGORY),
+             'content_type': blacklist.getBlacklistStatus(
+                CONTENT_TYPE_CATEGORY)},)
