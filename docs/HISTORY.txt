@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.14.6 (unreleased)
+2.14.6 (2021-12-08)
 -------------------
 
 - Fix collective.z3cform.datagridfield import. [mathias.leimgruber]
